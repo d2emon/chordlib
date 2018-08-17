@@ -1,0 +1,23 @@
+{
+  "name": "chordlib",
+  "version": "0.1.0",
+  "description": "Chords library",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d2emon/chordlib.git"
+  },
+  "keywords": [
+    "chords",
+    "music"
+  ],
+  "author": "Dmitry Kutseko <d2emonium@gmail.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/d2emon/chordlib/issues"
+  },
+  "homepage": "https://github.com/d2emon/chordlib#readme"
+}
