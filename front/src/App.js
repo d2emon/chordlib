@@ -4,11 +4,20 @@ import './App.css';
 import {
     Navbar,
     NavbarBrand,
-    NavbarToggler,
-    Collapse,
+    Nav,
+    NavItem,
+    NavLink,
     Jumbotron,
     Button
 } from 'reactstrap';
+
+function list_alphabet(first, last) {
+    let letters = [];
+    for (let l = first.charCodeAt(0); l < last.charCodeAt(0); l++) {
+        letters.push(String.fromCharCode(l));
+    }
+    return letters;
+}
 
 class App extends Component {
     constructor(props) {
@@ -16,6 +25,8 @@ class App extends Component {
 
         this.toggle = this.toggle.bind(this);
         this.state = {
+            russian: list_alphabet('А', 'Я'),
+            english: list_alphabet('A', 'Z'),
             isOpen: false
         };
     }
@@ -27,22 +38,33 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Navbar color={"dark"} dark fixed>
+                <Navbar color={"dark"} dark>
                     <NavbarBrand href="/">Аккорды</NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse dark isOpen={this.state.isOpen} navbar>
-                        <h1 className="App-title"><img src={logo} className="App-logo" alt="logo" /> Welcome to React</h1>
-                    </Collapse>
                 </Navbar>
                 <Jumbotron>
-                    <h1>Welcome to React</h1>
+                    <Nav>
+                        { this.state.russian.map((value, index) => <NavItem key={index}>
+                            <NavLink href={"/ru/" + value}>{value}</NavLink>
+                        </NavItem>)}
+                    </Nav>
+                    <Nav>
+                        { this.state.english.map((value, index) => <NavItem key={index}>
+                            <NavLink href={"/en/" + value}>{value}</NavLink>
+                        </NavItem>)}
+                    </Nav>
+                    <Nav>
+                        <NavItem><NavLink href="/other">Разные песни</NavLink></NavItem>
+                        <NavItem><NavLink href="/num">#</NavLink></NavItem>
+                        <NavItem><NavLink href="/all">Все</NavLink></NavItem>
+                    </Nav>
+                    <h1><img src={logo} className="App-logo" alt="logo" /> Welcome to React</h1>
                     <p>
                         To get started, edit <code>src/App.js</code> and save to reload.
                     </p>
                     <p>
                         <Button
-                            bsStyle="success"
-                            bsSize="large"
+                            color="success"
+                            size="large"
                             href="http://react-bootstrap.github.io/components.html"
                             target="_blank">
                             View React Bootstrap Docs
