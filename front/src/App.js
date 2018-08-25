@@ -11,6 +11,7 @@ import {
 import Home from './Home';
 import Main from './Main';
 import Alphabet from "./components/Alphabet";
+import Artists from "./components/Artists";
 import Artist from "./components/Artist";
 import './App.css';
 
@@ -31,10 +32,12 @@ class App extends Component {
                             <Col>
                                 <Route exact path="/" component={Main} />
                                 <Route path="/home" component={Home} />
-                                <Route path="/artists/:lang/:letter" component={Artist} />
-                                <Route path="/artists/other" component={Artist} />
-                                <Route path="/artists/num" component={Artist} />
-                                <Route path="/artists/all" component={Artist} />
+                                <Route path="/artists/:lang/:letter" component={Artists} />
+                                <Route path="/artists/other" component={Artists} />
+                                <Route path="/artists/num" component={Artists} />
+                                <Route path="/artists/all" component={Artists} />
+                                <Route path="/artist/:artist" component={Artist} />
+                                <Route path="/song/:song" component={Artist} />
                             </Col>
                         </Row>
                     </Container>
