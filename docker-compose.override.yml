@@ -1,0 +1,7 @@
+version: "2"
+services:
+  backend:
+    environment:
+      DEBUG: chordlib:*
+    volumes:
+    - ./src:/usr/www/src

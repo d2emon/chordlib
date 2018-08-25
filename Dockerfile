@@ -1,5 +1,5 @@
 FROM node
-ENV DEBUG chordlib
+ENV DEBUG chordlib:*
 RUN mkdir -p /usr/www
 WORKDIR /usr/www
 COPY ./package.json /usr/www/
