@@ -7,7 +7,7 @@ import {
 
 function list_alphabet(first, last) {
     let letters = [];
-    for (let l = first.charCodeAt(0); l < last.charCodeAt(0); l++) {
+    for (let l = first.charCodeAt(0); l <= last.charCodeAt(0); l++) {
         letters.push(String.fromCharCode(l));
     }
     return letters;

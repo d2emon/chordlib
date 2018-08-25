@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from "react-router-dom";
 import {
+    Container,
+    Row,
+    Col,
+
     Navbar,
     NavbarBrand,
 } from 'reactstrap';
@@ -19,13 +23,21 @@ class App extends Component {
                     <Navbar color={"dark"} dark>
                         <NavbarBrand href="/">Аккорды</NavbarBrand>
                     </Navbar>
-                    <Alphabet />
-                    <Route exact path="/" component={Main} />
-                    <Route path="/home" component={Home} />
-                    <Route path="/artists/:lang/:letter" component={Artist} />
-                    <Route path="/artists/other" component={Artist} />
-                    <Route path="/artists/num" component={Artist} />
-                    <Route path="/artists/all" component={Artist} />
+                    <Container>
+                        <Row>
+                            <Col><Alphabet /></Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Route exact path="/" component={Main} />
+                                <Route path="/home" component={Home} />
+                                <Route path="/artists/:lang/:letter" component={Artist} />
+                                <Route path="/artists/other" component={Artist} />
+                                <Route path="/artists/num" component={Artist} />
+                                <Route path="/artists/all" component={Artist} />
+                            </Col>
+                        </Row>
+                    </Container>
                 </div>
             </BrowserRouter>
         );
