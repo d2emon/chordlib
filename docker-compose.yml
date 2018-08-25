@@ -12,8 +12,10 @@ services:
     container_name: chordlib-back
     restart: always
     build: ./
+    environment:
+      PORT: 4000
     ports:
-    - "3000:3000"
+    - "4000:4000"
     links:
     - mongo
     volumes:
