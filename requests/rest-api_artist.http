@@ -1,0 +1,30 @@
+GET http://localhost:3000/artists/a
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+GET http://localhost:3000/artist/artist
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+POST http://localhost:3000/artist/?name=Artist&slug=artist
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+PUT http://localhost:3000/artist/artist?name=Artist123
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+DELETE http://localhost:3000/artist/artist
+Accept: */*
+Cache-Control: no-cache
+
+###
+
