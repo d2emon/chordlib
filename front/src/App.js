@@ -13,6 +13,7 @@ import Main from './Main';
 import Alphabet from "./components/Alphabet";
 import Artists from "./components/Artists";
 import Artist from "./components/Artist";
+import Album from "./components/Album";
 import './App.css';
 
 
@@ -36,7 +37,8 @@ class App extends Component {
                                 <Route path="/artists/other" component={Artists} />
                                 <Route path="/artists/num" component={Artists} />
                                 <Route path="/artists/all" component={Artists} />
-                                <Route path="/artist/:artist" component={Artist} />
+                                <Route path="/artist/:artist" component={Artist}/>
+                                <Route path="/album/:album" component={Album} />
                                 <Route path="/song/:song" component={Artist} />
                             </Col>
                         </Row>
