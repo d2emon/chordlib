@@ -7,14 +7,35 @@ services:
     - "27017:27017"
     volumes:
     - ./data/db:/data/db
-    command: "--syslog"
   backend:
-    container_name: chordlib-back
+    container_name: backend
     restart: always
     build: ./
+    environment:
+      DEBUG: emelomix:*
+      PORT: 4000
     ports:
-    - "3000:3000"
+    - "4000:4000"
     links:
     - mongo
     volumes:
+    - ./src:/usr/www/src
     - ./public:/usr/www/public
+  frontend:
+    container_name: frontend
+    restart: always
+    build: ./front
+    ports:
+    - "8080:8080"
+    links:
+    - backend
+    volumes:
+    - ./front/src:/usr/www/src
+    - ./public:/usr/www/static
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+    - "8081:8081"
+    links:
+    - mongo
