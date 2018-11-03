@@ -8,8 +8,8 @@ import {
     Navbar,
     NavbarBrand,
 } from 'reactstrap';
-import Home from './Home';
-import Main from './Main';
+import Home from './components/Home';
+import Main from './components/Main';
 import Alphabet from "./components/Alphabet";
 import Artists from "./components/Artists";
 import Artist from "./components/Artist";
