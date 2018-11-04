@@ -12,8 +12,8 @@ import {
 import Home from '../Home';
 import Main from '../Main';
 import Alphabet from "../../containers/Alphabet";
-import Artists from "../Artists";
-import AddArtist from "../AddArtist";
+import Artists from "../../containers/Artists";
+import AddArtist from "../../containers/AddArtist";
 import Artist from "../Artist";
 import Album from "../Album";
 import './App.css';

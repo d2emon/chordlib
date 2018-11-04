@@ -8,7 +8,7 @@ import {
 } from 'reactstrap';
 
 
-class AddArtist extends Component {
+class AddArtistForm extends Component {
     constructor (props) {
         super(props);
 
@@ -39,8 +39,10 @@ class AddArtist extends Component {
         this.setState({ description: e.target.value });
     }
 
-    handleSubmit () {
-        alert(JSON.stringify(this.state));
+    handleSubmit (e) {
+        e.preventDefault();
+
+        if (this.props.onSubmit) this.props.onSubmit(this.state);
     }
 
     render () {
@@ -62,4 +64,4 @@ class AddArtist extends Component {
     }
 }
 
-export default AddArtist;
+export default AddArtistForm;
