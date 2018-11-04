@@ -1,9 +1,9 @@
 import React from 'react';
-import AddTodo from '../containers/AddTodo';
-import FilteredListTodo from '../containers/FilteredListTodo';
+import AddTodo from '../../containers/Todos/AddTodo';
+import FilteredListTodo from '../../containers/Todos/FilteredListTodo';
 import TodoFilterLinks from './TodoFilterLinks';
 
-const Todos = props => (
+const Todos = () => (
     <div>
         <AddTodo />
         <FilteredListTodo />

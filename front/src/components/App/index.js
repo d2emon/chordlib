@@ -16,8 +16,6 @@ import Artists from "../Artists";
 import AddArtist from "../AddArtist";
 import Artist from "../Artist";
 import Album from "../Album";
-import CounterContainer from '../../containers/CounterContainer';
-import Todos from '../Todos';
 import './App.css';
 
 class App extends Component {
@@ -29,10 +27,6 @@ class App extends Component {
                         <NavbarBrand href="/">Аккорды</NavbarBrand>
                     </Navbar>
                     <Container>
-                        <Row>
-                            <Col><CounterContainer /></Col>
-                            <Col><Todos /></Col>
-                        </Row>
                         <Row>
                             <Col><Alphabet /></Col>
                         </Row>

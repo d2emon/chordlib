@@ -1,6 +1,6 @@
 import React from 'react';
-import TodoFilter from '../containers/TodoFilter';
-import { VisibilityFilters } from "../actions/todosActions";
+import TodoFilter from '../../containers/Todos/TodoFilter';
+import { VisibilityFilters } from "../../actions/todosActions";
 
 const TodoFilterLinks = () => (
     <div>

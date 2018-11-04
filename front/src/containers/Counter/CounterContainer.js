@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import Counter from '../components/Counter';
+import Counter from '../../components/Counter/Counter';
 import {
     incrementCounter,
     decrementCounter,
-} from '../actions/counterActions';
+} from '../../actions/counterActions';
 
 const mapStateToProps = state => ({
     value: state.counter,
