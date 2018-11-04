@@ -3,7 +3,7 @@ import Counter from '../components/Counter';
 import {
     incrementCounter,
     decrementCounter,
-} from '../actions';
+} from '../actions/counterActions';
 
 const mapStateToProps = state => ({
     value: state.counter,
