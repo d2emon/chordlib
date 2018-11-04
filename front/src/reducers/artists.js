@@ -1,18 +1,50 @@
-const artists = [
-    "Artists 1",
-    "Artists 2",
-    "Artists 3",
-    "Artists 4",
-    "Artists 5",
-];
+const initialState = {
+    artists: [],
+    isLoad: false,
 
-export default (state = [], action) => {
+    isFetching: false,
+    didInvalidate: false,
+};
+
+
+export default (state = initialState, action) => {
     switch (action.type) {
+        /*
+        case 'SELECT_ARTIST':
+            return action.artist;
+        */
         case 'FETCH_ARTISTS':
-            return artists;
-        case 'ADD_ARTIST':
-            state.push(action.artist);
-            return state;
+            return {
+                ...state,
+                isLoad: false,
+            };
+        case 'LOAD_ARTISTS':
+            return {
+                ...state,
+                artists: action.artists,
+                isLoad: true,
+            };
+
+        case 'INVALIDATE_ARTISTS':
+            return {
+                ...state,
+                didInvalidate: true,
+            };
+        case 'REQUEST_ARTISTS':
+            return {
+                ...state,
+                isFetching: true,
+                didInvalidate: false,
+                // [action.letter]: artists(state[action.letter], action)
+            };
+        case 'RECEIVE_ARTISTS':
+            return {
+                ...state,
+                isFetching: false,
+                didInvalidate: false,
+                artists: action.artists,
+                lastUpdated: action.receivedAt
+            };
         default:
             return state
     }

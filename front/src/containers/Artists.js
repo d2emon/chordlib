@@ -4,11 +4,13 @@ import {
     ListGroup,
     ListGroupItem,
 } from 'reactstrap';
-import { fetchArtists } from '../actions/artistActions';
+import {
+    fetchArtists,
+} from '../actions/artistActions';
 
-const ArtistLink = ({ value }) => (
-    <ListGroupItem tag="a" href={"/artist/" + value}>
-        {value}
+const ArtistLink = ({ slug, name }) => (
+    <ListGroupItem tag="a" href={"/artist/" + slug}>
+        {name}
     </ListGroupItem>
 );
 
@@ -20,14 +22,15 @@ class Artists extends Component {
     render () {
         return (
             <ListGroup>
-                {this.props.artists.map((value, index) => <ArtistLink key={index} value={value} />)}
+                {this.props.artists.map((value, index) => <ArtistLink key={index} {...value} />)}
             </ListGroup>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    artists: state.artists,
+    artists: state.artists.artists,
+    isLoad: state.artists.isLoad,
 });
 
 const mapDispatchToProps = dispatch => ({
