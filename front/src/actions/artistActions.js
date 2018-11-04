@@ -28,7 +28,7 @@ export const fetchArtists = letter => dispatch => {
 
     return artistService.fetchArtists({ letter })
         .then(
-            response => response.json(),
+            response => response,
             error => console.log('An error occurred.', error)
         )
         .then(
@@ -42,7 +42,7 @@ export const addArtist = (artist) => dispatch => {
 
     return artistService.addArtist(artist)
         .then(
-            response => response.json(),
+            response => response,
             error => console.log('An error occurred.', error)
         )
         .then(
