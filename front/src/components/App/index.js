@@ -9,14 +9,14 @@ import {
     Navbar,
     NavbarBrand,
 } from 'reactstrap';
-import Home from './components/Home';
-import Main from './components/Main';
-import Alphabet from "./components/Alphabet";
-import Artists from "./components/Artists";
-import AddArtist from "./components/AddArtist";
-import Artist from "./components/Artist";
-import Album from "./components/Album";
-import CounterContainer from './containers/CounterContainer';
+import Home from '../Home';
+import Main from '../Main';
+import Alphabet from "../Alphabet";
+import Artists from "../Artists";
+import AddArtist from "../AddArtist";
+import Artist from "../Artist";
+import Album from "../Album";
+import CounterContainer from '../../containers/CounterContainer';
 import './App.css';
 
 class App extends Component {
