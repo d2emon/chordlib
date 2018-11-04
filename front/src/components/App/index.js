@@ -34,10 +34,8 @@ class App extends Component {
                             <Col>
                                 <Route exact path="/" component={Main} />
                                 <Route path="/home" component={Home} />
-                                <Route path="/artists/:lang/:letter" component={Artists} />
-                                <Route path="/artists/other" component={Artists} />
-                                <Route path="/artists/num" component={Artists} />
-                                <Route path="/artists/all" component={Artists} />
+                                <Route path="/artists/:language/:letter" component={Artists} />
+                                <Route exact path="/artists/:special" component={Artists} />
                                 <Route path="/add-artist" component={AddArtist} />
                                 <Route path="/artist/:artist" component={Artist}/>
                                 <Route path="/album/:album" component={Album} />

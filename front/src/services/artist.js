@@ -7,17 +7,18 @@ const Axios = axios.create({
 
 
 export default {
-    fetchArtists ({ letter }) {
+    fetchArtists ({ language, letter, special }) {
+        const url = special ? `artists/${special}` : `artists/${language}/${letter}`;
         return new Promise((resolve, reject) => {
-            Axios.get(`artists/${letter}`)
-                .then(artists => resolve(artists.data));
+            Axios.get(url)
+                .then(response => resolve(response.data));
         });
     },
 
     addArtist (artist) {
         return new Promise((resolve, reject) => {
             Axios.post(`artist/`, artist)
-                .then(artists => resolve(artists.data));
+                .then(response => resolve(response.data));
         });
     },
 }

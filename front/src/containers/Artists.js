@@ -15,16 +15,26 @@ const ArtistLink = ({ slug, name }) => (
 );
 
 class Artists extends Component {
-    componentWillMount() {
-        const { letter } = this.props.match.params;
+    constructor (props) {
+        super(props);
 
-        this.props.fetchArtists(letter);
+        const match = props.match || {};
+        const params = match.params || {};
+        this.state = {
+            params,
+        }
+    }
+
+    componentWillMount () {
+        const { language, letter, special } = this.state.params;
+
+        this.props.fetchArtists({ language, letter, special });
     }
 
     render () {
         return (
             <Fragment>
-                <h1>{this.props.letter}</h1>
+                {this.props.title && <h1>{this.props.title}</h1>}
                 <ListGroup>
                     {this.props.artists.map((value, index) => <ArtistLink key={index} {...value} />)}
                 </ListGroup>
@@ -35,12 +45,12 @@ class Artists extends Component {
 
 const mapStateToProps = state => ({
     artists: state.artists.artists,
-    letter: state.artists.letter,
+    title: state.artists.title,
     isLoad: state.artists.isLoad,
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchArtists: letter => dispatch(fetchArtists(letter)),
+    fetchArtists: query => dispatch(fetchArtists(query)),
 });
 
 export default connect(

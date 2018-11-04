@@ -6,12 +6,12 @@ function requestArtists () {
     }
 }
 
-function receiveArtists ({ artists, letter }) {
+function receiveArtists ({ artists, title }) {
     console.log(artists);
     return {
         type: 'RECEIVE_ARTISTS',
         artists,
-        letter,
+        title,
         // posts: json.data.children.map(child => child.data),
         // receivedAt: Date.now()
     }
@@ -23,10 +23,10 @@ export function invalidateArtists () {
     }
 }
 
-export const fetchArtists = letter => dispatch => {
+export const fetchArtists = query => dispatch => {
     dispatch(requestArtists());
 
-    return artistService.fetchArtists({ letter })
+    return artistService.fetchArtists(query)
         .then(
             response => response,
             error => console.log('An error occurred.', error)

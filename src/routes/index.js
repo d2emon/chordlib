@@ -4,14 +4,6 @@ import { getLetter } from '../models/letters';
 
 const router = express.Router();
 
-function MockArtist (name) {
-    return {
-        name,
-        slug: name,
-        description: name,
-    }
-}
-
 function getQueryByLetter (letter) {
     if (!letter) return {};
 
@@ -35,6 +27,7 @@ class ArtistsHandler {
     }
 
     responseArtists (artists, letter) {
+        const title = letter ? letter.charAt(0).toUpperCase() + letter.slice(1) : letter;
         /*
         const artists = [
             new MockArtist("Artists 1"),
@@ -46,8 +39,8 @@ class ArtistsHandler {
          */
         // const answer = [].concat(response, artists);
         this.res.json({
-            artists: artists,
-            letter: letter,
+            artists,
+            title,
         })
     }
 
@@ -66,16 +59,11 @@ router.get('/json', (req, res) => {
   res.json({data: 'JSON'});
 });
 
-router.get('/artists', (req, res, next) => {
-    const handler = new ArtistsHandler(req, res, next);
-    handler.find();
-});
-
-router.get('/artists/:language?/:letter?', (req, res, next) => {
+router.get('/artists/:language/:letter', (req, res, next) => {
     const handler = new ArtistsHandler(req, res, next);
 
     const { language, letter } = req.params;
-    if (!language || !letter) return handler.responseError('error');
+    if (!language || !letter) return handler.responseArtists([], letter);
 
     const translated = getLetter(language, letter);
     console.log(req.params, translated);
@@ -83,7 +71,17 @@ router.get('/artists/:language?/:letter?', (req, res, next) => {
     if (!translated) return handler.responseArtists([]);
 
     const query = getQueryByLetter(translated);
-    handler.find(query, letter);
+    handler.find(query, translated);
+});
+
+router.get('/artists/:special', (req, res, next) => {
+    const handler = new ArtistsHandler(req, res, next);
+
+    const { special } = req.params;
+    if (special === 'all') return handler.find({}, 'Все');
+    if (special === 'other') return handler.find({ name: null }, 'Разные песни');
+
+    handler.responseError('Unknown special query');
 });
 
 module.exports = router;
