@@ -37,10 +37,10 @@ class Alphabet extends Component {
                     </NavItem>)}
                 </Nav>
                 <Nav>
-                    <NavItem><NavLink href="/home">#</NavLink></NavItem>
                     <NavItem><NavLink href="/artists/other">Разные песни</NavLink></NavItem>
                     <NavItem><NavLink href="/artists/num">#</NavLink></NavItem>
                     <NavItem><NavLink href="/artists/all">Все</NavLink></NavItem>
+                    <NavItem><NavLink href="/add-artist">Добавить исполнителя</NavLink></NavItem>
                 </Nav>
             </div>
         );
