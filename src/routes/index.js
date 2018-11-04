@@ -20,7 +20,7 @@ router.get('/json', (req, res) => {
   res.json({data: 'JSON'});
 });
 
-router.get('/artists/:letter', (req, res, next) => {
+router.get('/artists/:letter?', (req, res, next) => {
     const artists = [
         new MockArtist("Artists 1"),
         new MockArtist("Artists 2"),
@@ -29,7 +29,7 @@ router.get('/artists/:letter', (req, res, next) => {
         new MockArtist("Artists 5"),
     ];
 
-    const letter = req.params.letter;
+    const letter = req.params.letter || '';
     Artist.find({})
         .then(response => {
             const answer = [].concat(response, artists);
