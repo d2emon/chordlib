@@ -18,6 +18,12 @@ export default (state = defaultState, action) => {
                 ...state,
                 ...action.alphabets,
             };
+        case 'FETCH_ALPHABET':
+            return {
+                ...state,
+                russian: list_alphabet('А', 'Я'),
+                english: list_alphabet('A', 'Z'),
+            };
         default:
             return state
     }
