@@ -5,6 +5,8 @@ import {
     Button
 } from 'reactstrap';
 import logo from "./logo.svg";
+import CounterContainer from '../../containers/Counter/CounterContainer';
+import Todos from '../Todos/Todos';
 
 class Main extends Component {
     render () {
@@ -23,6 +25,8 @@ class Main extends Component {
                         View React Bootstrap Docs
                     </Button>
                 </p>
+                <CounterContainer />
+                <Todos />
             </Jumbotron>
         );
     }

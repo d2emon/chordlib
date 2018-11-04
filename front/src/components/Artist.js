@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
     ListGroup,
     ListGroupItem,
@@ -8,31 +8,37 @@ class Artist extends Component {
     constructor (props) {
         super(props);
 
+        const { match, } = props;
+
         this.state = {
-            songs: [
-                "Songs 1",
-                "Songs 2",
-                "Songs 3",
-                "Songs 4",
-                "Songs 5",
-                "Songs 6",
-                "Songs 7",
-                "Songs 8",
-                "Songs 9",
-                "Songs 10",
-                "Songs 11",
-                "Songs 12",
+            artist: match.params.artist,
+            albums: [
+                "Album 1",
+                "Album 2",
+                "Album 3",
+                "Album 4",
+                "Album 5",
+                "Album 6",
+                "Album 7",
+                "Album 8",
+                "Album 9",
+                "Album 10",
+                "Album 11",
+                "Album 12",
             ]
         }
 
     }
     render () {
         return (
-            <ListGroup>
-                {this.state.songs.map((value, index) => <ListGroupItem tag="a" href={"/song/" + value} key={index}>
-                    {value}
-                </ListGroupItem> )}
-            </ListGroup>
+            <Fragment>
+                <h1>{this.state.artist}</h1>
+                <ListGroup>
+                    {this.state.albums.map((value, index) => <ListGroupItem tag="a" href={"/album/" + value} key={index}>
+                        {value}
+                    </ListGroupItem> )}
+                </ListGroup>
+            </Fragment>
         );
     }
 }
