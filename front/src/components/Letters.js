@@ -12,17 +12,32 @@ const AlphabetLink = ({ href, text }) => (
     </NavItem>
 );
 
-const Letter = ({ language, value, }) => (<AlphabetLink href={`/artists/${language}/${value}`} text={value} />);
+const Letter = ({ language, value, link }) => (
+    <AlphabetLink
+        href={`/artists/${language}/${link}`}
+        text={value}
+    />
+);
+
+const AlphabetLetters = ({ language, alphabet }) => (
+    <Nav>
+        {Object.keys(alphabet).map((value, index) => (
+            <Letter
+                key={`${language}-${index}`}
+                language={language}
+                value={value}
+                link={alphabet[value]}
+            />
+        ))}
+    </Nav>
+
+);
 
 export default ({ alphabet }) => {
     return (
         <div>
-            <Nav>
-                {alphabet.russian.map((value, index) => <Letter key={`ru-${index}`} language="ru" value={value} />)}
-            </Nav>
-            <Nav>
-                {alphabet.english.map((value, index) => <Letter key={`en-${index}`} language="en" value={value} />)}
-            </Nav>
+            <AlphabetLetters alphabet={alphabet.russian} language="ru" />
+            <AlphabetLetters alphabet={alphabet.english} language="en" />
             <Nav>
                 <AlphabetLink href="/artists/other" text="Разные песни" />
                 <AlphabetLink href="/artists/num" text="#" />

@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
                 isFetching: false,
                 didInvalidate: false,
                 artists: action.artists,
-                letter: action.letter,
+                title: action.title,
                 lastUpdated: action.receivedAt
             };
         default:
