@@ -21,9 +21,9 @@ import Album from "./components/Album";
 import CounterContainer from './containers/CounterContainer';
 import './App.css';
 
-import counter from './reducers/counter';
+import rootReducer from './reducers';
 
-const store = createStore(counter);
+const store = createStore(rootReducer);
 
 class App extends Component {
     render() {

@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import Counter from '../components/Counter';
 import {
@@ -7,7 +6,7 @@ import {
 } from '../actions';
 
 const mapStateToProps = state => ({
-    value: state,
+    value: state.counter,
 });
 
 const mapDispatchToProps = dispatch => ({
