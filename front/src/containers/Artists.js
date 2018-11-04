@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component, Fragment} from 'react';
 import { connect } from 'react-redux';
 import {
     ListGroup,
@@ -16,25 +16,31 @@ const ArtistLink = ({ slug, name }) => (
 
 class Artists extends Component {
     componentWillMount() {
-        this.props.fetchArtists();
+        const { letter } = this.props.match.params;
+
+        this.props.fetchArtists(letter);
     }
 
     render () {
         return (
-            <ListGroup>
-                {this.props.artists.map((value, index) => <ArtistLink key={index} {...value} />)}
-            </ListGroup>
+            <Fragment>
+                <h1>{this.props.letter}</h1>
+                <ListGroup>
+                    {this.props.artists.map((value, index) => <ArtistLink key={index} {...value} />)}
+                </ListGroup>
+            </Fragment>
         );
     }
 }
 
 const mapStateToProps = state => ({
     artists: state.artists.artists,
+    letter: state.artists.letter,
     isLoad: state.artists.isLoad,
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchArtists: () => dispatch(fetchArtists()),
+    fetchArtists: letter => dispatch(fetchArtists(letter)),
 });
 
 export default connect(

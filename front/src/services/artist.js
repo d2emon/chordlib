@@ -1,8 +1,7 @@
 const baseUrl = '//localhost:4000/artists';
-const letter = 'a';
 
 export default {
-    fetchArtists () {
+    fetchArtists ({ letter }) {
         return new Promise((resolve, reject) => {
             fetch(`${baseUrl}/${letter}`)
                 .then(artists => resolve(artists));

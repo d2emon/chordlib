@@ -1,4 +1,5 @@
 const initialState = {
+    letter: '',
     artists: [],
     isLoad: false,
 
@@ -43,6 +44,7 @@ export default (state = initialState, action) => {
                 isFetching: false,
                 didInvalidate: false,
                 artists: action.artists,
+                letter: action.letter,
                 lastUpdated: action.receivedAt
             };
         default:
