@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import Home from '../Home';
 import Main from '../Main';
-import Alphabet from "../Alphabet";
+import Alphabet from "../../containers/Alphabet";
 import Artists from "../Artists";
 import AddArtist from "../AddArtist";
 import Artist from "../Artist";
