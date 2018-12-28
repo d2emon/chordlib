@@ -3,6 +3,7 @@ import {
     Button,
     Form,
     FormGroup,
+    FormFeedback,
     Label,
     Input,
 } from 'reactstrap';
@@ -16,27 +17,28 @@ class AddArtistForm extends Component {
             name: '',
             slug: '',
             description: '',
+            validate: {},
+            valid: false,
         };
 
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleSlugChange = this.handleSlugChange.bind(this);
-        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleNameChange (e) {
-        this.setState({
-            name: e.target.value,
-            slug: e.target.value,
-        });
+    componentWillReceiveProps({ name, slug, validate }) {
+        const valid = validate.name && validate.slug;
+        this.setState({ name, slug, validate, valid });
     }
 
-    handleSlugChange (e) {
-        this.setState({ slug: e.target.value });
-    }
+    handleChange (field) {
+        return e => {
+            e.preventDefault();
 
-    handleDescriptionChange (e) {
-        this.setState({ description: e.target.value });
+            const value = e.target.value;
+
+            // this.setState({ [field]: value });
+            if (this.props.onChange) this.props.onChange({ [field]: value });
+        };
     }
 
     handleSubmit (e) {
@@ -49,16 +51,41 @@ class AddArtistForm extends Component {
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <Input name="name" id="artistName" placeholder="Исполнитель" value={this.state.name} onChange={this.handleNameChange} />
+                    <Input
+                        name="name"
+                        id="artistName"
+                        placeholder="Исполнитель"
+                        value={this.state.name}
+                        valid={this.state.validate.name === true}
+                        invalid={this.state.validate.name === false}
+                        onChange={this.handleChange('name')}
+                        required
+                    />
                 </FormGroup>
                 <FormGroup>
-                    <Input name="uri" id="artistUri" placeholder="URI" value={this.state.slug} onChange={this.handleSlugChange} />
+                    <Input
+                        name="uri"
+                        id="artistUri"
+                        placeholder="URI"
+                        value={this.state.slug}
+                        valid={this.state.validate.slug === true}
+                        invalid={this.state.validate.slug === false}
+                        onChange={this.handleChange('slug')}
+                        required
+                    />
+                    <FormFeedback>Введите уникальное значение.</FormFeedback>
                 </FormGroup>
                 <FormGroup>
                     <Label for="artistDescription">Описание</Label>
-                    <Input type="textarea" name="description" id="artistDescription"  value={this.state.description} onChange={this.handleDescriptionChange} />
+                    <Input
+                        type="textarea"
+                        name="description"
+                        id="artistDescription"
+                        value={this.state.description}
+                        onChange={this.handleChange('description')}
+                    />
                 </FormGroup>
-                <Button>Сохранить</Button>
+                <Button disabled={!this.state.valid}>Сохранить</Button>
             </Form>
         );
     }

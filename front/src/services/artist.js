@@ -15,9 +15,20 @@ export default {
         });
     },
 
+    fetchArtist (slug) {
+        return new Promise((resolve, reject) => {
+            if (!slug) return resolve({ artist: null });
+            Axios.get(`artist/${slug}`)
+                .then(response => {
+                    return response;
+                })
+                .then(response => resolve(response.data));
+        });
+    },
+
     addArtist (artist) {
         return new Promise((resolve, reject) => {
-            Axios.post(`artist/`, artist)
+            Axios.post(`artist/${artist}`)
                 .then(response => resolve(response.data));
         });
     },
