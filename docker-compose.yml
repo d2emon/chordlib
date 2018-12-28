@@ -21,12 +21,13 @@ services:
     volumes:
     - ./src:/usr/www/src
     - ./public:/usr/www/public
+    - ./public-data:/usr/www/public-data
   frontend:
     container_name: frontend
     restart: always
     build: ./front
     ports:
-    - "8080:8080"
+    - "3000:3000"
     links:
     - backend
     volumes:

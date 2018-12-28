@@ -28,20 +28,19 @@ class ArtistsHandler {
 
     responseArtists (artists, letter) {
         const title = letter ? letter.charAt(0).toUpperCase() + letter.slice(1) : letter;
-        /*
-        const artists = [
-            new MockArtist("Artists 1"),
-            new MockArtist("Artists 2"),
-            new MockArtist("Artists 3"),
-            new MockArtist("Artists 4"),
-            new MockArtist("Artists 5"),
-        ];
-         */
         // const answer = [].concat(response, artists);
-        this.res.json({
-            artists,
-            title,
-        })
+        Artist.getUnprocessed(letter)
+            .then(response => {
+                response.forEach(slug => {
+                    const name = slug[0].toUpperCase() + slug.substring(1).replace(/_/g, ' ');
+                    const artist = new Artist({ name, slug });
+                    artists.push(artist);
+                });
+                this.res.json({
+                    artists,
+                    title,
+                })
+            });
     }
 
     responseError (error) {
@@ -66,7 +65,6 @@ router.get('/artists/:language/:letter', (req, res, next) => {
     if (!language || !letter) return handler.responseArtists([], letter);
 
     const translated = getLetter(language, letter);
-    console.log(req.params, translated);
 
     if (!translated) return handler.responseArtists([]);
 
