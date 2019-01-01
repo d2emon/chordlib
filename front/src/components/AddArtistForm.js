@@ -1,13 +1,12 @@
-import React, { Component, } from 'react';
+import React, { Component, Fragment } from 'react';
+import { Field } from 'redux-form';
 import {
     Button,
-    Form,
     FormGroup,
     FormFeedback,
     Label,
     Input,
 } from 'reactstrap';
-
 
 class AddArtistForm extends Component {
     constructor (props) {
@@ -20,73 +19,65 @@ class AddArtistForm extends Component {
             validate: {},
             valid: false,
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentWillReceiveProps({ name, slug, validate }) {
-        const valid = validate.name && validate.slug;
-        this.setState({ name, slug, validate, valid });
+        // const valid = validate.name && validate.slug;
+        // this.setState({ name, slug, validate, valid });
+        this.props.change('slug', slug);
+        this.setState({ name, slug });
     }
 
-    handleChange (field) {
-        return e => {
-            e.preventDefault();
-
-            const value = e.target.value;
-
-            // this.setState({ [field]: value });
-            if (this.props.onChange) this.props.onChange({ [field]: value });
-        };
-    }
-
-    handleSubmit (e) {
-        e.preventDefault();
-
-        if (this.props.onSubmit) this.props.onSubmit(this.state);
-    }
+    renderField = ({ input, meta, ...props }) => {
+        const { onChange } = input;
+        const handleChange = e => onChange(e);
+        /*
+        if (!meta.touched) {
+            console.log(input.name, input.value, this.props, this.state);
+        }
+        */
+        return (
+            <FormGroup>
+                {props.label && <Label for={input.name}>{props.label}</Label>}
+                <Input
+                    {...props}
+                    {...input}
+                    onChange={handleChange}
+                />
+                {meta.touched && meta.error &&
+                <FormFeedback>{meta.error}</FormFeedback>}
+            </FormGroup>
+        );
+    };
 
     render () {
         return (
-            <Form onSubmit={this.handleSubmit}>
-                <FormGroup>
-                    <Input
-                        name="name"
-                        id="artistName"
-                        placeholder="Исполнитель"
-                        value={this.state.name}
-                        valid={this.state.validate.name === true}
-                        invalid={this.state.validate.name === false}
-                        onChange={this.handleChange('name')}
-                        required
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Input
-                        name="uri"
-                        id="artistUri"
-                        placeholder="URI"
-                        value={this.state.slug}
-                        valid={this.state.validate.slug === true}
-                        invalid={this.state.validate.slug === false}
-                        onChange={this.handleChange('slug')}
-                        required
-                    />
-                    <FormFeedback>Введите уникальное значение.</FormFeedback>
-                </FormGroup>
-                <FormGroup>
-                    <Label for="artistDescription">Описание</Label>
-                    <Input
-                        type="textarea"
-                        name="description"
-                        id="artistDescription"
-                        value={this.state.description}
-                        onChange={this.handleChange('description')}
-                    />
-                </FormGroup>
-                <Button disabled={!this.state.valid}>Сохранить</Button>
-            </Form>
+            <Fragment>
+                <Field
+                    component={this.renderField}
+                    name="name"
+                    placeholder="Исполнитель"
+                    valid={this.state.validate.name === true}
+                    invalid={this.state.validate.name === false}
+                    required
+                />
+                <Field
+                    component={this.renderField}
+                    name="slug"
+                    placeholder="URI"
+                    valid={this.state.validate.slug === true}
+                    invalid={this.state.validate.slug === false}
+                    required
+                />
+                <Field
+                    component={this.renderField}
+                    name="description"
+                    type="textarea"
+                    label="Описание"
+                />
+                {/* <Button disabled={!this.state.valid}>Сохранить</Button> */}
+                <Button>Сохранить</Button>
+            </Fragment>
         );
     }
 }

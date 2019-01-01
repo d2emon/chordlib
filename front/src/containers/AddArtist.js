@@ -5,7 +5,8 @@ import {
     validateArtist,
     getSlug,
 } from '../actions/artistActions';
-import AddArtistForm from '../components/AddArtistForm';
+// import AddArtistForm from '../components/AddArtistForm';
+import FormContainer from './FormContainer';
 
 class Artists extends Component {
     constructor (props) {
@@ -28,15 +29,14 @@ class Artists extends Component {
                 .then(({ validate }) => this.setState({ name, slug, validate }));
     }
 
-    onChange (artist) {
-        const { name } = artist;
-        if (name !== undefined) {
+    onChange (values, dispatch, props, previousValues) {
+        const name = values.name || this.state.name;
+        if (name !== previousValues.name) {
             this.props.getSlug(name)
                 .then(slug => this.updateArtist({ name, slug }));
         } else {
-            artist.name = name || this.state.name;
-            console.log(artist);
-            this.updateArtist(artist);
+            values.name = name;
+            this.updateArtist(values);
         }
     }
 
@@ -52,14 +52,19 @@ class Artists extends Component {
     }
 
     render () {
-        return (
-            <AddArtistForm
+        /*
                 name={this.state.name}
                 slug={this.state.slug}
                 validate={this.state.validate}
                 formErrors={this.state.formErrors}
                 onChange={this.onChange}
                 onSubmit={this.saveArtist}
+
+         */
+        return (
+            <FormContainer
+                newSlug={this.state.slug}
+                onChange={this.onChange}
             />
         );
     }
