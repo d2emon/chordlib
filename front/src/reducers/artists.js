@@ -2,7 +2,7 @@ const initialState = {
     letter: '',
     artists: [],
     artist: null,
-    validate: {},
+    errors: {},
     isLoad: false,
 
     isFetching: false,
@@ -67,7 +67,7 @@ export default (state = initialState, action) => {
         case 'VALIDATED_ARTIST':
             return {
                 ...state,
-                validate: action.validate,
+                errors: action.errors,
             };
         default:
             return state

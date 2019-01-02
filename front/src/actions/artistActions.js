@@ -30,10 +30,10 @@ function receiveArtist (artist) {
     }
 }
 
-function validatedArtist (validate) {
+function validatedArtist (errors) {
     return {
         type: 'VALIDATE_ARTIST',
-        validate
+        errors
     }
 }
 
@@ -86,11 +86,9 @@ export const findArtist = (artist) => dispatch => {
 
 
 export const validateArtist = ({ name, slug }) => dispatch => {
-    const validate = {
-        name: name.length > 0,
-        slug: slug.length > 0
-    };
-
+    const errors = {};
+    if (!name || name.length <= 0) errors.name  = 'Field is required';
+    if (!slug || slug.length <= 0) errors.slug  = 'Field is required';
     return dispatch(findArtist(slug))
         .then(
             response => {
@@ -98,8 +96,8 @@ export const validateArtist = ({ name, slug }) => dispatch => {
                 const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                  */
                 const artist = response && response.artist;
-                validate.slug = validate.slug && !artist;
-                return dispatch(validatedArtist(validate));
+                if (artist !== null) errors.slug = 'Field must be unique';
+                return dispatch(validatedArtist(errors));
             }
         )
 };

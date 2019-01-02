@@ -6,7 +6,7 @@ import {
     getSlug,
 } from '../actions/artistActions';
 // import AddArtistForm from '../components/AddArtistForm';
-import FormContainer from './FormContainer';
+import FormContainer from './NewArtistForm';
 
 class Artists extends Component {
     constructor (props) {
@@ -16,32 +16,34 @@ class Artists extends Component {
             name: '',
             slug: '',
             description: '',
-            validate: {},
+            errors: {},
             formErrors: {},
         };
 
-        this.saveArtist = this.saveArtist.bind(this);
         this.onChange = this.onChange.bind(this);
     }
 
     updateArtist ({ name, slug }) {
         return this.props.validateArtist({ name, slug})
-                .then(({ validate }) => this.setState({ name, slug, validate }));
+                .then(({ errors }) => this.setState({ name, slug, errors }));
     }
 
     onChange (values, dispatch, props, previousValues) {
+        console.log(values);
         const name = values.name || this.state.name;
         if (name !== previousValues.name) {
             this.props.getSlug(name)
                 .then(slug => this.updateArtist({ name, slug }));
-        } else {
-            values.name = name;
-            this.updateArtist(values);
+        // } else {
+            // values.name = name;
+            // this.updateArtist(values);
         }
     }
 
-    saveArtist (artist) {
-        this.props.validateArtist(artist)
+    submitForm (values) {
+        console.log('submitting Form: ', values);
+        /*
+        this.props.validateArtist(values)
             .then(({ validate }) => {
                 if (validate.name && validate.slug) {
                     console.log(artist, this.props.artists);
@@ -49,6 +51,7 @@ class Artists extends Component {
                     alert(JSON.stringify(artist));
                 }
             });
+        */
     }
 
     render () {
@@ -65,6 +68,7 @@ class Artists extends Component {
             <FormContainer
                 newSlug={this.state.slug}
                 onChange={this.onChange}
+                onSubmit={this.submitForm}
             />
         );
     }
@@ -73,7 +77,7 @@ class Artists extends Component {
 const mapStateToProps = ({ artists }) => ({
     artists: artists.artists,
     artist: artists.artist,
-    validate: artists.validate,
+    errors: artists.errors,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -9,26 +9,20 @@ import {
 } from 'reactstrap';
 
 class AddArtistForm extends Component {
-    constructor (props) {
-        super(props);
-
-        this.state = {
-            name: '',
-            slug: '',
-            description: '',
-            validate: {},
-            valid: false,
-        };
-    }
-
-    componentWillReceiveProps({ name, slug, validate }) {
-        // const valid = validate.name && validate.slug;
-        // this.setState({ name, slug, validate, valid });
-        this.props.change('slug', slug);
-        this.setState({ name, slug });
-    }
-
-    renderField = ({ input, meta, ...props }) => {
+    renderField = ({
+        input,
+        label,
+        type,
+        meta: {
+            asyncValidating,
+            touched,
+            error,
+            valid,
+            invalid,
+            ...otherMeta
+        },
+        ...props
+    }) => {
         const { onChange } = input;
         const handleChange = e => onChange(e);
         /*
@@ -37,19 +31,20 @@ class AddArtistForm extends Component {
         }
         */
         return (
-            <FormGroup>
-                {props.label && <Label for={input.name}>{props.label}</Label>}
+            <FormGroup className={asyncValidating ? 'async-validating' : ''}>
+                {label && <Label for={input.name}>{label}</Label>}
+                {/* <input {...input} type={type} placeholder={label} /> */}
                 <Input
                     {...props}
                     {...input}
+                    valid={touched && valid}
+                    invalid={touched && invalid}
                     onChange={handleChange}
                 />
-                {meta.touched && meta.error &&
-                <FormFeedback>{meta.error}</FormFeedback>}
+                {touched && error && <FormFeedback>{error}</FormFeedback>}
             </FormGroup>
         );
     };
-
     render () {
         return (
             <Fragment>
@@ -57,16 +52,12 @@ class AddArtistForm extends Component {
                     component={this.renderField}
                     name="name"
                     placeholder="Исполнитель"
-                    valid={this.state.validate.name === true}
-                    invalid={this.state.validate.name === false}
                     required
                 />
                 <Field
                     component={this.renderField}
                     name="slug"
                     placeholder="URI"
-                    valid={this.state.validate.slug === true}
-                    invalid={this.state.validate.slug === false}
                     required
                 />
                 <Field
@@ -75,8 +66,7 @@ class AddArtistForm extends Component {
                     type="textarea"
                     label="Описание"
                 />
-                {/* <Button disabled={!this.state.valid}>Сохранить</Button> */}
-                <Button>Сохранить</Button>
+                <Button disabled={this.props.invalid}>Сохранить</Button>
             </Fragment>
         );
     }
