@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { compose } from "redux";
 import { connect } from 'react-redux';
 import { reduxForm, formValueSelector } from 'redux-form';
 import { Form } from "reactstrap";
@@ -73,6 +74,8 @@ const mapStateToProps = state => ({
     slug: selector(state, 'slug'),
 });
 
-NewArtistForm = reduxForm(formConfiguration)(NewArtistForm);
-NewArtistForm = connect(mapStateToProps)(NewArtistForm);
-export default withRouter(NewArtistForm);
+export default compose(
+    withRouter,
+    reduxForm(formConfiguration),
+    connect(mapStateToProps),
+)(NewArtistForm);
