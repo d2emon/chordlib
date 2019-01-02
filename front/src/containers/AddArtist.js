@@ -15,7 +15,6 @@ class AddArtist extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         this.generateSlug(nextProps);
     }
 

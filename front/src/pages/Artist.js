@@ -14,7 +14,7 @@ class ArtistPage extends Component {
 
     render () {
         return (
-            <Artist artist={this.state.artist} />
+            <Artist slug={this.state.artist} />
         );
     }
 }

@@ -1,14 +1,26 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 // import { withRouter } from 'react-router-dom';
 // import { compose } from "redux";
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 // import { reduxForm, formValueSelector } from 'redux-form';
 import {
     ListGroup,
     ListGroupItem,
+    Badge,
+    Card,
+    // CardImg,
+    CardHeader,
+    CardBody,
+    CardTitle,
+    // CardSubtitle,
+    CardText,
+    Button,
+
+    Navbar,
+    NavbarBrand,
+    Nav,
 } from 'reactstrap';
-import AddArtistForm from '../forms/AddArtistForm';
-import { validateArtist, getSlug, addArtist } from "../actions/artistActions";
+import { findArtist } from "../actions/artistActions";
 
 class Artist extends Component {
     constructor(props) {
@@ -28,25 +40,81 @@ class Artist extends Component {
                 "Album 10",
                 "Album 11",
                 "Album 12",
-            ]
+            ],
         };
 
         // this.onSubmit = this.onSubmit.bind(this);
     }
 
-    render () {
+    componentDidMount() {
+        this.props.findArtist(this.props.slug);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.slug !== this.props.slug) this.props.findArtist(nextProps.slug);
+    }
+
+    getArtist() {
+        const { artist, slug } = this.props;
+        if (artist) return artist;
+        const name = slug.length > 0
+            ? slug[0].toUpperCase() + slug.substring(1)
+            : '';
+        return {
+            name,
+            slug,
+            unadded: true,
+        };
+    }
+
+    render() {
+        const { isFetching } = this.props;
+        if (isFetching) return (
+            <h1>Идет загрузка...</h1>
+        );
+        const artist = this.getArtist();
         return (
-            <Fragment>
-                <h1>{this.props.artist}</h1>
-                <ListGroup>
-                    {this.state.albums.map((value, index) => <ListGroupItem tag="a" href={"/album/" + value} key={index}>
-                        {value}
-                    </ListGroupItem> )}
-                </ListGroup>
-            </Fragment>
+            <Card>
+                <CardHeader>
+                    <Navbar color="light" light expand="md">
+                        <NavbarBrand>
+                            <CardTitle>
+                                {artist.name}
+                                {artist.unadded && <Badge color="warning" pill>Необработан</Badge>}
+                            </CardTitle>
+                            {/* <CardSubtitle>{artist.slug}</CardSubtitle> */}
+                        </NavbarBrand>
+                        <Nav className="ml-auto" navbar>
+                            <Button>Править</Button>
+                        </Nav>
+                    </Navbar>
+                </CardHeader>
+                <CardBody>
+                    {/* <CardImg top width="50%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */ }
+                    {artist.description && (
+                        <CardText>
+                            {artist.description}
+                        </CardText>
+                    )}
+                    <ListGroup>
+                        {this.state.albums.map((value, index) => <ListGroupItem tag="a" href={"/album/" + value} key={index}>
+                            {value}
+                        </ListGroupItem> )}
+                    </ListGroup>
+                </CardBody>
+            </Card>
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    findArtist: artistUrl => dispatch(findArtist(artistUrl)),
+});
+
+const mapStateToProps = state => ({
+    artist: state.artists.artist,
+    isFetching: state.artists.isFetching,
+});
 
 /*
 export default compose(
@@ -56,4 +124,7 @@ export default compose(
 )(AddArtist);
  */
 
-export default Artist;
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Artist);
