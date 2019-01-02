@@ -27,7 +27,7 @@ class NewArtistForm extends Component {
 
     onSubmit (values, dispatch) {
         dispatch(addArtist(values))
-            .then(() => this.props.history.push('/'));
+            .then(() => this.props.history.push(`/artist/${this.props.slug}`));
     }
 
     render () {
