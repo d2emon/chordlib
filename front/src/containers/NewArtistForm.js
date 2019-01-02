@@ -1,44 +1,39 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { reduxForm, formValueSelector } from 'redux-form';
 import { Form } from "reactstrap";
 import AddArtistForm from '../forms/AddArtistForm';
-import {validateArtist} from "../actions/artistActions";
+import { validateArtist, getSlug, addArtist } from "../actions/artistActions";
 
 class NewArtistForm extends Component {
-    submitForm = values => {
-        // const {  } = this.props;
-        // if (onSubmit) onSubmit(values);
-        /*
-        this.props.validateArtist(values)
-            .then(({ validate }) => {
-                if (validate.name && validate.slug) {
-                    console.log(artist, this.props.artists);
-                    // this.props.addArtist(artist);
-                    alert(JSON.stringify(artist));
-                }
-            });
-        */
-    };
+    constructor(props) {
+        super(props);
 
-    componentWillReceiveProps({ change, slug, newSlug }) {
-        if (newSlug && (slug === undefined)) change('slug', newSlug);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.generateSlug(nextProps);
+    }
+
+    generateSlug({ dispatch, change, name, slug }) {
+        if (!name) return;
+        if (name === this.props.name) return;
+        if (slug !== this.props.slug) return;
+        dispatch(getSlug(name))
+            .then(newSlug => change('slug', newSlug));
+    }
+
+    onSubmit (values, dispatch) {
+        dispatch(addArtist(values))
+            .then(() => this.props.history.push('/'));
     }
 
     render () {
-        const { handleSubmit, onSubmit, ...props } = this.props;
-        const formSubmit = (!onSubmit) ? onSubmit : () => {};
+        const { handleSubmit, ...props } = this.props;
         return (
-            <Form onSubmit={handleSubmit(formSubmit)}>
-                { /*
-                name={this.state.name}
-                slug={this.state.slug}
-                validate={this.state.validate}
-                formErrors={this.state.formErrors}
-                onChange={this.onChange}
-                onSubmit={this.saveArtist}
-
-                 */ }
+            <Form onSubmit={handleSubmit(this.onSubmit)}>
                 <AddArtistForm
                     {...props}
                 />
@@ -60,12 +55,7 @@ const validate = values => {
 
 const asyncValidate = (values, dispatch) => dispatch(validateArtist(values))
     .then(({ errors }) => {
-        // console.error(errors);
-        // if (!validate.name) throw new FieldValidationError('name', 'Error');
-        // if (!validate.slug) throw new FieldValidationError('slug', 'Error');
         if (Object.keys(errors).length) throw errors;
-        // if (errors.name) throw { name: errors.name };
-        // if (errors.slug) throw { slug: errors.slug };
     });
 
 const formConfiguration = {
@@ -79,9 +69,10 @@ const formConfiguration = {
 const selector = formValueSelector('artists');
 
 const mapStateToProps = state => ({
+    name: selector(state, 'name'),
     slug: selector(state, 'slug'),
 });
 
 NewArtistForm = reduxForm(formConfiguration)(NewArtistForm);
-
-export default connect(mapStateToProps)(NewArtistForm);
+NewArtistForm = connect(mapStateToProps)(NewArtistForm);
+export default withRouter(NewArtistForm);

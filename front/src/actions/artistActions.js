@@ -57,17 +57,20 @@ export const fetchArtists = query => dispatch => {
     };
 
 
-export const addArtist = (artist) => dispatch => {
-    dispatch(requestArtists());
-
-    return artistService.addArtist(artist)
-        .then(
-            response => response,
-            error => console.log('An error occurred.', error)
-        )
-        .then(
-            artists => dispatch(receiveArtists(artists))
-        )
+export const addArtist = (values) => dispatch => {
+    return dispatch(validateArtist(values))
+        .then(({ errors }) => {
+            if (Object.keys(errors).length > 0) return dispatch(validatedArtist(errors));
+            dispatch(requestArtists());
+            artistService.addArtist(values)
+                .then(
+                    response => response,
+                    error => console.log('An error occurred.', error)
+                )
+                .then(
+                    artists => dispatch(receiveArtists(artists))
+                );
+        });
 };
 
 

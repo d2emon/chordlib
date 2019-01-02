@@ -28,7 +28,7 @@ export default {
 
     addArtist (artist) {
         return new Promise((resolve, reject) => {
-            Axios.post(`artist/${artist}`)
+            Axios.post(`artist/`, artist)
                 .then(response => resolve(response.data));
         });
     },
