@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NewArtistForm from './NewArtistForm';
+import NewArtistForm from '../containers/NewArtistForm';
 
 class Artists extends Component {
     render () {

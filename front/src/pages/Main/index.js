@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import logo from "./logo.svg";
 import CounterContainer from '../../containers/Counter/CounterContainer';
-import Todos from '../Todos/Todos';
+import Todos from '../../components/Todos/Todos';
 
 class Main extends Component {
     render () {
