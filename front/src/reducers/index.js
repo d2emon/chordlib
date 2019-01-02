@@ -3,8 +3,8 @@ import { reducer as form } from 'redux-form';
 import counter from './counter';
 import todos from './todos';
 import visibilityFilter from './visibilityFilter';
-import alphabet from './alphabet';
 import artists from './artists';
+import alphabet from '../modules/alphabet/reducers';
 
 export default combineReducers({
     counter,

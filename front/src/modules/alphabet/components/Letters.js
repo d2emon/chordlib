@@ -35,27 +35,15 @@ const AdditionalLinks = ({ links }) => (
     </Nav>
 );
 
-export default ({ alphabet }) => {
-    const alphabets = [
-        { language: 'ru', alphabet: alphabet.russian },
-        { language: 'en', alphabet: alphabet.english },
-    ];
-    const additionalLinks = [
-        { text: 'Разные песни', href: '/artists/other' },
-        { text: '#', href: '/artists/num' },
-        { text: 'Все', href: '/artists/all' },
-        { text: 'Добавить исполнителя', href: '/add-artist' },
-    ];
-
-    return (
-        <div>
-            {alphabets.map(letters => (
-                <AlphabetLetters
-                    alphabet={letters.alphabet}
-                    language={letters.language}
-                />
-            ))}
-            <AdditionalLinks links={additionalLinks} />
-        </div>
-    );
-}
+export default ({ alphabets, additionalLinks }) => (
+    <div>
+        {Object.keys(alphabets).map((language, index) =>
+            <AlphabetLetters
+                key={index}
+                alphabet={alphabets[language]}
+                language={language}
+            />
+        )}
+        <AdditionalLinks links={additionalLinks} />
+    </div>
+);
