@@ -7,7 +7,7 @@ import { Form } from "reactstrap";
 import AddArtistForm from '../forms/AddArtistForm';
 import { validateArtist, getSlug, addArtist } from "../actions/artistActions";
 
-class NewArtistForm extends Component {
+class AddArtist extends Component {
     constructor(props) {
         super(props);
 
@@ -15,6 +15,7 @@ class NewArtistForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
         this.generateSlug(nextProps);
     }
 
@@ -78,4 +79,4 @@ export default compose(
     withRouter,
     reduxForm(formConfiguration),
     connect(mapStateToProps),
-)(NewArtistForm);
+)(AddArtist);

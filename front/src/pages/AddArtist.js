@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import NewArtistForm from '../containers/NewArtistForm';
+import Form from '../containers/AddArtist';
 
-class Artists extends Component {
+class AddArtist extends Component {
     render () {
         return (
-            <NewArtistForm />
+            <Form />
         );
     }
 }
 
-export default Artists;
+export default AddArtist;
