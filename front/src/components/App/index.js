@@ -17,6 +17,7 @@ import AddArtist from '../../pages/AddArtist';
 import Artist from '../../pages/Artist';
 import Album from '../../pages/Album';
 // Css
+import 'font-awesome/css/font-awesome.css';
 import './App.css';
 
 class App extends Component {

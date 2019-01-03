@@ -32,4 +32,11 @@ export default {
                 .then(response => resolve(response.data));
         });
     },
+
+    updateArtist (artist) {
+        return new Promise((resolve, reject) => {
+            Axios.put(`artist/${artist.id}`, artist)
+                .then(response => resolve(response.data));
+        });
+    },
 }

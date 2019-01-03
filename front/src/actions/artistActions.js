@@ -74,6 +74,24 @@ export const addArtist = (values) => dispatch => {
 };
 
 
+export const updateArtist = (values) => dispatch => {
+    if (!values.id) return dispatch(addArtist(values));
+    return dispatch(validateArtist(values))
+        .then(({ errors }) => {
+            if (Object.keys(errors).length > 0) return dispatch(validatedArtist(errors));
+            dispatch(requestArtists());
+            artistService.updateArtist(values)
+                .then(
+                    response => response,
+                    error => console.log('An error occurred.', error)
+                )
+                .then(
+                    artists => dispatch(receiveArtists(artists))
+                );
+        });
+};
+
+
 export const findArtist = (artist) => dispatch => {
     dispatch(requestArtist());
 
@@ -88,10 +106,11 @@ export const findArtist = (artist) => dispatch => {
 };
 
 
-export const validateArtist = ({ name, slug }) => dispatch => {
+export const validateArtist = (values) => dispatch => {
+    const { id, name, slug } = values;
     const errors = {};
-    if (!name || name.length <= 0) errors.name  = 'Field is required';
-    if (!slug || slug.length <= 0) errors.slug  = 'Field is required';
+    if (!name || name.length <= 0) errors.name  = 'Поле не может быть пустым';
+    if (!slug || slug.length <= 0) errors.slug  = 'Поле не может быть пустым';
     return dispatch(findArtist(slug))
         .then(
             response => {
@@ -99,7 +118,7 @@ export const validateArtist = ({ name, slug }) => dispatch => {
                 const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                  */
                 const artist = response && response.artist;
-                if (artist !== null) errors.slug = 'Field must be unique';
+                if (!id && (artist !== null)) errors.slug = 'Введите уникальное значение';
                 return dispatch(validatedArtist(errors));
             }
         )

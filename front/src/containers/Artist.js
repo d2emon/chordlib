@@ -20,6 +20,8 @@ import {
     NavbarBrand,
     Nav,
 } from 'reactstrap';
+import FontAwesome from 'react-fontawesome';
+import EditArtist from './EditArtist';
 import { findArtist } from "../actions/artistActions";
 
 class Artist extends Component {
@@ -27,6 +29,8 @@ class Artist extends Component {
         super(props);
 
         this.state = {
+            artist: null,
+            edit: false,
             albums: [
                 "Album 1",
                 "Album 2",
@@ -43,7 +47,7 @@ class Artist extends Component {
             ],
         };
 
-        // this.onSubmit = this.onSubmit.bind(this);
+        this.editArtist = this.editArtist.bind(this);
     }
 
     componentDidMount() {
@@ -52,10 +56,10 @@ class Artist extends Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.slug !== this.props.slug) this.props.findArtist(nextProps.slug);
+        if (!nextProps.isFetching) this.setState({ artist: this.getArtist(nextProps) });
     }
 
-    getArtist() {
-        const { artist, slug } = this.props;
+    getArtist({ artist, slug }) {
         if (artist) return artist;
         const name = slug.length > 0
             ? slug[0].toUpperCase() + slug.substring(1)
@@ -67,12 +71,18 @@ class Artist extends Component {
         };
     }
 
+    editArtist() {
+        this.setState({ edit: true });
+    }
+
     render() {
-        const { isFetching } = this.props;
-        if (isFetching) return (
+        const { artist, edit } = this.state;
+        if (!artist) return (
             <h1>Идет загрузка...</h1>
         );
-        const artist = this.getArtist();
+        if (edit) return (
+            <EditArtist initialValues={artist} />
+        );
         return (
             <Card>
                 <CardHeader>
@@ -85,7 +95,7 @@ class Artist extends Component {
                             {/* <CardSubtitle>{artist.slug}</CardSubtitle> */}
                         </NavbarBrand>
                         <Nav className="ml-auto" navbar>
-                            <Button>Править</Button>
+                            <Button color="link" onClick={this.editArtist}><FontAwesome name="edit" /></Button>
                         </Nav>
                     </Navbar>
                 </CardHeader>
