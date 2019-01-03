@@ -1,23 +1,42 @@
-const baseUrl = '//localhost:4000/artists';
-const letter = 'a';
+import axios from 'axios';
+import Config from '../config';
+
+const Axios = axios.create({
+    baseURL: Config.apiURL,
+});
+
 
 export default {
-    fetchArtists () {
+    fetchArtists ({ language, letter, special }) {
+        const url = special ? `artists/${special}` : `artists/${language}/${letter}`;
         return new Promise((resolve, reject) => {
-            fetch(`${baseUrl}/${letter}`)
-                .then(artists => resolve(artists));
+            Axios.get(url)
+                .then(response => resolve(response.data));
+        });
+    },
+
+    fetchArtist (slug) {
+        return new Promise((resolve, reject) => {
+            if (!slug) return resolve({ artist: null });
+            Axios.get(`artist/${slug}`)
+                .then(response => {
+                    return response;
+                })
+                .then(response => resolve(response.data));
         });
     },
 
     addArtist (artist) {
         return new Promise((resolve, reject) => {
-            /*
-            if (!this.isFetched) this.artists = artists;
+            Axios.post(`artist/`, artist)
+                .then(response => resolve(response.data));
+        });
+    },
 
-            this.artists.push(artist);
-            this.isFetched = true;
-            */
-            return resolve([]);
+    updateArtist (artist) {
+        return new Promise((resolve, reject) => {
+            Axios.put(`artist/${artist.id}`, artist)
+                .then(response => resolve(response.data));
         });
     },
 }

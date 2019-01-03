@@ -5,16 +5,20 @@ import { connect } from 'react-redux';
 import { reduxForm, formValueSelector } from 'redux-form';
 import { Form } from "reactstrap";
 import AddArtistForm from '../forms/AddArtistForm';
-import { validateArtist, getSlug, addArtist } from "../actions/artistActions";
+import { validateArtist, getSlug, updateArtist } from "../actions/artistActions";
 
-class AddArtist extends Component {
+class EditArtist extends Component {
     constructor(props) {
         super(props);
+
+        // props.initialize(props.initialValues);
 
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+        // if (nextProps.artist !== this.props.artist) this.fillFields(nextProps.artist);
         this.generateSlug(nextProps);
     }
 
@@ -27,17 +31,16 @@ class AddArtist extends Component {
     }
 
     onSubmit (values, dispatch) {
-        dispatch(addArtist(values))
+        alert(JSON.stringify(values));
+        dispatch(updateArtist(values))
             .then(() => this.props.history.push(`/artist/${this.props.slug}`));
     }
 
     render () {
-        const { handleSubmit, ...props } = this.props;
+        const { handleSubmit } = this.props;
         return (
             <Form onSubmit={handleSubmit(this.onSubmit)}>
-                <AddArtistForm
-                    {...props}
-                />
+                <AddArtistForm />
             </Form>
         );
     }
@@ -78,4 +81,4 @@ export default compose(
     withRouter,
     reduxForm(formConfiguration),
     connect(mapStateToProps),
-)(AddArtist);
+)(EditArtist);

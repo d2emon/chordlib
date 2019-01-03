@@ -70,7 +70,6 @@ router.get('/artists/:language/:letter', (req, res, next) => {
     if (!language || !letter) return handler.responseArtists([], letter);
 
     const translated = getLetter(language, letter);
-    console.log(req.params, translated);
 
     if (!translated) return handler.responseArtists([]);
 

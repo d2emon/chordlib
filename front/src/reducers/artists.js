@@ -1,5 +1,8 @@
 const initialState = {
+    letter: '',
     artists: [],
+    artist: null,
+    errors: {},
     isLoad: false,
 
     isFetching: false,
@@ -43,7 +46,28 @@ export default (state = initialState, action) => {
                 isFetching: false,
                 didInvalidate: false,
                 artists: action.artists,
+                title: action.title,
                 lastUpdated: action.receivedAt
+            };
+        case 'REQUEST_ARTIST':
+            return {
+                ...state,
+                isFetching: true,
+                didInvalidate: false,
+                // [action.letter]: artists(state[action.letter], action)
+            };
+        case 'RECEIVE_ARTIST':
+            return {
+                ...state,
+                isFetching: false,
+                didInvalidate: false,
+                artist: action.artist,
+                lastUpdated: action.receivedAt
+            };
+        case 'VALIDATED_ARTIST':
+            return {
+                ...state,
+                errors: action.errors,
             };
         default:
             return state

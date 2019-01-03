@@ -5,8 +5,8 @@ import {
     Button
 } from 'reactstrap';
 import logo from "./logo.svg";
-import CounterContainer from '../../containers/Counter/CounterContainer';
-import Todos from '../Todos/Todos';
+import CounterContainer from '../../modules/counter/containers/Counter/CounterContainer';
+import Todos from '../../modules/todos/components/Todos/Todos';
 
 class Main extends Component {
     render () {

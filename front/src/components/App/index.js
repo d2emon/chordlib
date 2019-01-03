@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from "react-router-dom";
-
 import {
     Container,
     Row,
     Col,
-
     Navbar,
     NavbarBrand,
 } from 'reactstrap';
-import Home from '../Home';
-import Main from '../Main';
-import Alphabet from "../../containers/Alphabet";
-import Artists from "../../containers/Artists";
-import AddArtist from "../../containers/AddArtist";
-import Artist from "../Artist";
-import Album from "../Album";
+// Components
+import Alphabet from '../../modules/alphabet';
+// Pages
+import Home from '../../pages/Home';
+import Main from '../../pages/Main';
+import Artists from '../../pages/Artists';
+import AddArtist from '../../pages/AddArtist';
+import Artist from '../../pages/Artist';
+import Album from '../../pages/Album';
+// Css
+import 'font-awesome/css/font-awesome.css';
 import './App.css';
 
 class App extends Component {
@@ -34,10 +36,8 @@ class App extends Component {
                             <Col>
                                 <Route exact path="/" component={Main} />
                                 <Route path="/home" component={Home} />
-                                <Route path="/artists/:lang/:letter" component={Artists} />
-                                <Route path="/artists/other" component={Artists} />
-                                <Route path="/artists/num" component={Artists} />
-                                <Route path="/artists/all" component={Artists} />
+                                <Route path="/artists/:language/:letter" component={Artists} />
+                                <Route exact path="/artists/:special" component={Artists} />
                                 <Route path="/add-artist" component={AddArtist} />
                                 <Route path="/artist/:artist" component={Artist}/>
                                 <Route path="/album/:album" component={Album} />
