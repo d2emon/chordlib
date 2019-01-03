@@ -10,6 +10,12 @@ const albumSchema = mongoose.Schema({
     description: String,
 });
 
+albumSchema.virtual('songs', {
+    ref: 'Song',
+    localField: '_id',
+    foreignField: 'album',
+});
+
 albumSchema.set('toJSON', {
     virtuals: true,
     versionKey:false,

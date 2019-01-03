@@ -15,8 +15,10 @@ import Main from '../../pages/Main';
 import Artists from '../../pages/Artists';
 import AddArtist from '../../pages/AddArtist';
 import AddAlbum from '../../pages/AddAlbum';
+import AddSong from '../../pages/AddSong';
 import Artist from '../../pages/Artist';
 import Album from '../../pages/Album';
+import Song from '../../pages/Song';
 // Css
 import 'font-awesome/css/font-awesome.css';
 import './App.css';
@@ -45,7 +47,8 @@ class App extends Component {
                                 <Route exact path="/artist/:artist" component={Artist}/>
                                 <Route path="/album/:artist/:album" component={Album} />
                                 <Route exact path="/album/:album" component={Album} />
-                                <Route path="/song/:song" component={Artist} />
+                                <Route path="/song/:song" component={Song} />
+                                <Route path="/add-song" component={AddSong} />
                             </Col>
                         </Row>
                     </Container>

@@ -6,6 +6,7 @@ import visibilityFilter from '../modules/todos/reducers/visibilityFilter';
 import alphabet from '../modules/alphabet/reducers';
 import artists from './artists';
 import albums from './albums';
+import songs from './songs';
 
 export default combineReducers({
     counter,
@@ -14,5 +15,6 @@ export default combineReducers({
     alphabet,
     artists,
     albums,
+    songs,
     form,
 });

@@ -9,6 +9,7 @@ router.get('/:slug', (req, res, next) => {
     Artist
         .findOne({slug: slug})
         .populate('albums')
+        .populate('songs')
         .then(artist => {
             res.json({ artist });
         })

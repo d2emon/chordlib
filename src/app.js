@@ -8,6 +8,7 @@ import indexRouter from './routes/index'
 import usersRouter from './routes/users'
 import artistRouter from './routes/artist'
 import albumRouter from './routes/album'
+import songRouter from './routes/song'
 
 import db from './db/mongo';
 
@@ -29,5 +30,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/artist', artistRouter);
 app.use('/album', albumRouter);
+app.use('/song', songRouter);
 
 export default app

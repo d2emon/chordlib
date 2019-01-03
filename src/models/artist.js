@@ -13,6 +13,12 @@ artistSchema.virtual('albums', {
     foreignField: 'author',
 });
 
+artistSchema.virtual('songs', {
+    ref: 'Song',
+    localField: '_id',
+    foreignField: 'author',
+});
+
 artistSchema.static('findByLetter', function (letter) {
     if (!letter) return this.find();
     return this.find({
