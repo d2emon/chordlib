@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { Field } from 'redux-form';
+import { compose } from "redux";
+import { connect } from 'react-redux';
+import {Field, formValueSelector, reduxForm} from 'redux-form';
 import {
+    Form,
     Button,
     FormGroup,
     FormFeedback,
@@ -10,8 +13,21 @@ import {
     Col,
 } from 'reactstrap';
 import { markdown } from 'markdown';
+import { validateAlbum, getSlug } from "../actions/albumActions";
 
-class AddAlbumForm extends Component {
+class AlbumForm extends Component {
+    componentWillReceiveProps(nextProps) {
+        this.generateSlug(nextProps);
+    }
+
+    generateSlug({ dispatch, change, title, slug }) {
+        if (!title) return;
+        if (title === this.props.title) return;
+        if (slug !== this.props.slug) return;
+        dispatch(getSlug(title))
+            .then(newSlug => change('slug', newSlug));
+    }
+
     renderField = ({
                        input,
                        label,
@@ -28,15 +44,9 @@ class AddAlbumForm extends Component {
                    }) => {
         const { onChange } = input;
         const handleChange = e => onChange(e);
-        /*
-        if (!meta.touched) {
-            console.log(input.name, input.value, this.props, this.state);
-        }
-        */
         return (
             <FormGroup className={asyncValidating ? 'async-validating' : ''}>
                 {label && <Label for={input.name}>{label}</Label>}
-                {/* <input {...input} type={type} placeholder={label} /> */}
                 <Input
                     {...props}
                     {...input}
@@ -65,11 +75,6 @@ class AddAlbumForm extends Component {
                     }) => {
         const { onChange } = input;
         const handleChange = e => onChange(e);
-        /*
-        if (!meta.touched) {
-            console.log(input.name, input.value, this.props, this.state);
-        }
-        */
         const rawHTML = markdown.toHTML(input.value);
         return (
             <FormGroup className={asyncValidating ? 'async-validating' : ''}>
@@ -94,8 +99,10 @@ class AddAlbumForm extends Component {
     };
 
     render () {
+        const { handleSubmit, onSubmit, invalid } = this.props;
+        console.log(this.props);
         return (
-            <Fragment>
+            <Form onSubmit={handleSubmit(onSubmit)}>
                 <Field
                     component={this.renderField}
                     name="title"
@@ -120,10 +127,45 @@ class AddAlbumForm extends Component {
                     rows="10"
                     label="Описание"
                 />
-                <Button disabled={this.props.invalid}>Сохранить</Button>
-            </Fragment>
+                <Button disabled={invalid}>Сохранить</Button>
+            </Form>
         );
     }
 }
 
-export default AddAlbumForm;
+const validate = values => {
+    const requiredFields = [
+        'title',
+        'slug',
+    ];
+    return requiredFields.reduce((errors, field) => {
+        if(!values[field]) errors[field] = 'Поле обязательно для заполнения.';
+        return errors;
+    }, {});
+};
+
+const asyncValidate = (values, dispatch) => dispatch(validateAlbum(values))
+    .then(({ errors }) => {
+        if (Object.keys(errors).length) throw errors;
+    });
+
+const formConfiguration = {
+    form: 'albums',
+    validate,
+    asyncValidate,
+    asyncChangeFields: ['title', 'slug'],
+    touchOnChange: true,
+};
+
+const selector = formValueSelector('albums');
+
+const mapStateToProps = state => ({
+    title: selector(state, 'title'),
+    slug: selector(state, 'slug'),
+    author: selector(state, 'author'),
+});
+
+export default compose(
+    reduxForm(formConfiguration),
+    connect(mapStateToProps),
+)(AlbumForm);

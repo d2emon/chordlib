@@ -15,7 +15,7 @@ class AddArtist extends Component {
     render () {
         return (
             <Form
-                initialValues={{author: this.state.artist}}
+                album={{author: this.state.artist}}
             />
         );
     }

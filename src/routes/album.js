@@ -21,7 +21,7 @@ router.post('/', (req, res, next) => {
     const values = req.body;
     Artist.findOne({ slug: values.author })
         .then(author => {
-            values.author = author.id;
+            if (author) values.author = author.id;
             const album = new Album(values);
             return album.save()
         })

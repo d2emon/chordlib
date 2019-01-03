@@ -102,7 +102,7 @@ class Album extends Component {
                 {edit
                     ? (
                         <CardBody>
-                            <EditAlbum initialValues={album} />
+                            <EditAlbum album={album} />
                         </CardBody>
                     )
                     : (

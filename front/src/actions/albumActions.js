@@ -123,7 +123,10 @@ export const validateAlbum = values => dispatch => {
                 const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                  */
                 const album = response && response.album;
-                if (!id && (album !== null)) errors.slug = 'Введите уникальное значение';
+                const unique = id
+                    ? (album.id === id)
+                    : (!album);
+                if (!unique) errors.slug = 'Введите уникальное значение';
                 return dispatch(validatedAlbum(errors));
             }
         )
