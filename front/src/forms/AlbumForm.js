@@ -1,19 +1,13 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { compose } from "redux";
 import { connect } from 'react-redux';
 import {Field, formValueSelector, reduxForm} from 'redux-form';
 import {
     Form,
     Button,
-    FormGroup,
-    FormFeedback,
-    Label,
-    Input,
-    Row,
-    Col,
 } from 'reactstrap';
-import { markdown } from 'markdown';
-import { validateAlbum, getSlug } from "../actions/albumActions";
+import { InputField, EditorField } from './fields';
+import { validateAlbum, getSlug } from '../actions/albumActions';
 
 class AlbumForm extends Component {
     componentWillReceiveProps(nextProps) {
@@ -28,101 +22,31 @@ class AlbumForm extends Component {
             .then(newSlug => change('slug', newSlug));
     }
 
-    renderField = ({
-                       input,
-                       label,
-                       type,
-                       meta: {
-                           asyncValidating,
-                           touched,
-                           error,
-                           valid,
-                           invalid,
-                           ...otherMeta
-                       },
-                       ...props
-                   }) => {
-        const { onChange } = input;
-        const handleChange = e => onChange(e);
-        return (
-            <FormGroup className={asyncValidating ? 'async-validating' : ''}>
-                {label && <Label for={input.name}>{label}</Label>}
-                <Input
-                    {...props}
-                    {...input}
-                    valid={touched && valid}
-                    invalid={touched && invalid}
-                    onChange={handleChange}
-                />
-                {touched && error && <FormFeedback>{error}</FormFeedback>}
-            </FormGroup>
-        );
-    };
-
-    renderEditor = ({
-                        input,
-                        label,
-                        type,
-                        meta: {
-                            asyncValidating,
-                            touched,
-                            error,
-                            valid,
-                            invalid,
-                            ...otherMeta
-                        },
-                        ...props
-                    }) => {
-        const { onChange } = input;
-        const handleChange = e => onChange(e);
-        const rawHTML = markdown.toHTML(input.value);
-        return (
-            <FormGroup className={asyncValidating ? 'async-validating' : ''}>
-                {label && <Label for={input.name}>{label}</Label>}
-                {/* <input {...input} type={type} placeholder={label} /> */}
-                <Row>
-                    <Col>
-                        <Input
-                            {...props}
-                            {...input}
-                            valid={touched && valid}
-                            invalid={touched && invalid}
-                            onChange={handleChange}
-                            type="textarea"
-                        />
-                        {touched && error && <FormFeedback>{error}</FormFeedback>}
-                    </Col>
-                    <Col dangerouslySetInnerHTML={{__html: rawHTML}} />
-                </Row>
-            </FormGroup>
-        );
-    };
-
     render () {
         const { handleSubmit, onSubmit, invalid } = this.props;
         console.log(this.props);
         return (
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Field
-                    component={this.renderField}
+                    component={InputField}
                     name="title"
                     placeholder="Название"
                     required
                 />
                 {/*<Field
-                    component={this.renderField}
+                    component={InputField}
                     name="author"
                     placeholder="Исполнитель"
                     required
                 />*/}
                 <Field
-                    component={this.renderField}
+                    component={InputField}
                     name="slug"
                     placeholder="URI"
                     required
                 />
                 <Field
-                    component={this.renderEditor}
+                    component={EditorField}
                     name="description"
                     rows="10"
                     label="Описание"
