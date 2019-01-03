@@ -102,7 +102,7 @@ class Artist extends Component {
                                     <Button href={`/artist/${artist.slug}/add-album/`}>Добавить альбом</Button>
                                 </CardHeader>
                                 <ListGroup>
-                                    {artist.albums.map((value, index) => (
+                                    {artist.albums && artist.albums.map((value, index) => (
                                         <ListGroupItem tag="a" href={`/album/${artist.slug}/${value.slug}`} key={index}>
                                             {value.title}
                                         </ListGroupItem>
