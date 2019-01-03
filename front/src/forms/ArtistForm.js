@@ -7,18 +7,18 @@ import {
     Button,
 } from 'reactstrap';
 import { InputField, EditorField } from './fields';
-import { validateAlbum, getSlug } from '../actions/albumActions';
+import { validateArtist, getSlug } from '../actions/artistActions';
 
-class AlbumForm extends Component {
+class ArtistForm extends Component {
     componentWillReceiveProps(nextProps) {
         this.generateSlug(nextProps);
     }
 
-    generateSlug({ dispatch, change, title, slug }) {
-        if (!title) return;
-        if (title === this.props.title) return;
+    generateSlug({ dispatch, change, name, slug }) {
+        if (!name) return;
+        if (name === this.props.name) return;
         if (slug !== this.props.slug) return;
-        dispatch(getSlug(title))
+        dispatch(getSlug(name))
             .then(newSlug => change('slug', newSlug));
     }
 
@@ -28,16 +28,10 @@ class AlbumForm extends Component {
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Field
                     component={InputField}
-                    name="title"
-                    placeholder="Название"
-                    required
-                />
-                {/*<Field
-                    component={InputField}
-                    name="author"
+                    name="name"
                     placeholder="Исполнитель"
                     required
-                />*/}
+                />
                 <Field
                     component={InputField}
                     name="slug"
@@ -58,7 +52,7 @@ class AlbumForm extends Component {
 
 const validate = values => {
     const requiredFields = [
-        'title',
+        'name',
         'slug',
     ];
     return requiredFields.reduce((errors, field) => {
@@ -67,28 +61,27 @@ const validate = values => {
     }, {});
 };
 
-const asyncValidate = (values, dispatch) => dispatch(validateAlbum(values))
+const asyncValidate = (values, dispatch) => dispatch(validateArtist(values))
     .then(({ errors }) => {
         if (Object.keys(errors).length) throw errors;
     });
 
 const formConfiguration = {
-    form: 'albums',
+    form: 'artists',
     validate,
     asyncValidate,
-    asyncChangeFields: ['title', 'slug'],
+    asyncChangeFields: ['name', 'slug'],
     touchOnChange: true,
 };
 
-const selector = formValueSelector('albums');
+const selector = formValueSelector('artists');
 
 const mapStateToProps = state => ({
-    title: selector(state, 'title'),
+    name: selector(state, 'name'),
     slug: selector(state, 'slug'),
-    author: selector(state, 'author'),
 });
 
 export default compose(
     reduxForm(formConfiguration),
     connect(mapStateToProps),
-)(AlbumForm);
+)(ArtistForm);

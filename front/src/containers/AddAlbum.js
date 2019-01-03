@@ -15,7 +15,8 @@ class AddAlbum extends Component {
             ? values.author + '/'
             : '';
         dispatch(addAlbum(values))
-            .then(() => this.props.history.push(`/album/${author}${values.slug}`));
+            .then(() => this.props.history.push(`/album/${author}${values.slug}`))
+            .then(() => window.location.reload());
     }
 
     render () {

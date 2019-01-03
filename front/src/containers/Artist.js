@@ -88,7 +88,7 @@ class Artist extends Component {
                 {edit
                     ? (
                         <CardBody>
-                            <EditArtist initialValues={artist} />
+                            <EditArtist artist={artist} />
                         </CardBody>
                     )
                     : (
