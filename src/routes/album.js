@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.get('/:slug', (req, res, next) => {
     const slug = req.params.slug;
-    Album.findOne({slug: slug})
+    Album
+        .findOne({slug: slug})
+        .populate('author')
         .then(response => {
             res.json({album: response});
         })

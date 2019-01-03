@@ -1,10 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import {
-    ListGroup,
-    ListGroupItem,
-} from 'reactstrap';
+import React, { Component } from 'react';
+import Album from '../containers/Album';
 
-class Album extends Component {
+class AlbumPage extends Component {
     constructor (props) {
         super(props);
 
@@ -13,36 +10,17 @@ class Album extends Component {
         this.state = {
             album: match.params.album,
             artist: match.params.artist,
-            songs: [
-                "Songs 1",
-                "Songs 2",
-                "Songs 3",
-                "Songs 4",
-                "Songs 5",
-                "Songs 6",
-                "Songs 7",
-                "Songs 8",
-                "Songs 9",
-                "Songs 10",
-                "Songs 11",
-                "Songs 12",
-            ]
-        }
-
+        };
     }
+
     render () {
         return (
-            <Fragment>
-                <h1>{this.state.album}</h1>
-                <h2>{this.state.artist}</h2>
-                <ListGroup>
-                    {this.state.songs.map((value, index) => <ListGroupItem tag="a" href={"/song/" + value} key={index}>
-                        {value}
-                    </ListGroupItem> )}
-                </ListGroup>
-            </Fragment>
+            <Album
+                slug={this.state.album}
+                artistSlug={this.state.artist}
+            />
         );
     }
 }
 
-export default Album;
+export default AlbumPage;

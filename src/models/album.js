@@ -10,5 +10,10 @@ const albumSchema = mongoose.Schema({
     description: String,
 });
 
+albumSchema.set('toJSON', {
+    virtuals: true,
+    versionKey:false,
+});
+
 export default mongoose.model('Album', albumSchema);
 
