@@ -6,7 +6,10 @@ import {
     FormFeedback,
     Label,
     Input,
+    Row,
+    Col,
 } from 'reactstrap';
+import { markdown } from 'markdown';
 
 class AddArtistForm extends Component {
     renderField = ({
@@ -45,6 +48,51 @@ class AddArtistForm extends Component {
             </FormGroup>
         );
     };
+
+    renderEditor = ({
+        input,
+        label,
+        type,
+        meta: {
+            asyncValidating,
+            touched,
+            error,
+            valid,
+            invalid,
+            ...otherMeta
+        },
+        ...props
+    }) => {
+        const { onChange } = input;
+        const handleChange = e => onChange(e);
+        /*
+        if (!meta.touched) {
+            console.log(input.name, input.value, this.props, this.state);
+        }
+        */
+        const rawHTML = markdown.toHTML(input.value);
+        return (
+            <FormGroup className={asyncValidating ? 'async-validating' : ''}>
+                {label && <Label for={input.name}>{label}</Label>}
+                {/* <input {...input} type={type} placeholder={label} /> */}
+                <Row>
+                    <Col>
+                        <Input
+                            {...props}
+                            {...input}
+                            valid={touched && valid}
+                            invalid={touched && invalid}
+                            onChange={handleChange}
+                            type="textarea"
+                        />
+                        {touched && error && <FormFeedback>{error}</FormFeedback>}
+                    </Col>
+                    <Col dangerouslySetInnerHTML={{__html: rawHTML}} />
+                </Row>
+            </FormGroup>
+        );
+    };
+
     render () {
         return (
             <Fragment>
@@ -61,9 +109,9 @@ class AddArtistForm extends Component {
                     required
                 />
                 <Field
-                    component={this.renderField}
+                    component={this.renderEditor}
                     name="description"
-                    type="textarea"
+                    rows="10"
                     label="Описание"
                 />
                 <Button disabled={this.props.invalid}>Сохранить</Button>

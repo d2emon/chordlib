@@ -17,7 +17,6 @@ class EditArtist extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
         // if (nextProps.artist !== this.props.artist) this.fillFields(nextProps.artist);
         this.generateSlug(nextProps);
     }
@@ -31,9 +30,9 @@ class EditArtist extends Component {
     }
 
     onSubmit (values, dispatch) {
-        alert(JSON.stringify(values));
         dispatch(updateArtist(values))
-            .then(() => this.props.history.push(`/artist/${this.props.slug}`));
+            .then(() => this.props.history.push(`/artist/${this.props.slug}`))
+            .then(() => window.location.reload());
     }
 
     render () {

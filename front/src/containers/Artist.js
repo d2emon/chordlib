@@ -20,6 +20,7 @@ import {
     NavbarBrand,
     Nav,
 } from 'reactstrap';
+import { markdown } from 'markdown';
 import FontAwesome from 'react-fontawesome';
 import EditArtist from './EditArtist';
 import { findArtist } from "../actions/artistActions";
@@ -102,9 +103,7 @@ class Artist extends Component {
                 <CardBody>
                     {/* <CardImg top width="50%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */ }
                     {artist.description && (
-                        <CardText>
-                            {artist.description}
-                        </CardText>
+                        <CardText dangerouslySetInnerHTML={{__html: markdown.toHTML(artist.description)}} />
                     )}
                     <ListGroup>
                         {this.state.albums.map((value, index) => <ListGroupItem tag="a" href={"/album/" + value} key={index}>
