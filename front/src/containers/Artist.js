@@ -32,23 +32,9 @@ class Artist extends Component {
         this.state = {
             artist: null,
             edit: false,
-            albums: [
-                "Album 1",
-                "Album 2",
-                "Album 3",
-                "Album 4",
-                "Album 5",
-                "Album 6",
-                "Album 7",
-                "Album 8",
-                "Album 9",
-                "Album 10",
-                "Album 11",
-                "Album 12",
-            ],
         };
 
-        this.editArtist = this.editArtist.bind(this);
+        this.switchEdit = this.switchEdit.bind(this);
     }
 
     componentDidMount() {
@@ -72,17 +58,14 @@ class Artist extends Component {
         };
     }
 
-    editArtist() {
-        this.setState({ edit: true });
+    switchEdit() {
+        this.setState({ edit: !this.state.edit });
     }
 
     render() {
         const { artist, edit } = this.state;
         if (!artist) return (
             <h1>Идет загрузка...</h1>
-        );
-        if (edit) return (
-            <EditArtist initialValues={artist} />
         );
         return (
             <Card>
@@ -96,21 +79,39 @@ class Artist extends Component {
                             {/* <CardSubtitle>{artist.slug}</CardSubtitle> */}
                         </NavbarBrand>
                         <Nav className="ml-auto" navbar>
-                            <Button color="link" onClick={this.editArtist}><FontAwesome name="edit" /></Button>
+                            <Button color="link" onClick={this.switchEdit}>
+                                <FontAwesome name={edit ? 'eye' : 'edit'} />
+                            </Button>
                         </Nav>
                     </Navbar>
                 </CardHeader>
-                <CardBody>
-                    {/* <CardImg top width="50%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */ }
-                    {artist.description && (
-                        <CardText dangerouslySetInnerHTML={{__html: markdown.toHTML(artist.description)}} />
-                    )}
-                    <ListGroup>
-                        {this.state.albums.map((value, index) => <ListGroupItem tag="a" href={"/album/" + value} key={index}>
-                            {value}
-                        </ListGroupItem> )}
-                    </ListGroup>
-                </CardBody>
+                {edit
+                    ? (
+                        <CardBody>
+                            <EditArtist initialValues={artist} />
+                        </CardBody>
+                    )
+                    : (
+                        <CardBody>
+                            {/* <CardImg top width="50%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */ }
+                            {artist.description && (
+                                <CardText dangerouslySetInnerHTML={{__html: markdown.toHTML(artist.description)}} />
+                            )}
+                            <Card>
+                                <CardHeader>
+                                    <Button href={`/artist/${artist.slug}/add-album/`}>Добавить альбом</Button>
+                                </CardHeader>
+                                <ListGroup>
+                                    {artist.albums.map((value, index) => (
+                                        <ListGroupItem tag="a" href={`/album/${artist.slug}/${value.slug}`} key={index}>
+                                            {value.title}
+                                        </ListGroupItem>
+                                    ))}
+                                </ListGroup>
+                            </Card>
+                        </CardBody>
+                    )
+                }
             </Card>
         );
     }

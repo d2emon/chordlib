@@ -14,6 +14,7 @@ import Home from '../../pages/Home';
 import Main from '../../pages/Main';
 import Artists from '../../pages/Artists';
 import AddArtist from '../../pages/AddArtist';
+import AddAlbum from '../../pages/AddAlbum';
 import Artist from '../../pages/Artist';
 import Album from '../../pages/Album';
 // Css
@@ -39,8 +40,11 @@ class App extends Component {
                                 <Route path="/artists/:language/:letter" component={Artists} />
                                 <Route exact path="/artists/:special" component={Artists} />
                                 <Route path="/add-artist" component={AddArtist} />
-                                <Route path="/artist/:artist" component={Artist}/>
-                                <Route path="/album/:album" component={Album} />
+                                <Route path="/add-album" component={AddAlbum} />
+                                <Route path="/artist/:artist/add-album" component={AddAlbum} />
+                                <Route exact path="/artist/:artist" component={Artist}/>
+                                <Route path="/album/:artist/:album" component={Album} />
+                                <Route exact path="/album/:album" component={Album} />
                                 <Route path="/song/:song" component={Artist} />
                             </Col>
                         </Row>

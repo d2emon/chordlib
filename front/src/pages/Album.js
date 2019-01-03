@@ -12,6 +12,7 @@ class Album extends Component {
 
         this.state = {
             album: match.params.album,
+            artist: match.params.artist,
             songs: [
                 "Songs 1",
                 "Songs 2",
@@ -33,6 +34,7 @@ class Album extends Component {
         return (
             <Fragment>
                 <h1>{this.state.album}</h1>
+                <h2>{this.state.artist}</h2>
                 <ListGroup>
                     {this.state.songs.map((value, index) => <ListGroupItem tag="a" href={"/song/" + value} key={index}>
                         {value}

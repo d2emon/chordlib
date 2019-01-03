@@ -7,6 +7,7 @@ import cors from 'cors'
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
 import artistRouter from './routes/artist'
+import albumRouter from './routes/album'
 
 import db from './db/mongo';
 
@@ -27,5 +28,6 @@ db.once('open', () => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/artist', artistRouter);
+app.use('/album', albumRouter);
 
 export default app

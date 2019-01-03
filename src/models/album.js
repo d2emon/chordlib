@@ -7,6 +7,7 @@ const albumSchema = mongoose.Schema({
         ref: 'Artist'
     },
     slug: String,
+    description: String,
 });
 
 export default mongoose.model('Album', albumSchema);

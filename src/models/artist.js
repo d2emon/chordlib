@@ -7,6 +7,12 @@ const artistSchema = mongoose.Schema({
     description: String,
 });
 
+artistSchema.virtual('albums', {
+    ref: 'Album',
+    localField: '_id',
+    foreignField: 'author',
+});
+
 artistSchema.static('findByLetter', function (letter) {
     if (!letter) return this.find();
     return this.find({
