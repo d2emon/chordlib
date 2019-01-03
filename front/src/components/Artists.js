@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    // Badge,
     ListGroup,
     ListGroupItem,
 } from 'reactstrap';
@@ -19,6 +20,7 @@ class Artists extends Component {
             <ListGroup>
                 {this.state.artists.map((value, index) => <ListGroupItem tag="a" href={"/artist/" + value} key={index}>
                     {value}
+                    {/*artist.unadded && <Badge color="warning" pill>Необработан</Badge>*/}
                 </ListGroupItem> )}
             </ListGroup>
         );
