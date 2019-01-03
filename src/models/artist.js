@@ -22,4 +22,9 @@ artistSchema.statics.getUnprocessed = (letter) => new Promise((response, reject)
     });
 });
 
+artistSchema.set('toJSON', {
+    virtuals: true,
+    versionKey:false,
+});
+
 export default mongoose.model('Artist', artistSchema);

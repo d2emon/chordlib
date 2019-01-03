@@ -25,14 +25,13 @@ router.post('/', (req, res, next) => {
         })
 });
 
-router.put('/:slug', (req, res, next) => {
-    console.log(req.query);
-    const slug = req.params.slug;
+router.put('/:id', (req, res, next) => {
+    const id = req.params.id;
     let result;
-    Artist.updateOne({slug: slug}, req.query)
+    Artist.updateOne({ id }, req.body)
         .then(response => {
             result = response;
-            return Artist.find({slug: slug});
+            return Artist.find({ id });
         })
         .then(response => {
             res.json({artist: response, result: result});
