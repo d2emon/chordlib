@@ -20,28 +20,32 @@ class ArtistsHandler {
         this.res = res;
     }
 
-    find (query, letter) {
-        Artist.find(query)
-            .then(artists => this.responseArtists(artists, letter))
+    find (letter, title, query) {
+        const answer = letter
+            ? Artist.findByLetter(letter)
+            : Artist.find(query);
+        answer
+            .then(artists => this.responseArtists(title, letter, artists))
             .catch(error => this.responseError(error));
     }
 
-    responseArtists (artists, letter) {
-        const title = letter ? letter.charAt(0).toUpperCase() + letter.slice(1) : letter;
-        /*
-        const artists = [
-            new MockArtist("Artists 1"),
-            new MockArtist("Artists 2"),
-            new MockArtist("Artists 3"),
-            new MockArtist("Artists 4"),
-            new MockArtist("Artists 5"),
-        ];
-         */
+    responseArtists (title, letter, artists) {
+        if (!title)
+            title = letter ? letter.charAt(0).toUpperCase() + letter.slice(1) : letter;
         // const answer = [].concat(response, artists);
-        this.res.json({
-            artists,
-            title,
-        })
+        Artist.getUnprocessed(letter)
+            .then(response => {
+                response.forEach(slug => {
+                    const name = slug[0].toUpperCase() + slug.substring(1).replace(/_/g, ' ');
+                    // const artist = new Artist({ name, slug, unprocessed: true });
+                    const artist = { name, slug, unprocessed: true };
+                    artists.push(artist);
+                });
+                this.res.json({
+                    artists,
+                    title,
+                })
+            });
     }
 
     responseError (error) {
@@ -70,16 +74,16 @@ router.get('/artists/:language/:letter', (req, res, next) => {
 
     if (!translated) return handler.responseArtists([]);
 
-    const query = getQueryByLetter(translated);
-    handler.find(query, translated);
+    handler.find(translated);
 });
 
 router.get('/artists/:special', (req, res, next) => {
     const handler = new ArtistsHandler(req, res, next);
 
     const { special } = req.params;
-    if (special === 'all') return handler.find({}, 'Все');
-    if (special === 'other') return handler.find({ name: null }, 'Разные песни');
+    if (special === 'all') return handler.find(null, 'Все');
+    if (special === 'other') return handler.find('', 'Разные песни', { name: null });
+    if (special === 'num') return handler.find('[0-9]', '#');
 
     handler.responseError('Unknown special query');
 });

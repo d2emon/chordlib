@@ -26,12 +26,12 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    const id = req.params.id;
+    const _id = req.params.id;
     let result;
-    Artist.updateOne({ id }, req.body)
+    Artist.updateOne({ _id }, req.body)
         .then(response => {
             result = response;
-            return Artist.find({ id });
+            return Artist.findById(_id);
         })
         .then(response => {
             res.json({artist: response, result: result});
