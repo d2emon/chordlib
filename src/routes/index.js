@@ -4,15 +4,8 @@ import { getLetter } from '../models/letters';
 
 const router = express.Router();
 
-function getQueryByLetter (letter) {
-    if (!letter) return {};
-
-    return {
-        name: {
-            $regex: '^' + letter,
-            $options: 'i',
-        },
-    };
+function slugToName(slug) {
+    return slug[0].toUpperCase() + slug.substring(1).replace(/-/g, ' ');
 }
 
 class ArtistsHandler {
@@ -25,6 +18,7 @@ class ArtistsHandler {
             ? Artist.findByLetter(letter)
             : Artist.find(query);
         answer
+            .sort({name: 1})
             .then(artists => this.responseArtists(title, letter, artists))
             .catch(error => this.responseError(error));
     }
@@ -35,12 +29,21 @@ class ArtistsHandler {
         // const answer = [].concat(response, artists);
         Artist.getUnprocessed(letter)
             .then(response => {
+                /*
                 response.forEach(slug => {
-                    const name = slug[0].toUpperCase() + slug.substring(1).replace(/_/g, ' ');
                     // const artist = new Artist({ name, slug, unprocessed: true });
-                    const artist = { name, slug, unprocessed: true };
-                    artists.push(artist);
+                    artists.push({
+                        name: slugToName(slug),
+                        slug,
+                        unprocessed: true
+                    });
                 });
+                */
+                artists = artists.concat(response.map(slug => ({
+                    name: slugToName(slug),
+                    slug,
+                    unprocessed: true
+                })));
                 this.res.json({
                     artists,
                     title,

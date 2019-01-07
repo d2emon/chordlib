@@ -127,7 +127,7 @@ export const validateArtist = (values) => dispatch => {
 export const getSlug = (name, id) => dispatch => {
     id = id || '';
     const slug = name
-        ? slugify(name).toLowerCase() + id
+        ? slugify(name, {remove: /[*+~.()'"!:@]/g}).toLowerCase() + id
         : '';
     return dispatch(findArtist(slug))
         .then(response => {

@@ -25,6 +25,11 @@ import FontAwesome from 'react-fontawesome';
 import EditArtist from './EditArtist';
 import { findArtist } from "../actions/artistActions";
 
+function slugToName(slug) {
+    if (slug.length <= 0) return ''
+    return slug[0].toUpperCase() + slug.substring(1).replace(/-/g, ' ');
+}
+
 class Artist extends Component {
     constructor(props) {
         super(props);
@@ -48,11 +53,8 @@ class Artist extends Component {
 
     getArtist({ artist, slug }) {
         if (artist) return artist;
-        const name = slug.length > 0
-            ? slug[0].toUpperCase() + slug.substring(1)
-            : '';
         return {
-            name,
+            name: slugToName(slug),
             slug,
             unprocessed: true,
         };
