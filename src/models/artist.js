@@ -50,6 +50,7 @@ artistSchema.static('getUnprocessed', function (letter) {
 
                     files = files.filter(file => !file.startsWith('.'));
                     files = files.filter(file => slugs.indexOf(file) < 0);
+                    files = files.filter(file => fs.lstatSync(`${dataFolder}/${file}`).isDirectory());
                     const artists = (letter !== null)
                         ? files.filter(file => file.startsWith(letter))
                         : files;
