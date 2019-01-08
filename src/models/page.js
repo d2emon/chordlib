@@ -1,10 +1,9 @@
 import fs from 'fs';
-
-const pagesFolder = './src/pages';
+import config from '../config';
 
 export default {
   all: () => new Promise((resolve) => {
-    fs.readdir(pagesFolder, (err, files) => {
+    fs.readdir(config.pagesFolder, (err, files) => {
       if (err) throw err;
       // files = files.filter(file => !file.startsWith('.'));
       // files = files.filter(file => slugs.indexOf(file) < 0);
@@ -14,7 +13,7 @@ export default {
     });
   }),
   find: filename => new Promise((resolve) => {
-    fs.readFile(`${pagesFolder}/${filename}.md`, 'utf8', (err, text) => {
+    fs.readFile(`${config.pagesFolder}/${filename}.md`, 'utf8', (err, text) => {
       if (err) throw err;
       resolve({ filename, text });
     });

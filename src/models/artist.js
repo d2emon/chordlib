@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import fs from 'fs';
+import config from '../config';
 
 const artistSchema = mongoose.Schema({
     name: String,
@@ -41,9 +42,8 @@ artistSchema.static('findSlugByLetter', function (letter) {
 
 artistSchema.static('getUnprocessed', function (letter) {
     return new Promise((response, reject) => {
-        const dataFolder ='./public-data';
         if (letter === '') return response([]);
-        fs.readdir(dataFolder, (err, files) => {
+        fs.readdir(config.dataFolder, (err, files) => {
             this.findSlugByLetter(letter)
                 .then(processed => {
                     const slugs = processed.map(artist => artist.slug);
