@@ -1,6 +1,7 @@
 import express from 'express';
 import Artist from '../models/artist';
 import { getLetter } from '../models/letters';
+import Page from '../models/page';
 
 const router = express.Router();
 
@@ -88,6 +89,19 @@ router.get('/artists/:special', (req, res, next) => {
     if (special === 'num') return handler.find('[0-9]', '#');
 
     handler.responseError('Unknown special query');
+});
+
+router.get('/pages', (req, res) => {
+  Page
+    .all()
+    .then(pages => res.json({ pages }));
+});
+
+router.get('/page/:filename', (req, res) => {
+  const { filename } = req.params;
+  Page
+    .find(filename)
+    .then(page => res.json({ page }));
 });
 
 module.exports = router;

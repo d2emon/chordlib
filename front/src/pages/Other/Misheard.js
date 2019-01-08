@@ -1,29 +1,62 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Container,
   Row,
   Col,
+  Card,
+  CardText,
 } from 'reactstrap';
 import { markdown } from 'markdown';
-import misheard from '../../database/misheard';
+import pageService from '../../services/page';
 
-const Misheard = () => (
-  <Container>
-    <Row>
-      <Col>
-        <h1 className="display-1 text-center">Misheard lyrics</h1>
-      </Col>
-    </Row>
-    <Row>
-      <Col>
-        <ul>
-          { misheard.map(text => (
-            <li key={text} dangerouslySetInnerHTML={{ __html: markdown.toHTML(text) }} />
-          )) }
-        </ul>
-      </Col>
-    </Row>
-  </Container>
-);
+class Misheard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      page: null,
+    };
+  }
+
+  componentDidMount() {
+    /*
+    pageService
+      .fetchPages()
+      .then(response => {
+        console.log(response);
+      });
+    */
+    pageService
+      .fetchPage('misheard-lyrics')
+      .then((response) => {
+        this.setState({
+          page: response.page,
+        });
+      });
+  }
+
+  render() {
+    const { page } = this.state;
+    return (
+      <Container>
+        <Row>
+          <Col>
+            {
+              page
+              ? (
+                <Card dangerouslySetInnerHTML={{ __html: markdown.toHTML(page.text) }} />
+              )
+              : (
+                <Card>
+                  <h1>Идет загрузка...</h1>
+                </Card>
+              )
+            }
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+};
 
 export default Misheard;
