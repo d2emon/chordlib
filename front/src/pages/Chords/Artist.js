@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Artist from '../containers/Artist';
+import Artist from '../../containers/Artist';
 
 class ArtistPage extends Component {
   constructor(props) {

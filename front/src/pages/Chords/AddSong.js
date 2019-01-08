@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Form from '../containers/AddAlbum';
+import Form from '../../containers/AddSong';
 
-class AddArtist extends Component {
+class AddSong extends Component {
   constructor(props) {
     super(props);
 
@@ -15,10 +15,10 @@ class AddArtist extends Component {
   render() {
     return (
       <Form
-        album={{ author: this.state.artist }}
+        song={{ author: this.state.artist }}
       />
     );
   }
 }
 
-export default AddArtist;
+export default AddSong;

@@ -6,9 +6,10 @@ import {
 // Components
 import Header from '../../components/Header';
 // Pages
-import Home from '../Home';
+import Home from '../Chords/Home';
 import Main from '../Main';
-import ChordLib from '../ChordLib';
+import ChordLib from '../Chords/ChordLib';
+import Other from '../Other';
 // Css
 import 'font-awesome/css/font-awesome.css';
 import './App.css';
@@ -20,6 +21,8 @@ const App = () => (
       <Route exact path="/" component={Main} />
       <Route path="/home" component={Home} />
       <Route path="/chords" component={ChordLib} />
+      {/*<Route path="/other" component={Other} />*/}
+      <Route path="/" component={Other} />
     </div>
   </BrowserRouter>
 );

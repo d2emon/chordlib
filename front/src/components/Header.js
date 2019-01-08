@@ -51,7 +51,7 @@ class Header extends Component {
                   </DropdownToggle>
                   <DropdownMenu right>
                     { page.subpages.map((subpage, index) => (
-                      <DropdownItem tag={Link} to={page.link || '/'} key={index}>
+                      <DropdownItem tag={Link} to={subpage.link || '/'} key={index}>
                         {subpage.title}
                       </DropdownItem>
                     )) }

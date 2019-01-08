@@ -4,7 +4,7 @@ class Home extends Component {
   render() {
     return (
       <div className="App">
-        <h1>Песенник</h1>
+        <h1 className="display-1 text-center">Песенник</h1>
         <p>Мой сборник аккордов</p>
       </div>
     );

@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
-import Form from '../containers/AddSong';
+import Song from '../../containers/Song';
 
-class AddSong extends Component {
+class AlbumPage extends Component {
   constructor(props) {
     super(props);
 
     const { match } = props;
 
     this.state = {
+      slug: match.params.slug,
       artist: match.params.artist,
     };
   }
 
   render() {
     return (
-      <Form
-        song={{ author: this.state.artist }}
+      <Song
+        slug={this.state.slug}
+        artistSlug={this.state.artist}
       />
     );
   }
 }
 
-export default AddSong;
+export default AlbumPage;
