@@ -2,23 +2,23 @@ import React, { Component } from 'react';
 import Form from '../containers/AddSong';
 
 class AddSong extends Component {
-    constructor (props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        const { match } = props;
+    const { match } = props;
 
-        this.state = {
-            artist: match.params.artist,
-        }
-    }
+    this.state = {
+      artist: match.params.artist,
+    };
+  }
 
-    render () {
-        return (
-            <Form
-                song={{author: this.state.artist}}
-            />
-        );
-    }
+  render() {
+    return (
+      <Form
+        song={{ author: this.state.artist }}
+      />
+    );
+  }
 }
 
 export default AddSong;

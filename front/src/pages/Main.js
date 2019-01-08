@@ -4,14 +4,18 @@ import {
   Container,
   Row,
   Col,
+  ListGroup,
+  ListGroupItem,
 } from 'reactstrap';
 import { markdown } from 'markdown';
 import Logo from '../components/Logo';
 import config from '../config';
 
 const Main = () => {
-  const { title, text } = config;
-  const html = markdown.toHTML(text);
+  const { title, description, pages } = config;
+  const html = description
+    ? markdown.toHTML(description)
+    : false;
   return (
     <Container>
       <Row>
@@ -22,13 +26,21 @@ const Main = () => {
               <h1>{title}</h1>
             </Col>
           </Row>
-          <Row>
-            <Col dangerouslySetInnerHTML={{ __html: html }} />
-          </Row>
+          {
+            html
+            && (
+              <Row>
+                <Col dangerouslySetInnerHTML={{ __html: html }} />
+              </Row>
+            )
+          }
           <Row>
             <Col>
-              To get started, edit <code>src/App.js</code> and save to reload.
-              <Link to="/home">Home</Link>
+              <ListGroup>
+                { pages.map((page, index) => (
+                  <ListGroupItem tag={Link} to={page.link || '/'} key={index}>{page.title}</ListGroupItem>
+                )) }
+              </ListGroup>
             </Col>
           </Row>
         </Col>
