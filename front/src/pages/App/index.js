@@ -13,15 +13,15 @@ import {
 // Components
 import Alphabet from '../../modules/alphabet';
 // Pages
-import Home from '../../pages/Home';
-import Main from '../../pages/Main';
-import Artists from '../../pages/Artists';
-import AddArtist from '../../pages/AddArtist';
-import AddAlbum from '../../pages/AddAlbum';
-import AddSong from '../../pages/AddSong';
-import Artist from '../../pages/Artist';
-import Album from '../../pages/Album';
-import Song from '../../pages/Song';
+import Home from '../Home';
+import Main from '../Main';
+import Artists from '../Artists';
+import AddArtist from '../AddArtist';
+import AddAlbum from '../AddAlbum';
+import AddSong from '../AddSong';
+import Artist from '../Artist';
+import Album from '../Album';
+import Song from '../Song';
 // Css
 import 'font-awesome/css/font-awesome.css';
 import './App.css';

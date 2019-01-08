@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // import 'bootstrap/dist/css/bootstrap-theme.css';
 import './index.css';
 
-import App from './containers/App';
+import App from './pages/App';
 import registerServiceWorker from './registerServiceWorker';
 
 import rootReducer from './reducers';
