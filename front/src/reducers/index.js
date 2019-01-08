@@ -7,14 +7,16 @@ import alphabet from '../modules/alphabet/reducers';
 import artists from './artists';
 import albums from './albums';
 import songs from './songs';
+import pages from './pages';
 
 export default combineReducers({
-    counter,
-    todos,
-    visibilityFilter,
-    alphabet,
-    artists,
-    albums,
-    songs,
-    form,
+  counter,
+  todos,
+  visibilityFilter,
+  alphabet,
+  artists,
+  albums,
+  songs,
+  pages,
+  form,
 });

@@ -8,19 +8,24 @@ const Axios = axios.create({
 
 export default {
   fetchPages() {
-    return new Promise((resolve) => {
+    return new Promise(resolve => (
       Axios
         .get('pages')
-        .then(response => resolve(response.data));
-    });
+        .then(response => resolve(response.data))
+        .catch(error => console.error(error))
+    ));
   },
 
   fetchPage(slug) {
     return new Promise((resolve) => {
       if (!slug) return resolve({ page: null });
-      Axios
+      return Axios
         .get(`page/${slug}`)
-        .then(response => resolve(response.data));
+        .then(response => resolve(response.data))
+        .catch((error) => {
+          console.error(error);
+          return resolve({});
+        });
     });
   },
 }

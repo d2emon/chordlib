@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   BrowserRouter,
+  Switch,
   Route,
 } from 'react-router-dom';
 // Components
@@ -18,11 +19,13 @@ const App = () => (
   <BrowserRouter>
     <div className="App">
       <Header />
-      <Route exact path="/" component={Main} />
-      <Route path="/home" component={Home} />
-      <Route path="/chords" component={ChordLib} />
-      {/*<Route path="/other" component={Other} />*/}
-      <Route path="/" component={Other} />
+      <Switch>
+        <Route exact path="/" component={Main} />
+        <Route path="/home" component={Home} />
+        <Route path="/chords" component={ChordLib} />
+        {/*<Route path="/other" component={Other} />*/}
+        <Route path="/" component={Other} />
+      </Switch>
     </div>
   </BrowserRouter>
 );
