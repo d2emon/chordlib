@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-  Container,
-  Row,
-  Col,
-  Card, ListGroup, ListGroupItem,
+  ListGroup,
+  ListGroupItem,
 } from 'reactstrap';
-import { markdown } from 'markdown';
 import * as pageActions from '../actions/pageActions';
 
 
