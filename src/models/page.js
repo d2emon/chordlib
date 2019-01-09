@@ -3,6 +3,10 @@ import config from '../config';
 
 const pages = {
   'misheard-lyrics': 'Misheard lyrics',
+  subkultury: 'Субкультуры',
+  skomorohi: 'Скоморохи',
+  'skomorohi-1': 'Скоморохи',
+  skomoroshestvo: 'Скоморошество',
 };
 
 export default {
@@ -26,7 +30,6 @@ export default {
     fs.readFile(`${config.pagesFolder}/${filename}.md`, 'utf8', (err, text) => {
       // if (err) throw err;
       if (err) return reject(err);
-      console.log({ filename, text });
       resolve({ filename, text });
     });
   }),

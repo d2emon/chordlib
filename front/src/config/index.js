@@ -32,6 +32,7 @@ export default {
     },
     {
       title: 'Субкультуры',
+      link: 'subkultury',
     },
   ],
 };
