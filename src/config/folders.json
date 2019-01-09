@@ -1,0 +1,6 @@
+{
+  "folders": {
+    "wiki": "./src/pages",
+    "artists": "./public-data"
+  }
+}

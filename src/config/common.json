@@ -1,6 +1,4 @@
 {
   "port": "4000",
-  "mongo": "mongodb://localhost:27017/chords",
-  "pagesFolder": "./src/pages",
-  "dataFolder": "./public-data"
+  "mongo": "mongodb://localhost:27017/chords"
 }
