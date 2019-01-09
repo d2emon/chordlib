@@ -4,7 +4,6 @@
  * Module dependencies.
  */
 import config from './config';
-console.log(config);
 import app from './app';
 import Debug from 'debug';
 import http from 'http';

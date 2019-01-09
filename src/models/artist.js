@@ -43,14 +43,19 @@ artistSchema.static('findSlugByLetter', function (letter) {
 artistSchema.static('getUnprocessed', function (letter) {
     return new Promise((response, reject) => {
         if (letter === '') return response([]);
-        fs.readdir(config.dataFolder, (err, files) => {
+        const { dataFolder } = config;
+        fs.readdir(dataFolder, (err, files) => {
             this.findSlugByLetter(letter)
                 .then(processed => {
                     const slugs = processed.map(artist => artist.slug);
 
                     files = files.filter(file => !file.startsWith('.'));
                     files = files.filter(file => slugs.indexOf(file) < 0);
-                    files = files.filter(file => fs.lstatSync(`${dataFolder}/${file}`).isDirectory());
+                    try {
+                      files = files.filter(file => fs.lstatSync(`${dataFolder}/${file}`).isDirectory());
+                    } catch (error) {
+                      console.error(error);
+                    }
                     const artists = (letter !== null)
                         ? files.filter(file => file.startsWith(letter))
                         : files;
