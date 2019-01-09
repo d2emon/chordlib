@@ -1,10 +1,11 @@
 import pageService from '../services/page';
 import markdown from '../helpers/markdown';
+import renderSubcultures from '../helpers/subcultures';
 
 const injectHtml = (page) => {
   const getHtml = text => markdown
     .render(text)
-    .replace('{:subculture:}', '');
+    .replace('{{subcultures}}', renderSubcultures());
 
   if (!page) return null;
   const { text } = page;
