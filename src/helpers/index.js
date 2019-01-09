@@ -18,5 +18,6 @@ export function normalizePort(val) {
 }
 
 export function slugToName(slug) {
-  return slug[0].toUpperCase() + slug.substring(1).replace(/-/g, ' ');
+  const words = slug.split('-');
+  return words.map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
 }

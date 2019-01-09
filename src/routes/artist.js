@@ -1,10 +1,8 @@
 import express from 'express';
-import Debug from 'debug';
-import config from '../config';
 import Artist from '../models/artist';
 import { slugToName } from '../helpers';
+import wiki from '../helpers/wiki';
 
-const debug = Debug(config.appName);
 const router = express.Router();
 
 router.get('/:slug', (req, res) => {
@@ -14,22 +12,59 @@ router.get('/:slug', (req, res) => {
     .populate('albums')
     .populate('songs')
     .then((artist) => {
-      debug(artist);
       if (artist) return artist;
-      debug(slugToName(slug));
-
-      return {
-        name: slugToName(slug),
-        slug,
-        unprocessed: true,
-      };
+      const name = slugToName(slug);
+      return wiki
+        .page(name)
+        .then(page => ({
+          name,
+          slug,
+          page,
+          unprocessed: true,
+        }))
+        .catch(() => ({
+          name,
+          slug,
+          unprocessed: true,
+        }));
     })
     .then((artist) => {
-      res.json({ artist });
+      const {
+        page,
+        unprocessed,
+        ...props
+      } = artist;
+      if (!unprocessed || !page) return artist;
+      return Promise.all([
+        // page.info('название'),
+        page.summary(),
+        page.mainImage(),
+        page.info('жанр'),
+        // page.fullInfo(),
+      ])
+        .then((
+          [
+            // title,
+            description,
+            image,
+            genres,
+            // info,
+          ],
+        ) => ({
+          ...props,
+          name: page.raw.title,
+          wikiLink: page.raw.fullurl,
+          // title,
+          description,
+          image,
+          genres,
+          // info,
+          // raw: page.raw,
+          unprocessed: true,
+        }));
     })
-    .catch((error) => {
-      res.status(500).json({ error });
-    });
+    .then(artist => res.json({ artist }))
+    .catch(error => res.status(500).json({ error: error.toString() }));
 });
 
 router.post('/', (req, res) => {
