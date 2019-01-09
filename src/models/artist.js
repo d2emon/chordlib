@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import fs from 'fs';
 import config from '../config';
+import wiki from '../helpers/wiki';
+import { slugToName } from '../helpers';
 
 const artistSchema = mongoose.Schema({
   name: String,
@@ -65,6 +67,56 @@ artistSchema.static('getUnprocessed', function getUnprocessed(letter) {
     });
   });
 });
+
+artistSchema.static('slugToName', slug => slugToName(slug));
+
+artistSchema.static('findInWikipedia', slug => wiki
+  .page(slugToName(slug))
+  .then(page => ({
+    name: slugToName(slug),
+    slug,
+    page,
+    unprocessed: true,
+  }))
+  .catch(() => ({
+    name: slugToName(slug),
+    slug,
+    unprocessed: true,
+  }))
+  .then((artist) => {
+    const {
+      page,
+      ...props
+    } = artist;
+    if (!page) return artist;
+    return Promise.all([
+      // page.info('название'),
+      page.summary(),
+      page.mainImage(),
+      page.info('жанр'),
+      // page.fullInfo(),
+    ])
+      .then((
+        [
+          // title,
+          description,
+          image,
+          genres,
+          // info,
+        ],
+      ) => ({
+        ...props,
+        name: page.raw.title,
+        wikiLink: page.raw.fullurl,
+        // title,
+        description,
+        image,
+        genres,
+        // info,
+        // raw: page.raw,
+        unprocessed: true,
+      }));
+  }));
 
 artistSchema.set('toJSON', {
   virtuals: true,
