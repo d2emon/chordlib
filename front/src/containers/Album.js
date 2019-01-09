@@ -20,8 +20,8 @@ import {
     NavbarBrand,
     Nav,
 } from 'reactstrap';
-import { markdown } from 'markdown';
 import FontAwesome from 'react-fontawesome';
+import markdown from '../helpers/markdown';
 import EditAlbum from './EditAlbum';
 import { findAlbum } from '../actions/albumActions';
 
@@ -95,7 +95,7 @@ class Album extends Component {
                         <CardBody>
                             {/* <CardImg top width="50%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */ }
                             {album.description && (
-                                <CardText dangerouslySetInnerHTML={{__html: markdown.toHTML(album.description)}} />
+                                <CardText dangerouslySetInnerHTML={{__html: markdown.render(album.description)}} />
                             )}
                             <Card>
                                 <CardHeader>

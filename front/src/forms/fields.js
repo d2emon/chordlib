@@ -7,7 +7,7 @@ import {
     Label,
     Row,
 } from 'reactstrap';
-import {markdown} from "markdown";
+import markdown from '../helpers/markdown';
 
 export const InputField = ({
     input,
@@ -56,7 +56,7 @@ export const EditorField = ({
 }) => {
     const { onChange } = input;
     const handleChange = e => onChange(e);
-    const rawHTML = markdown.toHTML(input.value);
+    const rawHTML = markdown.render(input.value);
     return (
         <FormGroup className={asyncValidating ? 'async-validating' : ''}>
             {label && <Label for={input.name}>{label}</Label>}

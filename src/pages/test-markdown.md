@@ -1,56 +1,3 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-} from 'reactstrap';
-import markdown from '../helpers/markdown';
-import * as pageActions from '../actions/pageActions';
-
-
-class WikiPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      page: null,
-    };
-  }
-
-  static get defaultProps() {
-    return {
-      slug: '',
-      page: null,
-      getPage: null,
-    };
-  }
-
-  static get propTypes() {
-    return {
-      slug: PropTypes.string,
-      page: PropTypes.shape({
-        text: PropTypes.string,
-      }),
-      getPage: PropTypes.func,
-    };
-  }
-
-  componentWillMount() {
-    const { slug, getPage } = this.props;
-    getPage(slug);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { page } = nextProps;
-    /*
-    this.setState({
-      page: page ? markdown.render(page.text) : null,
-    });
-     */
-    const text = `
 ---
 __Advertisement :)__
 
@@ -120,7 +67,7 @@ _This is italic text_
 
 Unordered
 
-+ Create a list by starting a line with \`+\`, \`-\`, or \`*\`
++ Create a list by starting a line with `+`, `-`, or `*`
 + Sub-lists are made by indenting 2 spaces:
   - Marker character change forces new list start:
     * Ac tristique libero volutpat at
@@ -136,7 +83,7 @@ Ordered
 
 
 1. You can use sequential numbers...
-1. ...or keep all the numbers as \`1.\`
+1. ...or keep all the numbers as `1.`
 
 Start numbering with offset:
 
@@ -146,7 +93,7 @@ Start numbering with offset:
 
 ## Code
 
-Inline \`code\`
+Inline `code`
 
 Indented code
 
@@ -158,19 +105,19 @@ Indented code
 
 Block code "fences"
 
-\`\`\`
+```
 Sample text here...
-\`\`\`
+```
 
 Syntax highlighting
 
-\`\`\` js
+``` js
 var foo = function (bar) {
   return bar++;
 };
 
 console.log(foo(5));
-\`\`\`
+```
 
 ## Tables
 
@@ -214,7 +161,7 @@ With a reference later in the document defining the URL location:
 
 ## Plugins
 
-The killer feature of \`markdown-it\` is very effective support of
+The killer feature of `markdown-it` is very effective support of
 [syntax plugins](https://www.npmjs.org/browse/keyword/markdown-it-plugin).
 
 
@@ -233,12 +180,12 @@ see [how to change output](https://github.com/markdown-it/markdown-it-emoji#chan
 - H~2~O
 
 
-### [\\<ins>](https://github.com/markdown-it/markdown-it-ins)
+### [\<ins>](https://github.com/markdown-it/markdown-it-ins)
 
 ++Inserted text++
 
 
-### [\\<mark>](https://github.com/markdown-it/markdown-it-mark)
+### [\<mark>](https://github.com/markdown-it/markdown-it-mark)
 
 ==Marked text==
 
@@ -298,37 +245,3 @@ It converts "HTML", but keep intact partial entries like "xxxHTMLyyy" and so on.
 ::: warning
 *here be dragons*
 :::
-`;
-    this.setState({
-      // page: page ? markdown.render(text) : null,
-      page: page ? markdown.render(page.text) : null,
-    });
-  }
-
-  render() {
-    const { page } = this.state;
-    if (!page) return <h1>Идет загрузка...</h1>;
-    return (
-      <Container>
-        <Row>
-          <Col>
-            <Card dangerouslySetInnerHTML={{ __html: page }} />
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  getPage: slug => dispatch(pageActions.getPage(slug)),
-});
-
-const mapStateToProps = state => ({
-  page: state.pages.page,
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(WikiPage);

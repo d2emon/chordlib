@@ -7,14 +7,14 @@ import {
   ListGroup,
   ListGroupItem,
 } from 'reactstrap';
-import { markdown } from 'markdown';
+import markdown from '../helpers/markdown';
 import Logo from '../components/Logo';
 import config from '../config';
 
 const Main = () => {
   const { title, description, pages } = config;
   const html = description
-    ? markdown.toHTML(description)
+    ? markdown.render(description)
     : false;
   return (
     <Container>

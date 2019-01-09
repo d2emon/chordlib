@@ -20,8 +20,8 @@ import {
     NavbarBrand,
     Nav,
 } from 'reactstrap';
-import { markdown } from 'markdown';
 import FontAwesome from 'react-fontawesome';
+import markdown from '../helpers/markdown';
 import EditSong from './EditSong';
 import { findSong } from '../actions/songActions';
 
@@ -96,7 +96,7 @@ class Song extends Component {
                         <CardBody>
                             {/* <CardImg top width="50%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */ }
                             {song.description && (
-                                <CardText dangerouslySetInnerHTML={{__html: markdown.toHTML(song.description)}} />
+                                <CardText dangerouslySetInnerHTML={{__html: markdown.render(song.description)}} />
                             )}
                             <Card>
                                 {/*<CardHeader>
