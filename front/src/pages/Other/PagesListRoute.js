@@ -10,7 +10,7 @@ const PagesListRoute = () => (
   <Container>
     <Row>
       <Col>
-        <h1 className="display-1 text-center">Разное</h1>
+        <h1 className="display-1 text-center">Вики-страницы</h1>
       </Col>
     </Row>
     <Row>

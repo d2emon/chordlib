@@ -1,10 +1,3 @@
-const pages = [
-  {
-    title: 'Misheard lyrics',
-    link: '/misheard',
-  },
-];
-
 export default {
   title: 'Музыка',
   description: 'Я люблю музыку. Почему бы не хранить здесь то, что каким-то образом касается этого искусства.',
@@ -16,28 +9,23 @@ export default {
     },
     {
       title: 'Инструменты',
-      subpages: [
+      subPages: [
         { title: 'Гитара' },
         { title: 'Мандолина' },
       ],
     },
     {
       title: 'Стили',
-      subpages: [
+      subPages: [
         { title: 'Попса' },
         { title: 'Русский Рок' },
       ],
     },
     {
       title: 'Списки',
-      subpages: [
+      subPages: [
         { title: '100 лучших рок-альбомов' },
       ],
-    },
-    {
-      title: 'Разное',
-      link: '/other',
-      subpages: pages,
     },
     {
       title: 'Каверы',
@@ -46,5 +34,4 @@ export default {
       title: 'Субкультуры',
     },
   ],
-  wiki: pages,
 };
