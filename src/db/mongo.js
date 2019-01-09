@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
+import config from '../config';
 
-const mongo_url = 'mongodb://mongo/chords';
-
-export const connect = mongoose.connect(mongo_url, { useNewUrlParser: true });
+export const connect = mongoose.connect(config.mongo, { useNewUrlParser: true });
 
 const db = mongoose.connection;
 

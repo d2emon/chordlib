@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+import config from './config';
 import app from './app';
 import Debug from 'debug';
 import http from 'http';
@@ -12,7 +13,7 @@ const debug = Debug('chordlib:server');
 /**
  * Get port from environment and store in Express.
  */
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || config.port);
 app.set('port', port);
 
 /**
