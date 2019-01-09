@@ -2,12 +2,9 @@ import express from 'express';
 import Artist from '../models/artist';
 import { getLetter } from '../models/letters';
 import Page from '../models/page';
+import { slugToName } from '../helpers';
 
 const router = express.Router();
-
-function slugToName(slug) {
-  return slug[0].toUpperCase() + slug.substring(1).replace(/-/g, ' ');
-}
 
 class ArtistsHandler {
   constructor(req, res) {

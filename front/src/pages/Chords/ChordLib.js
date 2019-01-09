@@ -27,16 +27,16 @@ const ChordLib = () => (
     <Row>
       <Col>
         <Route exact path="/chords" component={Home} />
-        <Route path="/chords/artists/:language/:letter" component={Artists} />
-        <Route exact path="/chords/artists/:special" component={Artists} />
-        <Route path="/chords/add-artist" component={AddArtist} />
-        <Route path="/chords/add-album" component={AddAlbum} />
-        <Route path="/chords/artist/:artist/add-album" component={AddAlbum} />
-        <Route exact path="/chords/artist/:artist" component={Artist} />
-        <Route path="/chords/album/:artist/:album" component={Album} />
-        <Route exact path="/chords/album/:album" component={Album} />
-        <Route path="/chords/song/:song" component={Song} />
-        <Route path="/chords/add-song" component={AddSong} />
+        <Route path="/artists/:language/:letter" component={Artists} />
+        <Route exact path="/artists/:special" component={Artists} />
+        <Route path="/add-artist" component={AddArtist} />
+        <Route path="/add-album" component={AddAlbum} />
+        <Route path="/artist/:artist/add-album" component={AddAlbum} />
+        <Route exact path="/artist/:artist" component={Artist} />
+        <Route path="/album/:artist/:album" component={Album} />
+        <Route exact path="/album/:album" component={Album} />
+        <Route path="/song/:song" component={Song} />
+        <Route path="/add-song" component={AddSong} />
       </Col>
     </Row>
   </Container>

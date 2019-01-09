@@ -23,8 +23,10 @@ const App = () => (
         <Route exact path="/" component={Main} />
         <Route path="/home" component={Home} />
         <Route path="/chords" component={ChordLib} />
-        {/*<Route path="/other" component={Other} />*/}
-        <Route path="/" component={Other} />
+        <Route path="/artists" component={ChordLib} />
+        <Route path="/artist" component={ChordLib} />
+        { /*<Route path="/" component={Other} />*/ }
+        <Route component={Other} />
       </Switch>
     </div>
   </BrowserRouter>
