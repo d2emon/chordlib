@@ -1,4 +1,5 @@
 export default {
+  mongo: 'mongodb://localhost:27017/chords',
   pagesFolder: './src/pages',
   dataFolder: './public-data',
   letters: {
