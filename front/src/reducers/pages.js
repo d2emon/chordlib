@@ -1,11 +1,7 @@
 const initialState = {
-  errors: {},
-
   pages: null,
-  pagesLoaded: false,
-
   page: null,
-  pageLoaded: false,
+  error: null,
 };
 
 
@@ -14,26 +10,32 @@ export default (state = initialState, action) => {
     case 'REQUEST_PAGES':
       return {
         ...state,
-        pagesLoaded: false,
         pages: null,
+        error: null,
       };
     case 'RECEIVE_PAGES':
       return {
         ...state,
-        pagesLoaded: true,
         pages: action.pages,
+        error: null,
       };
     case 'REQUEST_PAGE':
       return {
         ...state,
-        pageLoaded: false,
         page: null,
+        error: null,
       };
     case 'RECEIVE_PAGE':
       return {
         ...state,
-        pageLoaded: true,
         page: action.page,
+        error: null,
+      };
+    case 'RECEIVE_ERROR':
+      return {
+        ...state,
+        page: null,
+        error: action.error.toString(),
       };
     default:
       return state;

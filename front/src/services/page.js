@@ -5,27 +5,27 @@ const Axios = axios.create({
   baseURL: Config.apiURL,
 });
 
-
 export default {
   fetchPages() {
-    return new Promise(resolve => (
+    return new Promise((resolve, reject) => (
       Axios
         .get('pages')
-        .then(response => resolve(response.data))
-        .catch(error => console.error(error))
+        .then(response => response.data)
+        // .then(response => (response.page ? response.page : {}))
+        .then(response => resolve(response))
+        .catch(error => reject(error))
     ));
   },
 
   fetchPage(slug) {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       if (!slug) return resolve({ page: null });
       return Axios
         .get(`page/${slug}`)
-        .then(response => resolve(response.data))
-        .catch((error) => {
-          console.error(error);
-          return resolve({});
-        });
+        .then(response => response.data)
+        .then(response => (response.page ? response.page : {}))
+        .then(response => resolve(response))
+        .catch(error => reject(error));
     });
   },
 }

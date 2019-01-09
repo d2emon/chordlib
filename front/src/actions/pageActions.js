@@ -1,8 +1,22 @@
 import pageService from '../services/page';
+import markdown from '../helpers/markdown';
+
+const injectHtml = (page) => {
+  const getHtml = text => markdown
+    .render(text)
+    .replace('{:subculture:}', '');
+
+  if (!page) return null;
+  const { text } = page;
+  if (!text) return page;
+  return {
+    ...page,
+    html: getHtml(text),
+  };
+};
 
 const requestPages = () => ({
   type: 'REQUEST_PAGES',
-  pages: null,
 });
 
 const receivePages = pages => ({
@@ -12,7 +26,6 @@ const receivePages = pages => ({
 
 const requestPage = () => ({
   type: 'REQUEST_PAGE',
-  page: null,
 });
 
 const receivePage = page => ({
@@ -20,20 +33,26 @@ const receivePage = page => ({
   page,
 });
 
+const receiveError = error => ({
+  type: 'RECEIVE_ERROR',
+  error,
+});
+
 export const getPagesList = () => (dispatch) => {
   dispatch(requestPages());
   return pageService
     .fetchPages()
-    .then(response => response)
-    .catch(error => console.error('An error occurred.', error))
-    .then(response => dispatch(receivePages(response.pages)));
+    .then(response => dispatch(receivePages(response.pages)))
+    .catch(error => dispatch(receiveError(error)));
 };
 
 export const getPage = page => (dispatch) => {
   dispatch(requestPage());
   return pageService
     .fetchPage(page)
-    .then(response => response)
-    .catch(error => console.error('An error occurred.', error))
-    .then(response => dispatch(receivePage(response.page)));
+    // .then(logResponse('Page'))
+    .then(injectHtml)
+    // .then(logResponse('With html'))
+    .then(response => dispatch(receivePage(response)))
+    .catch(error => dispatch(receiveError(error)));
 };
