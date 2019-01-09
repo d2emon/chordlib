@@ -1,11 +1,11 @@
 import common from './common';
-import api from './api';
-import pages from './pages';
+import letters from './letters';
 import override from './override/index';
+
+console.log(override);
 
 export default {
   ...common,
-  ...api,
-  ...pages,
+  ...letters,
   ...override,
 };
