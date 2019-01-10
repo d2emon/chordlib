@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import fs from 'fs';
 import config from '../config';
 import wiki from '../helpers/wiki';
 import { slugToName } from '../helpers';
+import { getFoldersByLetter } from '../helpers/folders';
 
 const artistSchema = mongoose.Schema({
   name: String,
@@ -45,26 +45,14 @@ artistSchema.static('findSlugByLetter', function findSlugByLetter(letter) {
 artistSchema.static('getUnprocessed', function getUnprocessed(letter) {
   return new Promise((resolve) => {
     if (letter === '') return resolve([]);
-    const { artists } = config.folders;
-    return fs.readdir(artists, (err, files) => {
-      this.findSlugByLetter(letter)
-        .then((processed) => {
-          const slugs = processed.map(artist => artist.slug);
-          const unprocessed = files
-            .filter(file => !file.startsWith('.'))
-            .filter(file => slugs.indexOf(file) < 0)
-            .filter((file) => {
-              try {
-                return fs.lstatSync(`${artists}/${file}`).isDirectory();
-              } catch (error) {
-                console.error(error);
-                return file;
-              }
-            })
-            .filter(file => ((letter !== null) ? file.startsWith(letter) : file));
-          return resolve(unprocessed);
-        });
-    });
+    const { artistsPages } = config.folders;
+    return getFoldersByLetter(artistsPages, letter)
+      .then(files => (
+        this.findSlugByLetter(letter)
+          .then(artists => artists.map(artist => artist.slug))
+          .then(artists => files.filter(file => artists.indexOf(file) < 0))
+      ))
+      .then(resolve);
   });
 });
 
