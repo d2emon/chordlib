@@ -4,5 +4,5 @@ services:
     volumes:
       - ./src:/usr/www/src
       - ./public:/usr/www/public
-      - ./public-data:/usr/www/public-data
-      - ./pages:/usr/www/pages
+      - ./files/public-data:/usr/www/public-data
+      - ./files/pages:/usr/www/pages
