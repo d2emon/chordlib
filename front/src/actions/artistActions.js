@@ -75,7 +75,7 @@ export const validateArtist = values => (dispatch) => {
   return dispatch(getArtist(slug))
     .then((response) => {
       const artist = response && response.artist;
-      const unique = !id && (artist !== null);
+      const unique = !id && (artist !== null) && (artist.unprocessed);
       if (!unique) errors.slug = 'Введите уникальное значение';
       return dispatch(validatedArtist(errors));
     });
@@ -110,6 +110,6 @@ export const getSlug = (name, id) => (dispatch) => {
   const nextId = id ? id + 1 : 1;
   const slug = slugify(name, id);
   return dispatch(getArtist(slug))
-    .then(response => response && response.artist)
+    .then(response => response && response.artist && !response.artist.unprocessed)
     .then(response => (response ? dispatch(getSlug(name, nextId)) : slug));
 };
