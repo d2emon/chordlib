@@ -70,16 +70,16 @@ artistSchema.static('getUnprocessed', function getUnprocessed(letter) {
 
 artistSchema.static('slugToName', slug => slugToName(slug));
 
-artistSchema.static('findInWikipedia', slug => wiki
-  .page(slugToName(slug))
+artistSchema.static('findInWikipedia', ({ name, slug }) => wiki
+  .page(name)
   .then(page => ({
-    name: slugToName(slug),
+    name,
     slug,
     page,
     unprocessed: true,
   }))
   .catch(() => ({
-    name: slugToName(slug),
+    name,
     slug,
     unprocessed: true,
   }))

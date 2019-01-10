@@ -11,8 +11,18 @@ router.get('/:slug', (req, res) => {
     .populate('songs')
     .then((artist) => {
       if (artist) return artist;
-      return Artist.findInWikipedia(slug);
+      const name = Artist.slugToName(slug);
+      return Artist.findInWikipedia({ name, slug });
     })
+    .then(artist => res.json({ artist }))
+    .catch(error => res.status(500).json({ error: error.toString() }));
+});
+
+router.get('/wikipedia/:name', (req, res) => {
+  const { name } = req.params;
+  // const slug = name;
+  Artist
+    .findInWikipedia({ name })
     .then(artist => res.json({ artist }))
     .catch(error => res.status(500).json({ error: error.toString() }));
 });

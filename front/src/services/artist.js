@@ -26,6 +26,22 @@ export default {
         });
     },
 
+    findInWikipedia(name) {
+        return new Promise((resolve, reject) => {
+            Axios.get(`artist/wikipedia/${name}`)
+                .then(response => {
+                  console.log(response);
+                  return response;
+                })
+                .then(response => response.data)
+                .then(response => {
+                    console.log(response);
+                    return response;
+                })
+                .then(response => resolve(response ? response.artist : null));
+        });
+    },
+
     addArtist (artist) {
         return new Promise((resolve, reject) => {
             Axios.post(`artist/`, artist)
