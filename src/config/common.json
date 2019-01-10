@@ -1,5 +1,5 @@
 {
   "appName": "chordlib:server",
   "port": "4000",
-  "mongo": "mongodb://localhost:27017/chords"
+  "mongo": "mongodb://mongo/chords"
 }

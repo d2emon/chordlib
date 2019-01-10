@@ -1,6 +1,6 @@
 {
   "folders": {
-    "wiki": "./src/pages",
+    "wiki": "./pages/wiki",
     "artists": "./public-data"
   }
 }

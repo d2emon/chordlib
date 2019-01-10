@@ -12,7 +12,7 @@ services:
     restart: always
     build: ./
     environment:
-      DEBUG: emelomix:*
+      DEBUG: chordlib:*
       PORT: 4000
     ports:
     - "4000:4000"
