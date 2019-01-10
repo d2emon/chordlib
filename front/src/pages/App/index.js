@@ -11,6 +11,8 @@ import Home from '../Chords/Home';
 import Main from '../Main';
 import ChordLib from '../Chords/ChordLib';
 import Other from '../Other';
+// Config
+import config from '../../config';
 // Css
 import 'font-awesome/css/font-awesome.css';
 import './App.css';
@@ -18,14 +20,13 @@ import './App.css';
 const App = () => (
   <BrowserRouter>
     <div className="App">
-      <Header />
+      <Header title={config.title} />
       <Switch>
         <Route exact path="/" component={Main} />
         <Route path="/home" component={Home} />
         <Route path="/chords" component={ChordLib} />
         <Route path="/artists" component={ChordLib} />
         <Route path="/artist" component={ChordLib} />
-        { /*<Route path="/" component={Other} />*/ }
         <Route component={Other} />
       </Switch>
     </div>

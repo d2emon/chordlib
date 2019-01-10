@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Navbar,
@@ -7,7 +8,6 @@ import {
   Collapse,
 } from 'reactstrap';
 import MainMenu from '../containers/MainMenu';
-import config from '../config';
 
 class Header extends Component {
   constructor(props) {
@@ -16,8 +16,19 @@ class Header extends Component {
     this.toggle = this.toggle.bind(this);
 
     this.state = {
-      title: config.title,
       isOpen: false,
+    };
+  }
+
+  static get defaultProps() {
+    return {
+      title: 'Chordlib',
+    };
+  }
+
+  static get propTypes() {
+    return {
+      title: PropTypes.string,
     };
   }
 
@@ -29,7 +40,8 @@ class Header extends Component {
   }
 
   render() {
-    const { title, isOpen } = this.state;
+    const { title } = this.props;
+    const { isOpen } = this.state;
     return (
       <Navbar color="dark" dark expand="md">
         <NavbarBrand tag={Link} to="/">{title}</NavbarBrand>
