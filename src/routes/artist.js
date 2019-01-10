@@ -29,6 +29,14 @@ router.get('/:slug', (req, res) => {
         artist.pages = artist.pages.concat(files);
         return artist;
       }))
+    .then(artist => Artist
+      .descriptionFile(slug)
+      .then(description => {
+        console.log(description);
+        if (!description) return artist;
+        if (!artist.description) artist.description = description.text;
+        return artist;
+      }))
     .then(artist => res.json({ artist }))
     .catch(error => res.status(500).json({ error: error.toString() }));
 });
