@@ -2,10 +2,8 @@ import React, {Component, Fragment} from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import {
-  Button,
-} from 'reactstrap';
 import WikipediaButton from '../components/WikipediaButton';
+import ArtistCard from '../components/ArtistCard';
 import ArtistForm from '../forms/ArtistForm';
 import * as artistActions from '../actions/artistActions';
 
@@ -42,6 +40,7 @@ class EditArtist extends Component {
         return (
             <Fragment>
                 <WikipediaButton onClick={this.onWiki} />
+                {this.props.wikipedia && <ArtistCard artist={this.props.wikipedia} />}
                 <ArtistForm
                   initialValues={this.props.artist}
                   onSubmit={this.onSubmit}

@@ -94,6 +94,7 @@ artistSchema.static('findInWikipedia', ({ name, slug }) => wiki
       page.summary(),
       page.mainImage(),
       page.info('жанр'),
+      page.info('жанры'),
       // page.fullInfo(),
     ])
       .then((
@@ -101,6 +102,7 @@ artistSchema.static('findInWikipedia', ({ name, slug }) => wiki
           // title,
           description,
           image,
+          genre,
           genres,
           // info,
         ],
@@ -111,6 +113,7 @@ artistSchema.static('findInWikipedia', ({ name, slug }) => wiki
         // title,
         description,
         image,
+        genre,
         genres,
         // info,
         // raw: page.raw,
