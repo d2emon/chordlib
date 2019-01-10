@@ -73,9 +73,8 @@ export const EditorField = ({
                     />
                     {touched && error && <FormFeedback>{error}</FormFeedback>}
                 </Col>
-                <Col dangerouslySetInnerHTML={{__html: rawHTML}} />
+                <Col className="markdown-preview" dangerouslySetInnerHTML={{__html: rawHTML}} />
             </Row>
         </FormGroup>
     );
 };
-
