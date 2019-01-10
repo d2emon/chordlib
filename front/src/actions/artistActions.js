@@ -1,81 +1,98 @@
-import slugify from 'slugify';
+import slugify from '../helpers/slugify';
 import artistService from '../services/artist';
 
-function requestArtists() {
-  return {
-    type: 'REQUEST_ARTISTS',
-  };
-}
+const requestArtists = () => ({
+  type: 'REQUEST_ARTISTS',
+});
 
-function receiveArtists({ artists, title }) {
-  return {
-    type: 'RECEIVE_ARTISTS',
-    artists,
-    title,
-  };
-}
+const receiveArtists = ({ title, artists }) => ({
+  type: 'RECEIVE_ARTISTS',
+  title,
+  artists,
+});
 
-function requestArtist() {
-  return {
-    type: 'REQUEST_ARTIST',
-  };
-}
+const requestArtist = () => ({
+  type: 'REQUEST_ARTIST',
+});
 
-function receiveArtist(artist) {
-  return {
-    type: 'RECEIVE_ARTIST',
-    artist,
-  };
-}
+const receiveArtist = artist => ({
+  type: 'RECEIVE_ARTIST',
+  artist,
+});
 
-function validatedArtist(errors) {
-  return {
-    type: 'VALIDATE_ARTIST',
-    errors,
-  };
-}
+const requestWikipedia = () => ({
+  type: 'REQUEST_WIKIPEDIA',
+});
 
-function requestWikipedia() {
-  return {
-    type: 'REQUEST_WIKIPEDIA',
-  };
-}
+const receiveWikipedia = wikipedia => ({
+  type: 'RECEIVE_WIKIPEDIA',
+  wikipedia,
+});
 
-function receiveWikipedia(wikipedia) {
-  return {
-    type: 'RECEIVE_WIKIPEDIA',
-    wikipedia,
-  };
-}
+const validatedArtist = errors => ({
+  type: 'VALIDATED_ARTIST',
+  errors,
+});
 
+const receiveError = error => ({
+  type: 'RECEIVE_ERROR',
+  error,
+});
+
+// export const getArtistsList = () => (dispatch) => {
 export const fetchArtists = query => (dispatch) => {
   dispatch(requestArtists());
-
-  return artistService.fetchArtists(query)
-    .then(
-      response => response,
-      error => console.log('An error occurred.', error),
-    )
-    .then(
-      artists => dispatch(receiveArtists(artists)),
-    );
+  return artistService
+    .fetchArtists(query)
+    // .then(response => dispatch(receiveArtists(response.pages)))
+    .then(artists => dispatch(receiveArtists(artists)))
+    .catch(error => dispatch(receiveError(error)));
 };
 
+// export const getArtist = artist => (dispatch) => {
+export const findArtist = artist => (dispatch) => {
+  dispatch(requestArtist());
+  return artistService
+    .fetchArtist(artist)
+    // .then(injectHtml)
+    // .then(response => dispatch(receiveArtist(response)))
+    .then(response => dispatch(receiveArtist(response.artist)))
+    .catch(error => dispatch(receiveError(error)));
+};
+
+export const findInWikipedia = artist => (dispatch) => {
+  dispatch(requestWikipedia());
+  return artistService
+    .findInWikipedia(artist)
+    .then(response => dispatch(receiveWikipedia(response)))
+    .catch(error => dispatch(receiveError(error)));
+};
+
+export const validateArtist = values => (dispatch) => {
+  const { id, name, slug } = values;
+  const errors = {};
+  if (!name || name.length <= 0) errors.name = 'Поле не может быть пустым';
+  if (!slug || slug.length <= 0) errors.slug = 'Поле не может быть пустым';
+  // const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return dispatch(findArtist(slug))
+    .then((response) => {
+      const artist = response && response.artist;
+      const unique = !id && (artist !== null);
+      if (!unique) errors.slug = 'Введите уникальное значение';
+      return dispatch(validatedArtist(errors));
+    });
+};
 
 export const addArtist = values => dispatch => dispatch(validateArtist(values))
   .then(({ errors }) => {
     if (Object.keys(errors).length > 0) return dispatch(validatedArtist(errors));
     dispatch(requestArtists());
-    artistService.addArtist(values)
-      .then(
-        response => response,
-        error => console.log('An error occurred.', error),
-      )
-      .then(
-        artists => dispatch(receiveArtists(artists)),
-      );
+    return artistService
+      .addArtist(values)
+      // .then(response => dispatch(receiveArtists(response.pages)))
+      .then(artists => dispatch(receiveArtists(artists)))
+      .catch(error => dispatch(receiveError(error)));
   });
-
 
 export const updateArtist = values => (dispatch) => {
   if (!values.id) return dispatch(addArtist(values));
@@ -83,69 +100,18 @@ export const updateArtist = values => (dispatch) => {
     .then(({ errors }) => {
       if (Object.keys(errors).length > 0) return dispatch(validatedArtist(errors));
       dispatch(requestArtists());
-      artistService.updateArtist(values)
-        .then(
-          response => response,
-          error => console.log('An error occurred.', error),
-        )
-        .then(
-          artists => dispatch(receiveArtists(artists)),
-        );
+      return artistService
+        .updateArtist(values)
+        // .then(response => dispatch(receiveArtists(response.pages)))
+        .then(artists => dispatch(receiveArtists(artists)))
+        .catch(error => dispatch(receiveError(error)));
     });
 };
 
-export const findArtist = artist => (dispatch) => {
-  dispatch(requestArtist());
-
-  return artistService.fetchArtist(artist)
-    .then(
-      response => response,
-      error => console.log('An error occurred.', error),
-    )
-    .then(
-      response => dispatch(receiveArtist(response.artist)),
-    );
-};
-
-export const findInWikipedia = artist => (dispatch) => {
-  dispatch(requestWikipedia());
-
-  return artistService.findInWikipedia(artist)
-    .then(
-      response => response,
-      error => console.log('An error occurred.', error),
-    )
-    .then(
-      response => dispatch(receiveWikipedia(response)),
-    );
-};
-
-
-export const validateArtist = values => (dispatch) => {
-  const { id, name, slug } = values;
-  const errors = {};
-  if (!name || name.length <= 0) errors.name = 'Поле не может быть пустым';
-  if (!slug || slug.length <= 0) errors.slug = 'Поле не может быть пустым';
-  return dispatch(findArtist(slug))
-    .then(
-      (response) => {
-        /*
-                const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                 */
-        const artist = response && response.artist;
-        if (!id && (artist !== null)) errors.slug = 'Введите уникальное значение';
-        return dispatch(validatedArtist(errors));
-      },
-    );
-};
-
 export const getSlug = (name, id) => (dispatch) => {
-  id = id || '';
-  const slug = name
-    ? slugify(name, { remove: /[*+~.()'"!:@ьъ№]/g }).toLowerCase() + id
-    : '';
+  const nextId = id ? id + 1 : 1;
+  const slug = slugify(name, id);
   return dispatch(findArtist(slug))
-    .then(response => (response && response.artist
-      ? dispatch(getSlug(name, id ? id + 1 : 1))
-      : slug));
+    .then(response => response && response.artist)
+    .then(response => (response ? dispatch(getSlug(name, nextId)) : slug));
 };

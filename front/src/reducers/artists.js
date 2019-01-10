@@ -4,6 +4,7 @@ const initialState = {
     artist: null,
     wikipedia: null,
     errors: {},
+    error: null,
     isLoad: false,
 
     isFetching: false,
@@ -66,6 +67,12 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 errors: action.errors,
+            };
+        case 'RECEIVE_ERROR':
+            return {
+                ...state,
+                page: null,
+                error: action.error.toString(),
             };
         default:
             return state

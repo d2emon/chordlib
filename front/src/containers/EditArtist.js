@@ -18,20 +18,17 @@ class EditArtist extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
+    componentWillUpdate(nextProps) {
         const { artist, wikipedia } = nextProps;
-        console.log(wikipedia);
-        if (wikipedia) {
-            const { name, description } = wikipedia;
-            console.log(artist, { name, description });
-            artist.name = name;
+        if (wikipedia && (wikipedia !== this.props.wikipedia)) {
+            const { description } = wikipedia;
+            // artist.name = name;
             artist.description = description;
         }
     }
 
     onWiki() {
         const { artist, findArtist } = this.props;
-        console.log(encodeURIComponent(artist.name));
         findArtist(encodeURIComponent(artist.name));
     }
 
