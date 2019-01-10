@@ -1,18 +1,12 @@
 import fs from 'fs';
 import config from '../config';
 
-const { wiki } = config.folders;
-const pageTitles = {
-  'misheard-lyrics': 'Misheard lyrics',
-  subkultury: 'Субкультуры',
-  skomorohi: 'Скоморохи',
-  'skomorohi-1': 'Скоморохи',
-  skomoroshestvo: 'Скоморошество',
-  'test-markdown': 'Test markdown',
-};
+const { folders, pageTitles } = config;
+const { wiki } = folders;
+
 const pageData = (link, text) => ({
   title: pageTitles[link] || link,
-  link,
+  link: `/${link}`,
   text,
 });
 
