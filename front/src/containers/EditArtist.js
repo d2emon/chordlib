@@ -5,10 +5,9 @@ import { connect } from 'react-redux';
 import {
   Button,
 } from 'reactstrap';
+import WikipediaButton from '../components/WikipediaButton';
 import ArtistForm from '../forms/ArtistForm';
 import * as artistActions from '../actions/artistActions';
-
-import wikipediaLogo from '../assets/wikipedia.svg';
 
 class EditArtist extends Component {
     constructor(props) {
@@ -42,9 +41,7 @@ class EditArtist extends Component {
     render () {
         return (
             <Fragment>
-                <Button onClick={this.onWiki}>
-                    <img src={wikipediaLogo} width="32" alt="wikipedia" /> Wikipedia
-                </Button>
+                <WikipediaButton onClick={this.onWiki} />
                 <ArtistForm
                   initialValues={this.props.artist}
                   onSubmit={this.onSubmit}
