@@ -3,6 +3,14 @@ import Artist from '../models/artist';
 
 const router = express.Router();
 
+router.get('/:slug/page', (req, res) => {
+  const { slug } = req.params;
+  const { page } = req.query;
+  Artist
+    .file(slug, page)
+    .then(file => res.json({ page: file }));
+});
+
 router.get('/:slug', (req, res) => {
   const { slug } = req.params;
   Artist
@@ -14,6 +22,13 @@ router.get('/:slug', (req, res) => {
       const name = Artist.slugToName(slug);
       return Artist.findInWikipedia({ name, slug });
     })
+    // .then(artist => Artist.files(slug).then(files => ({ artist, files })))
+    .then(artist => Artist
+      .files(slug)
+      .then((files) => {
+        artist.pages = artist.pages.concat(files);
+        return artist;
+      }))
     .then(artist => res.json({ artist }))
     .catch(error => res.status(500).json({ error: error.toString() }));
 });

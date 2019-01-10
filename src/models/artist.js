@@ -2,12 +2,13 @@ import mongoose from 'mongoose';
 import config from '../config';
 import wiki from '../helpers/wiki';
 import { slugToName } from '../helpers';
-import { getFoldersByLetter } from '../helpers/folders';
+import { getFiles, getFoldersByLetter, getFile } from '../helpers/folders';
 
 const artistSchema = mongoose.Schema({
   name: String,
   slug: String,
   description: String,
+  pages: [String],
 });
 
 artistSchema.virtual('albums', {
@@ -108,6 +109,30 @@ artistSchema.static('findInWikipedia', ({ name, slug }) => wiki
         unprocessed: true,
       }));
   }));
+
+artistSchema.static('files', (slug) => {
+  const { artistsPages } = config.folders;
+  return getFiles(`${artistsPages}/${slug}`)
+    .catch(err => {
+      console.error('ERROR', err);
+      return [];
+    });
+});
+
+artistSchema.static('file', (slug, filename) => {
+  const { artistsPages } = config.folders;
+  const fullPath = `${artistsPages}/${slug}/${filename}`;
+  // console.log(fullPath);
+  /*
+  return getFile(fullPath)
+    // .then(console.log)
+    .catch(err => {
+      console.error('ERROR', err);
+      return null;
+    });
+  */
+  return getFile(fullPath);
+});
 
 artistSchema.set('toJSON', {
   virtuals: true,

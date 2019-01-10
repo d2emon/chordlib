@@ -57,3 +57,12 @@ export const getPage = page => (dispatch) => {
     .then(response => dispatch(receivePage(response)))
     .catch(error => dispatch(receiveError(error)));
 };
+
+export const getArtistPage = (artist, page) => (dispatch) => {
+  dispatch(requestPage());
+  return pageService
+    .fetchArtistPage(artist, page)
+    .then(injectHtml)
+    .then(response => dispatch(receivePage(response)))
+    .catch(error => dispatch(receiveError(error)));
+};

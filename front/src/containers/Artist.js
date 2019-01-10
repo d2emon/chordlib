@@ -19,6 +19,8 @@ import {
     Navbar,
     NavbarBrand,
     Nav,
+    Row,
+    Col,
 } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import markdown from '../helpers/markdown';
@@ -96,21 +98,61 @@ class Artist extends Component {
                     : (
                         <CardBody>
                             {/* <CardImg top width="50%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" /> */ }
-                            {artist.description && (
-                                <CardText dangerouslySetInnerHTML={{__html: markdown.render(artist.description)}} />
-                            )}
-                            <Card>
-                                <CardHeader>
-                                    <Button href={`/artist/${artist.slug}/add-album/`}>Добавить альбом</Button>
-                                </CardHeader>
-                                <ListGroup>
-                                    {artist.albums && artist.albums.map((value, index) => (
-                                        <ListGroupItem tag="a" href={`/album/${artist.slug}/${value.slug}`} key={index}>
-                                            {value.title}
-                                        </ListGroupItem>
-                                    ))}
-                                </ListGroup>
-                            </Card>
+                            <Row>
+                                {artist.description && (
+                                  <Col>
+                                     <CardText dangerouslySetInnerHTML={{__html: markdown.render(artist.description)}} />
+                                  </Col>
+                                )}
+                                <Col>
+                                    <Row>
+                                        <Col>
+                                            <Card>
+                                                <CardHeader>
+                                                    <Button href={`/artist/${artist.slug}/add-album/`}>Добавить альбом</Button>
+                                                </CardHeader>
+                                                <ListGroup>
+                                                    {artist.albums && artist.albums.map((value, index) => (
+                                                      <ListGroupItem tag="a" href={`/album/${artist.slug}/${value.slug}`} key={index}>
+                                                          {value.title}
+                                                      </ListGroupItem>
+                                                    ))}
+                                                </ListGroup>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            songs
+                                            <Card>
+                                                <CardHeader>
+                                                    <Button href={`/artist/${artist.slug}/add-album/`}>Добавить альбом</Button>
+                                                </CardHeader>
+                                                <ListGroup>
+                                                    {artist.albums && artist.albums.map((value, index) => (
+                                                      <ListGroupItem tag="a" href={`/album/${artist.slug}/${value.slug}`} key={index}>
+                                                          {value.title}
+                                                      </ListGroupItem>
+                                                    ))}
+                                                </ListGroup>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <Card>
+                                                <ListGroup>
+                                                    {artist.pages && artist.pages.map(page => (
+                                                      <ListGroupItem tag="a" href={`/artist/${artist.slug}/page/${page}`} key={page}>
+                                                          {page}
+                                                      </ListGroupItem>
+                                                    ))}
+                                                </ListGroup>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
                         </CardBody>
                     )
                 }

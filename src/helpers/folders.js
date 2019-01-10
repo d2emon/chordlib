@@ -24,3 +24,14 @@ export const getFoldersByLetter = (folder, letter) => getFolders(folder)
       ? files
       : files.filter(file => file.startsWith(letter))
   ));
+
+export const getFile = filename => new Promise((resolve, reject) => {
+  fs.readFile(filename, 'utf8', (err, text) => {
+    if (err) throw err;
+    // if (err) return reject(err);
+    return resolve({
+      filename,
+      text,
+    });
+  });
+});

@@ -15,6 +15,7 @@ import Artists from './Artists';
 import AddArtist from './AddArtist';
 import AddAlbum from './AddAlbum';
 import AddSong from './AddSong';
+import ArtistWikiPage from './ArtistWikiPage';
 import Artist from './Artist';
 import Album from './Album';
 import Song from './Song';
@@ -32,6 +33,7 @@ const ChordLib = () => (
         <Route path="/add-artist" component={AddArtist} />
         <Route path="/add-album" component={AddAlbum} />
         <Route path="/artist/:artist/add-album" component={AddAlbum} />
+        <Route path="/artist/:artist/page/:page" component={ArtistWikiPage} />
         <Route exact path="/artist/:artist" component={Artist} />
         <Route path="/album/:artist/:album" component={Album} />
         <Route exact path="/album/:album" component={Album} />
