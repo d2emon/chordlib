@@ -20,8 +20,7 @@ const receiveError = error => ({
   error,
 });
 
-// export const getAlbum = album => (dispatch) => {
-export const findAlbum = album => (dispatch) => {
+export const getAlbum = album => (dispatch) => {
   dispatch(requestAlbum());
   return albumService
     .fetchAlbum(album)
@@ -37,7 +36,7 @@ export const validateAlbum = values => (dispatch) => {
   if (!title || title.length <= 0) errors.title = 'Поле не может быть пустым';
   if (!slug || slug.length <= 0) errors.slug = 'Поле не может быть пустым';
   // const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return dispatch(findAlbum(slug))
+  return dispatch(getAlbum(slug))
     .then((response) => {
       const album = response && response.album;
       const unique = id ? (album.id === id) : (!album);
@@ -74,7 +73,7 @@ export const updateAlbum = values => (dispatch) => {
 export const getSlug = (name, id) => (dispatch) => {
   const nextId = id ? id + 1 : 1;
   const slug = slugify(name, id);
-  return dispatch(findAlbum(slug))
+  return dispatch(getAlbum(slug))
     .then(response => response && response.album)
     .then(response => (response ? dispatch(getSlug(name, nextId)) : slug));
 };

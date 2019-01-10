@@ -39,8 +39,7 @@ const receiveError = error => ({
   error,
 });
 
-// export const getArtistsList = () => (dispatch) => {
-export const fetchArtists = query => (dispatch) => {
+export const getArtistsList = query => (dispatch) => {
   dispatch(requestArtists());
   return artistService
     .fetchArtists(query)
@@ -49,8 +48,7 @@ export const fetchArtists = query => (dispatch) => {
     .catch(error => dispatch(receiveError(error)));
 };
 
-// export const getArtist = artist => (dispatch) => {
-export const findArtist = artist => (dispatch) => {
+export const getArtist = artist => (dispatch) => {
   dispatch(requestArtist());
   return artistService
     .fetchArtist(artist)
@@ -74,7 +72,7 @@ export const validateArtist = values => (dispatch) => {
   if (!name || name.length <= 0) errors.name = 'Поле не может быть пустым';
   if (!slug || slug.length <= 0) errors.slug = 'Поле не может быть пустым';
   // const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return dispatch(findArtist(slug))
+  return dispatch(getArtist(slug))
     .then((response) => {
       const artist = response && response.artist;
       const unique = !id && (artist !== null);
@@ -111,7 +109,7 @@ export const updateArtist = values => (dispatch) => {
 export const getSlug = (name, id) => (dispatch) => {
   const nextId = id ? id + 1 : 1;
   const slug = slugify(name, id);
-  return dispatch(findArtist(slug))
+  return dispatch(getArtist(slug))
     .then(response => response && response.artist)
     .then(response => (response ? dispatch(getSlug(name, nextId)) : slug));
 };

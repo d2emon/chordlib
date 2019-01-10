@@ -23,7 +23,7 @@ import {
 import FontAwesome from 'react-fontawesome';
 import markdown from '../helpers/markdown';
 import EditArtist from './EditArtist';
-import { findArtist } from "../actions/artistActions";
+import { getArtist } from "../actions/artistActions";
 
 function slugToName(slug) {
     if (slug.length <= 0) return ''
@@ -120,7 +120,7 @@ class Artist extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    findArtist: artistUrl => dispatch(findArtist(artistUrl)),
+    findArtist: artistUrl => dispatch(getArtist(artistUrl)),
 });
 
 const mapStateToProps = state => ({

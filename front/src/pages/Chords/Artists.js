@@ -6,7 +6,7 @@ import {
   Badge,
 } from 'reactstrap';
 import {
-  fetchArtists,
+  getArtistsList,
 } from '../../actions/artistActions';
 
 const ArtistLink = ({ slug, name, unprocessed }) => (
@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchArtists: query => dispatch(fetchArtists(query)),
+  fetchArtists: query => dispatch(getArtistsList(query)),
 });
 
 export default connect(

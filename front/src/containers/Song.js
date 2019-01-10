@@ -23,7 +23,7 @@ import {
 import FontAwesome from 'react-fontawesome';
 import markdown from '../helpers/markdown';
 import EditSong from './EditSong';
-import { findSong } from '../actions/songActions';
+import { getSong } from '../actions/songActions';
 
 class Song extends Component {
     constructor(props) {
@@ -124,7 +124,7 @@ class Song extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    findSong: slug => dispatch(findSong(slug)),
+    findSong: slug => dispatch(getSong(slug)),
 });
 
 const mapStateToProps = state => ({

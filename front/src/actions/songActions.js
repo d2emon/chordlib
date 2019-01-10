@@ -20,8 +20,7 @@ const receiveError = error => ({
   error,
 });
 
-// export const getAlbum = album => (dispatch) => {
-export const findSong = song => (dispatch) => {
+export const getSong = song => (dispatch) => {
   dispatch(requestSong());
   return songService
     .fetchSong(song)
@@ -37,7 +36,7 @@ export const validateSong = values => (dispatch) => {
   if (!title || title.length <= 0) errors.title = 'Поле не может быть пустым';
   if (!slug || slug.length <= 0) errors.slug = 'Поле не может быть пустым';
   // const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return dispatch(findSong(slug))
+  return dispatch(getSong(slug))
     .then((response) => {
       const song = response && response.song;
       const unique = id ? (song.id === id) : (!song);
@@ -74,7 +73,7 @@ export const updateSong = values => (dispatch) => {
 export const getSlug = (name, id) => (dispatch) => {
   const nextId = id ? id + 1 : 1;
   const slug = slugify(name, id);
-  return dispatch(findSong(slug))
+  return dispatch(getSong(slug))
     .then(response => response && response.song)
     .then(response => (response ? dispatch(getSlug(name, nextId)) : slug));
 };

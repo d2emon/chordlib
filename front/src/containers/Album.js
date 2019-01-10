@@ -23,7 +23,7 @@ import {
 import FontAwesome from 'react-fontawesome';
 import markdown from '../helpers/markdown';
 import EditAlbum from './EditAlbum';
-import { findAlbum } from '../actions/albumActions';
+import { getAlbum } from '../actions/albumActions';
 
 class Album extends Component {
     constructor(props) {
@@ -118,7 +118,7 @@ class Album extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    findAlbum: slug => dispatch(findAlbum(slug)),
+    findAlbum: slug => dispatch(getAlbum(slug)),
 });
 
 const mapStateToProps = state => ({
