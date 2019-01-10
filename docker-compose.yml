@@ -21,7 +21,6 @@ services:
     volumes:
     - ./src:/usr/www/src
     - ./public:/usr/www/public
-    - ./public-data:/usr/www/public-data
   frontend:
     container_name: frontend
     restart: always
@@ -40,3 +39,14 @@ services:
     - "8081:8081"
     links:
     - mongo
+  ftp-server:
+    image: stilliard/pure-ftpd:hardened
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
+    volumes:
+      - ./files/public:/home/chordlib/
+      # - ./files/passwd:/etc/pure-ftpd/passwd
+    environment:
+      FTP_USER_HOME: /home/chordlib
+    restart: always

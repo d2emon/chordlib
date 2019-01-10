@@ -4,5 +4,9 @@ services:
     volumes:
       - ./src:/usr/www/src
       - ./public:/usr/www/public
-      - ./files/public-data:/usr/www/public-data
-      - ./files/pages:/usr/www/pages
+      - ./files/public:/usr/www/files
+      - ./files/artists:/usr/www/files/artists
+  ftp-server:
+    environment:
+      FTP_USER_NAME: chordlib
+      FTP_USER_PASS: chordlib
