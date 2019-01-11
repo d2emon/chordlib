@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Badge,
@@ -6,10 +6,7 @@ import {
   Card,
   CardBody,
   CardHeader,
-  CardText,
-  CardImg,
   CardTitle,
-  Col,
   ListGroup,
   ListGroupItem,
   Nav,
@@ -19,12 +16,12 @@ import {
   NavbarBrand,
   TabContent,
   TabPane,
-  Row,
 } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import Loader from './Loader';
 import WikipediaButton from './WikipediaButton';
 import ArtistDescription from './ArtistDescription';
+import ArtistWikiCard from './ArtistWikiCard';
 import EditArtist from '../containers/EditArtist';
 
 class ArtistCard extends Component {
@@ -94,7 +91,7 @@ class ArtistCard extends Component {
       wiki: <FontAwesome name="wikipedia-w" />,
 
     };
-    const { artist } = this.props;
+    const { artist, wikipedia } = this.props;
     const { edit, activeTab } = this.state;
     if (!artist) return <Loader />;
     return (
@@ -150,7 +147,7 @@ class ArtistCard extends Component {
         <CardBody>
           <Nav tabs>
             {Object.keys(tabs).map(key => (
-              <NavItem>
+              <NavItem key={key}>
                 <NavLink
                   className={activeTab === key ? 'active' : ''}
                   onClick={() => { this.toggle(key); }}
@@ -216,7 +213,7 @@ class ArtistCard extends Component {
               </Card>
             </TabPane>
             <TabPane tabId="wiki">
-              Wiki
+              {wikipedia && <ArtistWikiCard artist={wikipedia} />}
             </TabPane>
             <TabPane tabId="edit">
               <EditArtist artist={artist} />

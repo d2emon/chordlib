@@ -27,10 +27,13 @@ const ArtistWikiCard = ({ artist }) => (
         <div>
           <h5>Жанры</h5>
           <ul>
-            {artist.genre && <li>{artist.genre}</li>}
+            {Array.isArray(artist.genre)
+              ? artist.genre.map(genre => <li key={genre}>{genre}</li>)
+              : <li>{artist.genre}</li>}
             {artist.genres && artist.genres.map(genre => <li key={genre}>{genre}</li>)}
           </ul>
         </div>
+        {artist.description}
       </CardBody>
     </CardHeader>
   </Card>

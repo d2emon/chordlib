@@ -15,7 +15,7 @@ const ArtistDescription = ({ artist }) => {
       {artist.image && (
         <CardImg
           top
-          width="50%"
+          height="200px"
           src={artist.image}
           title={artist.name}
           alt={artist.name}

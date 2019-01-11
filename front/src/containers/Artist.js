@@ -38,9 +38,16 @@ class Artist extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { slug, getArtist } = this.props;
+    const { slug, getArtist, artist, findArtist } = this.props;
     if (prevProps.slug !== slug) getArtist(slug);
     // if (!nextProps.isFetching) this.setState({ artist: this.getArtist(nextProps) });
+    const prevName = prevProps.artist && prevProps.artist.name;
+    const name = artist && artist.name;
+    console.log(artist, prevProps.artist, prevName, name);
+    if (prevName !== name) {
+      console.log(prevName, name);
+      findArtist(encodeURIComponent(name));
+    }
   }
 
   /*
@@ -56,18 +63,23 @@ class Artist extends Component {
   */
 
   render() {
-    const { artist, error } = this.props;
+    const { artist, wikipedia, error } = this.props;
     if (error) return <ErrorMessage error={error} />;
-    return <ArtistCard artist={artist} />;
+    return <ArtistCard
+      artist={artist}
+      wikipedia={wikipedia}
+    />;
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   getArtist: artistUrl => dispatch(artistActions.getArtist(artistUrl)),
+  findArtist: name => dispatch(artistActions.findInWikipedia(name)),
 });
 
 const mapStateToProps = state => ({
   artist: state.artists.artist,
+  wikipedia: state.artists.wikipedia,
 });
 
 /*
