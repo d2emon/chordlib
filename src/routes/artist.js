@@ -26,13 +26,14 @@ router.get('/:slug', (req, res) => {
     .then(artist => Artist
       .files(slug)
       .then((files) => {
+        if (!files) return artist;
+        if (!artist.pages) artist.pages = [];
         artist.pages = artist.pages.concat(files);
         return artist;
       }))
     .then(artist => Artist
       .descriptionFile(slug)
       .then(description => {
-        console.log(description);
         if (!description) return artist;
         if (!artist.description) artist.description = description.text;
         return artist;

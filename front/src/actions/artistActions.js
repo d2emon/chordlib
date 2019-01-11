@@ -1,5 +1,16 @@
 import slugify from '../helpers/slugify';
 import artistService from '../services/artist';
+import markdown from '../helpers/markdown';
+
+const injectHtml = (artist) => {
+  if (!artist) return null;
+  const { description } = artist;
+  if (!description) return artist;
+  return {
+    ...artist,
+    html: markdown.render(description),
+  };
+};
 
 const requestArtists = () => ({
   type: 'REQUEST_ARTISTS',
@@ -52,9 +63,9 @@ export const getArtist = artist => (dispatch) => {
   dispatch(requestArtist());
   return artistService
     .fetchArtist(artist)
-    // .then(injectHtml)
-    // .then(response => dispatch(receiveArtist(response)))
-    .then(response => dispatch(receiveArtist(response.artist)))
+    .then(response => response.artist)
+    .then(injectHtml)
+    .then(response => dispatch(receiveArtist(response)))
     .catch(error => dispatch(receiveError(error)));
 };
 

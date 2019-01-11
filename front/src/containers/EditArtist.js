@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import WikipediaButton from '../components/WikipediaButton';
-import ArtistCard from '../components/ArtistCard';
+import ArtistWikiCard from '../components/ArtistWikiCard';
 import ArtistForm from '../forms/ArtistForm';
 import * as artistActions from '../actions/artistActions';
 
@@ -40,7 +40,7 @@ class EditArtist extends Component {
         return (
             <Fragment>
                 <WikipediaButton onClick={this.onWiki} />
-                {this.props.wikipedia && <ArtistCard artist={this.props.wikipedia} />}
+                {this.props.wikipedia && <ArtistWikiCard artist={this.props.wikipedia} />}
                 <ArtistForm
                   initialValues={this.props.artist}
                   onSubmit={this.onSubmit}
