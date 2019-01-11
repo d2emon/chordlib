@@ -13,3 +13,8 @@ blockquote {
   color: #6a737d;
   padding: 0 1em;
 }
+
+.markdown-preview {
+  overflow: auto;
+  max-height: 254px;
+}
