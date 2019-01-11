@@ -19,7 +19,6 @@ import {
 } from 'reactstrap';
 import FontAwesome from 'react-fontawesome';
 import Loader from './Loader';
-import WikipediaButton from './WikipediaButton';
 import ArtistDescription from './ArtistDescription';
 import ArtistWikiCard from './ArtistWikiCard';
 import EditArtist from '../containers/EditArtist';
@@ -28,20 +27,19 @@ class ArtistCard extends Component {
   constructor(props) {
     super(props);
 
-    this.switchEdit = this.switchEdit.bind(this);
     this.toggle = this.toggle.bind(this);
 
     this.state = {
       activeTab: 'view',
-      edit: false,
     };
   }
 
   static get defaultProps() {
     return {
       artist: null,
+      wikipedia: null,
     };
-  };
+  }
 
   static get propTypes() {
     return {
@@ -67,12 +65,12 @@ class ArtistCard extends Component {
           PropTypes.string,
         ),
       }),
+      wikipedia: PropTypes.shape({
+        name: PropTypes.string,
+        image: PropTypes.string,
+        description: PropTypes.string,
+      }),
     };
-  };
-
-  switchEdit() {
-    const { edit } = this.state;
-    this.setState({ edit: !edit });
   }
 
   toggle(tab) {
@@ -92,7 +90,7 @@ class ArtistCard extends Component {
 
     };
     const { artist, wikipedia } = this.props;
-    const { edit, activeTab } = this.state;
+    const { activeTab } = this.state;
     if (!artist) return <Loader />;
     return (
       <Card>
@@ -105,43 +103,6 @@ class ArtistCard extends Component {
               </CardTitle>
               {/* <CardSubtitle>{artist.slug}</CardSubtitle> */}
             </NavbarBrand>
-            <Nav className="ml-auto" navbar tabs>
-              <NavItem>
-                <NavLink
-                  className={activeTab === 'wiki' ? 'active' : ''}
-                  onClick={() => { this.toggle('wiki'); }}
-                >
-                  <FontAwesome name="wikipedia-w" />
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <WikipediaButton
-                  className={activeTab === 'wiki' ? 'active' : ''}
-                  onClick={() => { this.toggle('wiki'); }}
-                />
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={activeTab === 'view' ? 'active' : ''}
-                  onClick={() => { this.toggle('view'); }}
-                >
-                  <FontAwesome name="eye" />
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={activeTab === 'edit' ? 'active' : ''}
-                  onClick={() => { this.toggle('edit'); }}
-                >
-                  <FontAwesome name="edit" />
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <Button color="link" onClick={this.switchEdit}>
-                  <FontAwesome name={edit ? 'eye' : 'edit'} />
-                </Button>
-              </NavItem>
-            </Nav>
           </Navbar>
         </CardHeader>
         <CardBody>

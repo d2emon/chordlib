@@ -16,7 +16,9 @@ class Artist extends Component {
       slug: '',
       error: null,
       artist: null,
+      wikipedia: null,
       getArtist: null,
+      findArtist: null,
     };
   }
 
@@ -28,7 +30,13 @@ class Artist extends Component {
         name: PropTypes.string,
         description: PropTypes.string,
       }),
+      wikipedia: PropTypes.shape({
+        name: PropTypes.string,
+        image: PropTypes.string,
+        description: PropTypes.string,
+      }),
       getArtist: PropTypes.func,
+      findArtist: PropTypes.func,
     };
   }
 
@@ -38,16 +46,21 @@ class Artist extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { slug, getArtist, artist, findArtist } = this.props;
+    const {
+      slug,
+      artist,
+      getArtist,
+      findArtist,
+    } = this.props;
     if (prevProps.slug !== slug) getArtist(slug);
     // if (!nextProps.isFetching) this.setState({ artist: this.getArtist(nextProps) });
-    const prevName = prevProps.artist && prevProps.artist.name;
-    const name = artist && artist.name;
-    console.log(artist, prevProps.artist, prevName, name);
-    if (prevName !== name) {
-      console.log(prevName, name);
+    setTimeout(() => {
+      const prevName = prevProps.artist && prevProps.artist.name;
+      const name = artist && artist.name;
+      if (!name) return;
+      if (prevName === name) return;
       findArtist(encodeURIComponent(name));
-    }
+    }, 1000);
   }
 
   /*
@@ -65,10 +78,12 @@ class Artist extends Component {
   render() {
     const { artist, wikipedia, error } = this.props;
     if (error) return <ErrorMessage error={error} />;
-    return <ArtistCard
-      artist={artist}
-      wikipedia={wikipedia}
-    />;
+    return (
+      <ArtistCard
+        artist={artist}
+        wikipedia={wikipedia}
+      />
+    );
   }
 }
 

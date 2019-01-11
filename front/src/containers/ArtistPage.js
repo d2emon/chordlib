@@ -19,7 +19,7 @@ class ArtistPage extends Component {
       slug: '',
       error: null,
       page: null,
-      getPage: null,
+      getArtistPage: null,
     };
   }
 
@@ -31,7 +31,7 @@ class ArtistPage extends Component {
       page: PropTypes.shape({
         text: PropTypes.string,
       }),
-      getPage: PropTypes.func,
+      getArtistPage: PropTypes.func,
     };
   }
 
@@ -47,18 +47,15 @@ class ArtistPage extends Component {
 
   render() {
     const { page, error } = this.props;
-    console.log({ page, error });
     if (error) return <ErrorMessage error={error} />;
     if (!page) return <Loader />;
-    // const text = page ? markdown.render(page.text).replace('{:subculture:}', 'SUBCULTURE') : null;
-    const text = page.html;
     return (
       <Container>
         <Row>
           <Col>
             <TextCard
               className="m-1"
-              text={text}
+              text={page.html}
             />
           </Col>
         </Row>
