@@ -6,6 +6,7 @@
     },
     {
       "title": "Инструменты",
+      "link": "/instrumenty",
       "subPages": [
         { "title": "Гитара" },
         { "title": "Мандолина" }
@@ -13,6 +14,7 @@
     },
     {
       "title": "Стили",
+      "link": "/stili",
       "subPages": [
         { "title": "Попса" },
         { "title": "Русский Рок" }
@@ -20,12 +22,14 @@
     },
     {
       "title": "Списки",
+      "link": "/spiski",
       "subPages": [
         { "title": "100 лучших рок-альбомов" }
       ]
     },
     {
-      "title": "Каверы"
+      "title": "Каверы",
+      "link": "/kavery"
     },
     {
       "title": "Субкультуры",
