@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import ArtistPage from '../../containers/ArtistPage';
+import ArtistPage from '../../../containers/ArtistPage';
 
 class ArtistWikiPage extends Component {
   render() {

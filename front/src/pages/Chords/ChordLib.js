@@ -9,14 +9,14 @@ import {
 } from 'reactstrap';
 import Alphabet from '../../modules/alphabet';
 import Home from './Home';
-import Artists from './Artists';
-import AddArtist from './AddArtist';
-import AddAlbum from './AddAlbum';
-import AddSong from './AddSong';
-import ArtistWikiPage from './ArtistWikiPage';
-import Artist from './Artist';
-import Album from './Album';
-import Song from './Song';
+import Artists from './Artist/Artists';
+import AddArtist from './Artist/AddArtist';
+import AddAlbum from './Album/AddAlbum';
+import AddSong from './Song/AddSong';
+import ArtistWikiPage from './Artist/ArtistWikiPage';
+import Artist from './Artist/Artist';
+import Album from './Album/Album';
+import Song from './Song/Song';
 
 const ChordLib = () => (
   <Container>

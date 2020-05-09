@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import {
   getArtistsList,
-} from '../../actions/artistActions';
+} from '../../../actions/artistActions';
 
 const ArtistLink = ({ slug, name, unprocessed }) => (
   <ListGroupItem tag="a" href={`/artist/${slug}`}>

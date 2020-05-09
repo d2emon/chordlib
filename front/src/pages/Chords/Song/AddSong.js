@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Form from '../../containers/AddSong';
+import Form from '../../../containers/AddSong';
 
 class AddSong extends Component {
   constructor(props) {

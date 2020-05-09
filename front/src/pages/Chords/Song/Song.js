@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Album from '../../containers/Album';
+import Song from '../../../containers/Song';
 
 class AlbumPage extends Component {
   constructor(props) {
@@ -8,15 +8,15 @@ class AlbumPage extends Component {
     const { match } = props;
 
     this.state = {
-      album: match.params.album,
+      slug: match.params.slug,
       artist: match.params.artist,
     };
   }
 
   render() {
     return (
-      <Album
-        slug={this.state.album}
+      <Song
+        slug={this.state.slug}
         artistSlug={this.state.artist}
       />
     );
