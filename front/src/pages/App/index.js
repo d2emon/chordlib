@@ -4,16 +4,13 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
-// Components
 import Header from '../../components/Header';
-// Pages
+import config from '../../config';
+import ChordLib from '../Chords/ChordLib';
 import Home from '../Chords/Home';
 import Main from '../Main';
-import ChordLib from '../Chords/ChordLib';
 import Other from '../Other';
-// Config
-import config from '../../config';
-// Css
+
 import 'font-awesome/css/font-awesome.css';
 import './App.css';
 
@@ -27,6 +24,7 @@ const App = () => (
         <Route path="/chords" component={ChordLib} />
         <Route path="/artists" component={ChordLib} />
         <Route path="/artist" component={ChordLib} />
+        <Route path="/song" component={ChordLib} />
         <Route component={Other} />
       </Switch>
     </div>

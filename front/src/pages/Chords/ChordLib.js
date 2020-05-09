@@ -7,9 +7,7 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-// Components
 import Alphabet from '../../modules/alphabet';
-// Pages
 import Home from './Home';
 import Artists from './Artists';
 import AddArtist from './AddArtist';

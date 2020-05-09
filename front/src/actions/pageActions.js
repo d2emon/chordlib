@@ -39,30 +39,35 @@ const receiveError = error => ({
   error,
 });
 
-export const getPagesList = () => (dispatch) => {
-  dispatch(requestPages());
-  return pageService
-    .fetchPages()
-    .then(response => dispatch(receivePages(response.pages)))
-    .catch(error => dispatch(receiveError(error)));
-};
+const apiAction = (api, request, resolve, reject) => (dispatch) => {
+  dispatch(request())
+  return api()
+    .then(response => dispatch(resolve(response)))
+    .catch(error => dispatch(reject(error)));
+}
 
-export const getPage = page => (dispatch) => {
-  dispatch(requestPage());
-  return pageService
+export const getPagesList = () => apiAction(
+  pageService.fetchPages,
+  requestPages,
+  receivePages,
+  receiveError,
+);
+
+export const getPage = page => apiAction(
+  () => pageService
     .fetchPage(page)
     // .then(logResponse('Page'))
-    .then(injectHtml)
-    // .then(logResponse('With html'))
-    .then(response => dispatch(receivePage(response)))
-    .catch(error => dispatch(receiveError(error)));
-};
+    .then(injectHtml),
+  requestPage,
+  receivePage,
+  receiveError,
+);
 
-export const getArtistPage = (artist, page) => (dispatch) => {
-  dispatch(requestPage());
-  return pageService
+export const getArtistPage = (artist, page) => apiAction(
+  () => pageService
     .fetchArtistPage(artist, page)
-    .then(injectHtml)
-    .then(response => dispatch(receivePage(response)))
-    .catch(error => dispatch(receiveError(error)));
-};
+    .then(injectHtml),
+  requestPage,
+  receivePage,
+  receiveError,
+);

@@ -2,46 +2,29 @@ import axios from 'axios';
 import Config from '../config';
 
 const Axios = axios.create({
-  baseURL: Config.apiURL,
+  baseURL: Config.oldApiURL,
 });
 
 export default {
-  fetchPages() {
-    return new Promise((resolve, reject) => (
-      Axios
-        .get('pages')
-        .then(response => response.data)
-        // .then(response => (response.page ? response.page : {}))
-        .then(response => resolve(response))
-        .catch(error => reject(error))
-    ));
-  },
+  fetchPages: () => Axios
+    .get('pages')
+    .then(response => response.data)
+    .then(response => response.pages),
 
-  fetchPage(slug) {
-    return new Promise((resolve, reject) => {
-      if (!slug) return resolve({ page: null });
-      return Axios
-        .get(`page/${slug}`)
-        .then(response => response.data)
-        .then(response => (response.page ? response.page : {}))
-        .then(response => resolve(response))
-        .catch(error => reject(error));
-    });
-  },
+  fetchPage: (slug) => (slug
+    ? Axios
+      .get(`page/${slug}`)
+      .then(response => response.data)
+      .then(response => (response.page || {}))
+    : Promise.resolve({ page: null })),
 
-  fetchArtistPage(artist, page) {
-    return new Promise((resolve, reject) => {
-      if (!artist) return resolve({ page: null });
-      if (!page) return resolve({ page: null });
-      return Axios
+  fetchArtistPage: (artist, page) => ((artist && page)
+    ? Axios
         .get(`artist/${artist}/page`, {
           params: { page },
         })
         // artist/vladimir-vysockij/page?page=ALEXA.TXT
         .then(response => response.data)
-        .then(response => (response.page ? response.page : {}))
-        .then(response => resolve(response))
-        .catch(error => reject(error));
-    });
-  },
+        .then(response => (response.page || {}))
+    : Promise.resolve({ page: null })),
 }

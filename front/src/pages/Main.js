@@ -7,15 +7,17 @@ import {
   ListGroup,
   ListGroupItem,
 } from 'reactstrap';
-import markdown from '../helpers/markdown';
 import Logo from '../components/Logo';
 import config from '../config';
+import markdown from '../helpers/markdown';
 
 const Main = () => {
-  const { title, description, pages } = config;
-  const html = description
-    ? markdown.render(description)
-    : false;
+  const {
+    title,
+    description,
+    pages,
+  } = config;
+  const html = markdown.render(description || '');
   return (
     <Container>
       <Row>
@@ -25,9 +27,7 @@ const Main = () => {
       </Row>
       <Row>
         <Col className="p-3" xs="2"><Logo /></Col>
-        <Col xs="5">
-          { html && (<div dangerouslySetInnerHTML={{ __html: html }} />) }
-        </Col>
+        <Col xs="5">{ html && (<div dangerouslySetInnerHTML={{ __html: html }} />) }</Col>
         <Col xs="5">
           <ListGroup>
             { pages.map(page => (

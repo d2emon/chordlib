@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
@@ -9,7 +9,7 @@ import {
 } from 'reactstrap';
 import MainMenu from '../containers/MainMenu';
 
-class Header extends Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
 
