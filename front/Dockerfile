@@ -1,15 +1,26 @@
-FROM node:carbon
+FROM node:lts-alpine
 
-WORKDIR /usr/www
+WORKDIR /app
 
 COPY package*.json ./
 
 RUN npm install
 
-COPY ./ /usr/www/
+# COPY ts*.json ./
+# COPY config ./config
+# COPY src ./src
 
-ENV DEBUG=1
-ENV HOST=0.0.0.0
+# RUN mkdir ./data
+# RUN mkdir ./data/artists
+# RUN mkdir ./data/wiki
+
+# COPY data/artists ./data/artists
+# COPY data/db ./data/db
+
+COPY ./ /app/
+
+ENV DEBUG 1
+ENV HOST 0.0.0.0
 # EXPOSE 8080
 EXPOSE 3000
 
