@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Card,
   CardHeader,
@@ -9,20 +9,14 @@ import {
 import config from '../../config';
 import markdown from '../../helpers/markdown';
 
-class Home extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Card>
-          <CardHeader>
-            <CardTitle>Песенник</CardTitle>
-            <CardSubtitle>Мой сборник аккордов</CardSubtitle>
-          </CardHeader>
-          <CardBody dangerouslySetInnerHTML={{ __html: markdown.render(config.chords) }} />
-        </Card>
-      </div>
-    );
-  }
-}
-
-export default Home;
+export default () => (
+  <div className="App">
+    <Card>
+      <CardHeader>
+        <CardTitle>Песенник</CardTitle>
+        <CardSubtitle>Мой сборник аккордов</CardSubtitle>
+      </CardHeader>
+      <CardBody dangerouslySetInnerHTML={{ __html: markdown.render(config.chords || '') }} />
+    </Card>
+  </div>
+);

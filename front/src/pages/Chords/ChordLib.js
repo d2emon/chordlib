@@ -26,17 +26,20 @@ const ChordLib = () => (
     <Row>
       <Col>
         <Route exact path="/chords" component={Home} />
+
+        <Route path="/add-artist" component={AddArtist} />
         <Route path="/artists/:language/:letter" component={Artists} />
         <Route exact path="/artists/:special" component={Artists} />
-        <Route path="/add-artist" component={AddArtist} />
+        <Route exact path="/artist/:artist" component={Artist} />
+        <Route path="/artist/:artist/page/:page" component={ArtistWikiPage} />
+
         <Route path="/add-album" component={AddAlbum} />
         <Route path="/artist/:artist/add-album" component={AddAlbum} />
-        <Route path="/artist/:artist/page/:page" component={ArtistWikiPage} />
-        <Route exact path="/artist/:artist" component={Artist} />
         <Route path="/album/:artist/:album" component={Album} />
         <Route exact path="/album/:album" component={Album} />
-        <Route path="/song/:song" component={Song} />
+
         <Route path="/add-song" component={AddSong} />
+        <Route path="/song/:song" component={Song} />
       </Col>
     </Row>
   </Container>
