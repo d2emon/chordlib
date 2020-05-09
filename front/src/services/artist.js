@@ -1,50 +1,57 @@
 import axios from 'axios';
 import Config from '../config';
+import markdown from "../helpers/markdown";
 
 const Axios = axios.create({
-    baseURL: Config.oldApiURL,
+  baseURL: Config.apiURL,
 });
 
+const injectHtml = artist => artist && {
+  ...artist,
+  html: markdown.render(artist.description || ''),
+};
+
+const specialMethods = {
+  all: 'artists',
+  num: 'artists/num',
+  other: 'artists/other',
+}
 
 export default {
-    fetchArtists ({ language, letter, special }) {
-        const url = special ? `artists/${special}` : `artists/${language}/${letter}`;
-        return new Promise((resolve, reject) => {
-            Axios.get(url)
-                .then(response => resolve(response.data));
-        });
-    },
+  fetchArtists: special => Axios
+    .get(specialMethods[special] || 'artists')
+    .then(response => response && response.data)
+    .then(response => response && response.artists)
+    .then(response => {
+      console.log(response);
+      return response;
+    }),
 
-    fetchArtist (slug) {
-        return new Promise((resolve, reject) => {
-            if (!slug) return resolve({ artist: null });
-            Axios.get(`artist/${slug}`)
-                .then(response => {
-                    return response;
-                })
-                .then(response => resolve(response.data));
-        });
-    },
+  fetchArtistsByLetter: ({ language, letter }) => Axios
+    .get(`artists/${language}/${letter}`)
+    .then(response => response && response.data)
+    .then(response => response && response.artists),
 
-    findInWikipedia(name) {
-        return new Promise((resolve, reject) => {
-            Axios.get(`artist/wikipedia/${name}`)
-                .then(response => response.data)
-                .then(response => resolve(response ? response.artist : null));
-        });
-    },
+  fetchArtist: (slug) => slug && Axios
+    .get(`artist/${slug}`)
+    .then(response => response && response.data)
+    .then(response => response && response.artist)
+    .then(injectHtml),
 
-    addArtist (artist) {
-        return new Promise((resolve, reject) => {
-            Axios.post(`artist/`, artist)
-                .then(response => resolve(response.data));
-        });
-    },
+  findInWikipedia: name => Axios
+    .get(`artist/wikipedia/${name}`)
+    .then(response => response && response.data)
+    .then(response => response && response.artist),
 
-    updateArtist (artist) {
-        return new Promise((resolve, reject) => {
-            Axios.put(`artist/${artist.id}`, artist)
-                .then(response => resolve(response.data));
-        });
-    },
+  addArtist: artist => Axios
+    .post(`artist/`, artist)
+    .then(response => response && response.data)
+    .then(response => response && response.artist)
+    .then(injectHtml),
+
+  updateArtist: artist => Axios
+    .put(`artist/${artist.id}`, artist)
+    .then(response => response && response.data)
+    .then(response => response && response.artist)
+    .then(injectHtml),
 }
