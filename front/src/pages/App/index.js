@@ -24,6 +24,7 @@ const App = () => (
         <Route path="/chords" component={ChordLib} />
         <Route path="/artists" component={ChordLib} />
         <Route path="/artist" component={ChordLib} />
+        <Route path="/add-artist" component={ChordLib} />
         <Route path="/song" component={ChordLib} />
         <Route component={Other} />
       </Switch>

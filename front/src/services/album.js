@@ -24,7 +24,8 @@ export default {
                 .then(response => {
                     return response;
                 })
-                .then(response => resolve(response.data));
+                .then(response => response.data)
+                .then(response => resolve(response.album));
         });
     },
 

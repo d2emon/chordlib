@@ -1,5 +1,6 @@
 import slugify from '../helpers/slugify';
 import songService from '../services/song';
+import apiAction from './apiAction';
 
 const requestSong = () => ({
   type: 'REQUEST_SONG',
@@ -20,15 +21,12 @@ const receiveError = error => ({
   error,
 });
 
-export const getSong = song => (dispatch) => {
-  dispatch(requestSong());
-  return songService
-    .fetchSong(song)
-    // .then(injectHtml)
-    // .then(response => dispatch(receiveArtist(response)))
-    .then(response => dispatch(receiveSong(response.song)))
-    .catch(error => dispatch(receiveError(error)));
-};
+export const getSong = song => apiAction(
+  () => songService.fetchSong(song),
+  requestSong,
+  receiveSong,
+  receiveError,
+);
 
 export const validateSong = values => (dispatch) => {
   const { id, title, slug } = values;
@@ -48,12 +46,12 @@ export const validateSong = values => (dispatch) => {
 export const addSong = values => dispatch => dispatch(validateSong(values))
   .then(({ errors }) => {
     if (Object.keys(errors).length > 0) return dispatch(validatedSong(errors));
-    dispatch(requestSong());
-    return songService
-      .addSong(values)
-      // .then(response => dispatch(receiveArtists(response.pages)))
-      .then(song => dispatch(receiveSong(song)))
-      .catch(error => dispatch(receiveError(error)));
+    return apiAction(
+      () => songService.addSong(values),
+      requestSong,
+      receiveSong,
+      receiveError,
+    );
   });
 
 export const updateSong = values => (dispatch) => {
@@ -61,12 +59,12 @@ export const updateSong = values => (dispatch) => {
   return dispatch(validateSong(values))
     .then(({ errors }) => {
       if (Object.keys(errors).length > 0) return dispatch(validatedSong(errors));
-      dispatch(requestSong());
-      return songService
-        .updateSong(values)
-        // .then(response => dispatch(receiveArtists(response.pages)))
-        .then(song => dispatch(receiveSong(song)))
-        .catch(error => dispatch(receiveError(error)));
+      return apiAction(
+        () => songService.updateSong(values),
+        requestSong,
+        receiveSong,
+        receiveError,
+      );
     });
 };
 

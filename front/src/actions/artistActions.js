@@ -1,6 +1,7 @@
 import slugify from '../helpers/slugify';
 import artistService from '../services/artist';
 import markdown from '../helpers/markdown';
+import apiAction from './apiAction';
 
 const injectHtml = (artist) => {
   if (!artist) return null;
@@ -50,32 +51,29 @@ const receiveError = error => ({
   error,
 });
 
-export const getArtistsList = query => (dispatch) => {
-  dispatch(requestArtists());
-  return artistService
-    .fetchArtists(query)
-    // .then(response => dispatch(receiveArtists(response.pages)))
-    .then(artists => dispatch(receiveArtists(artists)))
-    .catch(error => dispatch(receiveError(error)));
-};
+export const getArtistsList = query => apiAction(
+  () => artistService.fetchArtists(query),
+  requestArtists,
+  receiveArtists,
+  receiveError,
+);
 
-export const getArtist = artist => (dispatch) => {
-  dispatch(requestArtist());
-  return artistService
+export const getArtist = artist => apiAction(
+  () => artistService
     .fetchArtist(artist)
     .then(response => response.artist)
-    .then(injectHtml)
-    .then(response => dispatch(receiveArtist(response)))
-    .catch(error => dispatch(receiveError(error)));
-};
+    .then(injectHtml),
+  requestArtist,
+  receiveArtist,
+  receiveError,
+);
 
-export const findInWikipedia = artist => (dispatch) => {
-  dispatch(requestWikipedia());
-  return artistService
-    .findInWikipedia(artist)
-    .then(response => dispatch(receiveWikipedia(response)))
-    .catch(error => dispatch(receiveError(error)));
-};
+export const findInWikipedia = artist => apiAction(
+  () => artistService.findInWikipedia(artist),
+  requestWikipedia,
+  receiveWikipedia,
+  receiveError,
+);
 
 export const validateArtist = values => (dispatch) => {
   const { id, name, slug } = values;
@@ -95,12 +93,12 @@ export const validateArtist = values => (dispatch) => {
 export const addArtist = values => dispatch => dispatch(validateArtist(values))
   .then(({ errors }) => {
     if (Object.keys(errors).length > 0) return dispatch(validatedArtist(errors));
-    dispatch(requestArtists());
-    return artistService
-      .addArtist(values)
-      // .then(response => dispatch(receiveArtists(response.pages)))
-      .then(artists => dispatch(receiveArtists(artists)))
-      .catch(error => dispatch(receiveError(error)));
+    return apiAction(
+      () => artistService.addArtist(values),
+      requestArtists,
+      receiveArtists,
+      receiveError,
+    )(dispatch);
   });
 
 export const updateArtist = values => (dispatch) => {
@@ -108,12 +106,12 @@ export const updateArtist = values => (dispatch) => {
   return dispatch(validateArtist(values))
     .then(({ errors }) => {
       if (Object.keys(errors).length > 0) return dispatch(validatedArtist(errors));
-      dispatch(requestArtists());
-      return artistService
-        .updateArtist(values)
-        // .then(response => dispatch(receiveArtists(response.pages)))
-        .then(artists => dispatch(receiveArtists(artists)))
-        .catch(error => dispatch(receiveError(error)));
+      return apiAction(
+        () => artistService.updateArtist(values),
+        requestArtists,
+        receiveArtists,
+        receiveError,
+      )(dispatch);
     });
 };
 

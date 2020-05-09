@@ -1,6 +1,7 @@
 import pageService from '../services/page';
 import markdown from '../helpers/markdown';
 import renderSubcultures from '../helpers/subcultures';
+import apiAction from './apiAction';
 
 const injectHtml = (page) => {
   const getHtml = text => markdown
@@ -38,13 +39,6 @@ const receiveError = error => ({
   type: 'RECEIVE_ERROR',
   error,
 });
-
-const apiAction = (api, request, resolve, reject) => (dispatch) => {
-  dispatch(request())
-  return api()
-    .then(response => dispatch(resolve(response)))
-    .catch(error => dispatch(reject(error)));
-}
 
 export const getPagesList = () => apiAction(
   pageService.fetchPages,

@@ -1,5 +1,6 @@
 import slugify from '../helpers/slugify';
 import albumService from '../services/album';
+import apiAction from './apiAction';
 
 const requestAlbum = () => ({
   type: 'REQUEST_ALBUM',
@@ -20,15 +21,12 @@ const receiveError = error => ({
   error,
 });
 
-export const getAlbum = album => (dispatch) => {
-  dispatch(requestAlbum());
-  return albumService
-    .fetchAlbum(album)
-    // .then(injectHtml)
-    // .then(response => dispatch(receiveArtist(response)))
-    .then(response => dispatch(receiveAlbum(response.album)))
-    .catch(error => dispatch(receiveError(error)));
-};
+export const getAlbum = album => apiAction(
+  () => albumService.fetchAlbum(album),
+  requestAlbum,
+  receiveAlbum,
+  receiveError,
+);
 
 export const validateAlbum = values => (dispatch) => {
   const { id, title, slug } = values;
@@ -48,12 +46,12 @@ export const validateAlbum = values => (dispatch) => {
 export const addAlbum = values => dispatch => dispatch(validateAlbum(values))
   .then(({ errors }) => {
     if (Object.keys(errors).length > 0) return dispatch(validatedAlbum(errors));
-    dispatch(requestAlbum());
-    return albumService
-      .addAlbum(values)
-      // .then(response => dispatch(receiveArtists(response.pages)))
-      .then(album => dispatch(receiveAlbum(album)))
-      .catch(error => dispatch(receiveError(error)));
+    return apiAction(
+      () => albumService.addAlbum(values),
+      requestAlbum,
+      receiveAlbum,
+      receiveError,
+    );
   });
 
 export const updateAlbum = values => (dispatch) => {
@@ -61,12 +59,12 @@ export const updateAlbum = values => (dispatch) => {
   return dispatch(validateAlbum(values))
     .then(({ errors }) => {
       if (Object.keys(errors).length > 0) return dispatch(validatedAlbum(errors));
-      dispatch(requestAlbum());
-      return albumService
-        .updateAlbum(values)
-        // .then(response => dispatch(receiveArtists(response.pages)))
-        .then(album => dispatch(receiveAlbum(album)))
-        .catch(error => dispatch(receiveError(error)));
+      return apiAction(
+        () => albumService.updateAlbum(values),
+        requestAlbum,
+        receiveAlbum,
+        receiveError,
+      );
     });
 };
 
