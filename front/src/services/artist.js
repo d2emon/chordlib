@@ -32,11 +32,13 @@ export default {
     .then(response => response && response.data)
     .then(response => response && response.artists),
 
-  fetchArtist: (slug) => slug && Axios
-    .get(`artist/${slug}`)
-    .then(response => response && response.data)
-    .then(response => response && response.artist)
-    .then(injectHtml),
+  fetchArtist: (slug) => slug
+    ? Axios
+      .get(`artist/${slug}`)
+      .then(response => response && response.data)
+      .then(response => response && response.artist)
+      .then(injectHtml)
+    : Promise.reject(new Error('Empty slug')),
 
   findInWikipedia: name => Axios
     .get(`artist/wikipedia/${name}`)

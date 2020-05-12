@@ -59,6 +59,7 @@ class Artist extends Component {
       const name = artist && artist.name;
       if (!name) return;
       if (prevName === name) return;
+      console.log(name, encodeURIComponent(name))
       findArtist(encodeURIComponent(name));
     }, 1000);
   }

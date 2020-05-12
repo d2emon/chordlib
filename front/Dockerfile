@@ -8,7 +8,8 @@ RUN npm install
 
 # COPY ts*.json ./
 # COPY config ./config
-# COPY src ./src
+COPY src ./src
+COPY public ./static
 
 # RUN mkdir ./data
 # RUN mkdir ./data/artists
@@ -17,7 +18,7 @@ RUN npm install
 # COPY data/artists ./data/artists
 # COPY data/db ./data/db
 
-COPY ./ /app/
+# COPY ./ /app/
 
 ENV DEBUG 1
 ENV HOST 0.0.0.0

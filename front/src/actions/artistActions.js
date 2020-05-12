@@ -1,6 +1,8 @@
 import slugify from '../helpers/slugify';
 import artistService from '../services/artist';
 import apiAction from './apiAction';
+import validation from '../helpers/validation';
+import validators from '../helpers/validation/validators';
 
 const requestArtists = () => ({
   type: 'REQUEST_ARTISTS',
@@ -69,18 +71,24 @@ export const findInWikipedia = artist => apiAction(
 );
 
 export const validateArtist = values => (dispatch) => {
-  const { id, name, slug } = values;
-  const errors = {};
-  if (!name || name.length <= 0) errors.name = 'Поле не может быть пустым';
-  if (!slug || slug.length <= 0) errors.slug = 'Поле не может быть пустым';
-  // const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return artistService
-    .fetchArtist(slug)
-    .then((artist) => {
-      if (!id && artist && !artist.unprocessed) errors.slug = 'Введите уникальное значение';
-      return errors;
-    })
-    .then(result => dispatch(validatedArtist(result)));
+  const uniqueSlug = (value) => (value && !values.id)
+    ? artistService
+      .fetchArtist(value)
+      .then((artist) => (artist && !artist.unprocessed) ? 'Введите уникальное значение' : undefined)
+    : undefined;
+  const validate = validation({
+    name: [
+      validators.required,
+    ],
+    slug: [
+      validators.required,
+      uniqueSlug,
+    ],
+  });
+  // const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;\
+  return validate(values)
+    .then(errors => dispatch(validatedArtist({ errors })))
+    .catch(receiveError);
 };
 
 export const addArtist = values => dispatch => dispatch(validateArtist(values))
@@ -105,7 +113,7 @@ export const updateArtist = values => (dispatch) => {
 export const getSlug = (name, id) => (dispatch) => {
   const nextId = id ? id + 1 : 1;
   const slug = slugify(name, id);
-  return dispatch(getArtist(slug))
+  return artistService.fetchArtist(slug)
     .then(artist => artist && !artist.unprocessed)
     .then(artist => (artist ? dispatch(getSlug(name, nextId)) : slug));
 };

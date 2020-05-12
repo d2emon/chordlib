@@ -26,6 +26,7 @@ class EditArtist extends Component {
 
     onWiki() {
         const { artist, findArtist } = this.props;
+        console.log(artist, artist.name, encodeURIComponent(artist.name))
         findArtist(encodeURIComponent(artist.name));
     }
 
