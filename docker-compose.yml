@@ -12,6 +12,7 @@ services:
     restart: always
     build: ./back
     environment:
+      APP_NAME: chordlib
       DEBUG: chordlib:*
       PORT: 4000
     ports:

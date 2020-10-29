@@ -14,6 +14,7 @@ COPY src ./src
 
 # Envs
 ENV NODE_PATH ./src
+ENV APP_NAME chordlib
 ENV DEBUG chordlib:*
 
 # Port to expose
