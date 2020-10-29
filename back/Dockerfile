@@ -16,6 +16,7 @@ COPY src ./src
 ENV NODE_PATH ./src
 ENV APP_NAME chordlib
 ENV DEBUG chordlib:*
+ENV MONGO_URI mongodb://mongo/chords
 
 # Port to expose
 EXPOSE 3000

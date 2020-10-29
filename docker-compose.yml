@@ -12,9 +12,12 @@ services:
     restart: always
     build: ./back
     environment:
-      APP_NAME: chordlib
+      APP_NAME: chordlib:server
       DEBUG: chordlib:*
       PORT: 4000
+      MONGO_URI: mongodb://mongo/chords
+      FOLDERS.WIKI: ./files/pages/wiki
+      FOLDERS.ARTIST_PAGES: ./files/artists
     ports:
     - "4000:4000"
     links:
