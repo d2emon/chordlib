@@ -1,4 +1,4 @@
-import Page from '../models/page';
+import Page from '../helpers/page';
 import {
   errorResponse,
   successResponse,
