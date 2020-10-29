@@ -1,6 +1,6 @@
 import slugToName from '../helpers/slug_to_name';
 import Artist from '../models/artist';
-import { getLetter } from '../models/letters';
+import transliterate from '../helpers/transliterate';
 import {
   successResponse,
   errorResponse,
@@ -49,7 +49,7 @@ export const listArtists = async (req, res) => {
     const special = req.params.special || req.query.special;
     const unprocessed = req.query.unprocessed || false;
 
-    const translated = letter && language && getLetter(language, letter);
+    const transliterated = transliterate(language, letter);
     const title = (special && specials[special]) ? specials[special].title : getTitle(letter);
 
     const processedArtists = (special && specials[special])
@@ -57,7 +57,7 @@ export const listArtists = async (req, res) => {
         specials[special].query,
         specials[special].options,
       )
-      : await find(translated);
+      : await find(transliterated);
     const unprocessedArtists = unprocessed
       ? await getUnprocessedArtists()
       : [];
