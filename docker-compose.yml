@@ -10,7 +10,7 @@ services:
   backend:
     container_name: backend
     restart: always
-    build: ./
+    build: ./back
     environment:
       DEBUG: chordlib:*
       PORT: 4000
@@ -19,8 +19,8 @@ services:
     links:
     - mongo
     volumes:
-    - ./src:/usr/www/src
-    - ./public:/usr/www/public
+    - ./back/src:/app/src
+    - ./back/public:/app/public
   frontend:
     container_name: frontend
     restart: always
