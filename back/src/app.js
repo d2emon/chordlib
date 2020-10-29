@@ -32,12 +32,11 @@ app.use(express.static(publicPath));
 db.on('error', error => debug('db')(error || ''));
 db.once('open', () => debug('db')('MongoDB connected'));
 
-// TODO: Add /v1/*
-app.use('/', indexRoutes);
-app.use('/users', usersRoutes);
-app.use('/artist', artistRoutes);
-app.use('/album', albumRoutes);
-app.use('/song', songRoutes);
+app.use('/api/v1.0/', indexRoutes);
+app.use('/api/v1.0/user', usersRoutes);
+app.use('/api/v1.0/artist', artistRoutes);
+app.use('/api/v1.0/album', albumRoutes);
+app.use('/api/v1.0/song', songRoutes);
 
 app.use(error404);
 app.use(errorHandler(app.get('env')));
