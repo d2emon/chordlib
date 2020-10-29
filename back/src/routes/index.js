@@ -2,7 +2,7 @@ import express from 'express';
 import Artist from '../models/artist';
 import { getLetter } from '../models/letters';
 import Page from '../models/page';
-import { slugToName } from '../helpers';
+import slugToName from '../helpers/slug_to_name';
 
 const router = express.Router();
 

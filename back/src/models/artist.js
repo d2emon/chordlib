@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import config from '../config';
 import wiki from '../helpers/wiki';
-import { slugToName } from '../helpers';
+import slugToName from '../helpers/slug_to_name';
 import { getFiles, getFoldersByLetter, getFile } from '../helpers/folders';
 
 const { artistsPages } = config.folders;
