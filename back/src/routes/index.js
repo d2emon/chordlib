@@ -12,7 +12,6 @@ import {
 
 const router = express.Router();
 
-/* GET home page. */
 router.get('/', (req, res) => res.json(successResponse({ data: 'JSON' })));
 router.get('/artists/:language/:letter', listArtists);
 router.get('/artists/:special', listArtists);
