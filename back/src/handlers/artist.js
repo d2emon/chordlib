@@ -38,7 +38,7 @@ export const listArtists = async (req, res) => {
     const language = req.params.language || req.query.language;
     const letter = req.params.letter || req.query.letter;
     const special = req.params.special || req.query.special;
-    const unprocessed = req.query.unprocessed || false;
+    const { unprocessed } = req.query;
 
     const transliterated = transliterate(language, letter);
     const title = (special && specials[special]) ? specials[special].title : getTitle(letter);
@@ -49,7 +49,7 @@ export const listArtists = async (req, res) => {
         specials[special].options,
       )
       : await find(transliterated);
-    const unprocessedArtists = unprocessed
+    const unprocessedArtists = (unprocessed || (unprocessed === undefined))
       ? await Artist.getUnprocessed(letter)
       : [];
 

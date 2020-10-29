@@ -8,7 +8,6 @@ services:
     volumes:
     - ./data/db:/data/db
   backend:
-    container_name: backend
     restart: always
     build: ./back
     environment:

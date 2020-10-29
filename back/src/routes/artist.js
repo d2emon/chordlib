@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  listArtists,
   addArtist,
   getArtist,
   updateArtist,
@@ -10,6 +11,7 @@ import {
 
 const router = express.Router();
 
+router.get('/', listArtists);
 router.post('/', addArtist);
 router.get('/:slug', getArtist);
 router.put('/:id', updateArtist);
