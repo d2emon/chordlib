@@ -1,4 +1,3 @@
-import slugToName from '../helpers/slug_to_name';
 import Artist from '../models/artist';
 import transliterate from '../helpers/transliterate';
 import {
@@ -26,14 +25,6 @@ const specials = {
 
 const getTitle = letter => letter && (letter.charAt(0).toUpperCase() + letter.slice(1));
 
-const getUnprocessedArtists = letter => Artist
-  .getUnprocessed(letter)
-  .then(artists => artists.map(slug => ({
-    name: slugToName(slug),
-    slug,
-    unprocessed: true,
-  })));
-
 const find = async (letter, query) => {
   const answer = letter
     ? Artist.findByLetter(letter)
@@ -59,7 +50,7 @@ export const listArtists = async (req, res) => {
       )
       : await find(transliterated);
     const unprocessedArtists = unprocessed
-      ? await getUnprocessedArtists()
+      ? await Artist.getUnprocessed(letter)
       : [];
 
     return res.json(successResponse({
