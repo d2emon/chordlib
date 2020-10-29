@@ -1,7 +1,7 @@
-import common from './common';
-import api from './api';
-import pages from './pages';
-import subcultures from './subcultures';
+import common from './common.json';
+import api from './api.json';
+import pages from './pages.json';
+import subcultures from './subcultures.json';
 import override from './override/index';
 
 export default {

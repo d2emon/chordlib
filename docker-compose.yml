@@ -15,7 +15,7 @@ services:
       DEBUG: chordlib:*
       PORT: 4000
       MONGO_URI: mongodb://mongo/chords
-      FOLDERS.WIKI: ./files/pages/wiki
+      FOLDERS.WIKI: ./files/public/pages/wiki
       FOLDERS.ARTIST_PAGES: ./files/artists
     ports:
     - "4000:4000"
@@ -25,7 +25,6 @@ services:
     - ./back/src:/app/src
     - ./back/public:/app/public
   frontend:
-    container_name: frontend
     restart: always
     build: ./front
     ports:
@@ -33,8 +32,9 @@ services:
     links:
     - backend
     volumes:
-    - ./front/src:/usr/www/src
-    - ./public:/usr/www/static
+    - ./front/src:/app/src
+    - ./front/public:/app/public
+    - ./public:/app/static
   mongo-express:
     image: mongo-express
     restart: always

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Config from '../config';
 
 const Axios = axios.create({
-  baseURL: Config.oldApiURL,
+  baseURL: Config.apiURL,
 });
 
 export default {

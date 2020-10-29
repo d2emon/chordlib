@@ -7,6 +7,12 @@ services:
       - ./back/node_modules:/app/node_modules
       - ./files/public:/app/files/public
       - ./files/artists:/app/files/artists
+  frontend:
+    volumes:
+      - ./front/src:/app/src
+      - ./front/node_modules:/app/node_modules
+      - ./front/public:/app/public
+      - ./public:/app/static
   ftp-server:
     environment:
       FTP_USER_NAME: chordlib
