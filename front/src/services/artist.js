@@ -11,24 +11,17 @@ const injectHtml = artist => artist && {
   html: markdown.render(artist.description || ''),
 };
 
+/*
 const specialMethods = {
-  all: 'artists',
-  num: 'artists/num',
-  other: 'artists/other',
+  all: '',
+  num: 'num',
+  other: 'other',
 }
+ */
 
 export default {
-  fetchArtists: special => Axios
-    .get(specialMethods[special] || 'artists')
-    .then(response => response && response.data)
-    .then(response => response && response.artists)
-    .then(response => {
-      console.log(response);
-      return response;
-    }),
-
-  fetchArtistsByLetter: ({ language, letter }) => Axios
-    .get(`artists/${language}/${letter}`)
+  fetchArtists: params => Axios
+    .get(`artist/`, { params })
     .then(response => response && response.data)
     .then(response => response && response.artists),
 

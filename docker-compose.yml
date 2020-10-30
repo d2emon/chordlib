@@ -15,8 +15,8 @@ services:
       DEBUG: chordlib:*
       PORT: 4000
       MONGO_URI: mongodb://mongo/chords
-      FOLDERS.WIKI: ./files/public/pages/wiki
-      FOLDERS.ARTIST_PAGES: ./files/artists
+      FOLDERS.WIKI: ./files/wiki/wiki
+      FOLDERS.ARTIST_PAGES: ./files/wiki/artists
     ports:
     - "4000:4000"
     links:

@@ -12,38 +12,37 @@ const AlphabetLink = ({ href, text }) => (
     </NavItem>
 );
 
-const AlphabetLetters = ({ language, alphabet }) => (
+const AlphabetLinks = ({ language, alphabet }) => (
     <Nav>
         {Object.keys(alphabet).map((value, index) => (
             <AlphabetLink
                 key={`${language}-${index}`}
-                href={`/artists/${language}/${alphabet[value]}`}
-                text={value}
+                {...alphabet[value]}
             />
         ))}
     </Nav>
 );
 
-const AdditionalLinks = ({ links }) => (
+const SpecialLinks = ({ links }) => (
     <Nav>
         {links.map((value, index) => (
             <AlphabetLink
-                key={index}
+                key={`special-${index}`}
                 {...value}
             />
         ))}
     </Nav>
 );
 
-export default ({ alphabets, additionalLinks }) => (
+export default ({ alphabets, specials }) => (
     <div>
         {Object.keys(alphabets).map((language, index) =>
-            <AlphabetLetters
-                key={index}
+            <AlphabetLinks
+                key={language}
                 alphabet={alphabets[language]}
                 language={language}
             />
         )}
-        <AdditionalLinks links={additionalLinks} />
+        <SpecialLinks links={specials} />
     </div>
 );

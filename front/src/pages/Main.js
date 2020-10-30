@@ -26,8 +26,12 @@ const Main = () => {
         </Col>
       </Row>
       <Row>
-        <Col className="p-3" xs="2"><Logo /></Col>
-        <Col xs="5">{ html && (<div dangerouslySetInnerHTML={{ __html: html }} />) }</Col>
+        <Col className="p-3" xs="2">
+          <Logo />
+        </Col>
+        <Col xs="5">
+          <div dangerouslySetInnerHTML={{ __html: html || '' }} />
+        </Col>
         <Col xs="5">
           <ListGroup>
             { pages.map(page => (

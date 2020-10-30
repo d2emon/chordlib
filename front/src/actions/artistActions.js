@@ -42,15 +42,8 @@ const receiveError = error => ({
   error,
 });
 
-export const getArtistsList = special => apiAction(
-  () => artistService.fetchArtists(special),
-  requestArtists,
-  receiveArtists,
-  receiveError,
-);
-
-export const getArtistsByLetter = query => apiAction(
-  () => artistService.fetchArtistsByLetter(query),
+export const getArtistsList = params => apiAction(
+  () => artistService.fetchArtists(params),
   requestArtists,
   receiveArtists,
   receiveError,

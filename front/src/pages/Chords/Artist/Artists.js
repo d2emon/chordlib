@@ -8,10 +8,7 @@ import {
   CardTitle,
   CardBody,
 } from 'reactstrap';
-import {
-  getArtistsByLetter,
-  getArtistsList,
-} from '../../../actions/artistActions';
+import { getArtistsList } from '../../../actions/artistActions';
 import getLetter from '../../../helpers/letters';
 import { capitalize } from '../../../helpers/title';
 
@@ -28,6 +25,18 @@ const ArtistCard = ({ slug, name, unprocessed }) => (
   </a>
 );
 
+const specialQueries = {
+  other: {
+    special: 'other',
+  },
+  0: {
+    special: 'num',
+  },
+  all: {
+    special: 'all',
+  },
+}
+
 class Artists extends React.Component {
   constructor(props) {
     super(props);
@@ -35,42 +44,33 @@ class Artists extends React.Component {
       language: null,
       letter: null,
       special: null,
-      title: 'TITLE',
+      title: 'Исполнители',
     };
   }
 
-  updateParams() {
-    const match = this.props.match || {};
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const match = nextProps.match || {};
     const params = match.params || {};
     const {
       language,
       letter,
       special,
     } = params;
-    /*
-    this.setState({
-      language: params.language,
-      letter: params.letter,
-      special: params.special,
-    })
-     */
-    if (language && letter) {
-      this.setState({ title: getLetter(language, letter) });
-      this.props.fetchArtistsByLetter({ language, letter });
-    } else {
-      this.setState({ title: special });
-      this.props.fetchArtists(special);
-    }
-  }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.match !== prevProps.match) {
-      this.updateParams();
+    const reload = (language !== prevState.language)
+        || (letter !== prevState.letter)
+        || (special !== prevState.special);
+    if (reload) {
+      const query = specialQueries[special];
+      nextProps.fetchArtists(query || { letter: special });
     }
-  }
 
-  componentWillMount() {
-    this.updateParams()
+    return {
+      language,
+      letter,
+      special,
+      title: getLetter(params),
+    };
   }
 
   render() {
@@ -100,7 +100,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchArtists: query => dispatch(getArtistsList(query)),
-  fetchArtistsByLetter: query => dispatch(getArtistsByLetter(query)),
 });
 
 export default connect(

@@ -7,7 +7,6 @@ import {
 import Header from '../../components/Header';
 import config from '../../config';
 import ChordLib from '../Chords/ChordLib';
-import Home from '../Chords/Home';
 import Main from '../Main';
 import Other from '../Other';
 
@@ -20,7 +19,6 @@ const App = () => (
       <Header title={config.title} />
       <Switch>
         <Route exact path="/" component={Main} />
-        <Route path="/home" component={Home} />
         <Route path="/chords" component={ChordLib} />
         <Route path="/artists" component={ChordLib} />
         <Route path="/artist" component={ChordLib} />

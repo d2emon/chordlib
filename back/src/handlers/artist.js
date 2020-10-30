@@ -7,19 +7,28 @@ import {
 
 const specials = {
   all: {
-    title: 'Все',
-    query: null,
+    query: {},
+    /*
     options: {
       name: null,
     },
+     */
   },
   other: {
-    title: 'Разные песни',
-    query: '',
+    query: {
+      name: {
+        $regex: '^$',
+        $options: 'i',
+      }
+    },
   },
   num: {
-    title: '#',
-    query: '[0-9]',
+    query: {
+      name: {
+        $regex: '^[0-9]$',
+        $options: 'i',
+      }
+    },
   },
 };
 
@@ -41,20 +50,19 @@ export const listArtists = async (req, res) => {
     const { unprocessed } = req.query;
 
     const transliterated = transliterate(language, letter);
-    const title = (special && specials[special]) ? specials[special].title : getTitle(letter);
-
-    const processedArtists = (special && specials[special])
-      ? await find(
+    const artistQuery = (special && specials[special])
+      ? Artist.find(
         specials[special].query,
         specials[special].options,
       )
-      : await find(transliterated);
+      : Artist.findByLetter(letter);
+
+    const processedArtists = await artistQuery.sort({ name: 1 });
     const unprocessedArtists = (unprocessed || (unprocessed === undefined))
       ? await Artist.getUnprocessed(letter)
       : [];
 
     return res.json(successResponse({
-      title,
       artists: [
         ...processedArtists,
         ...unprocessedArtists,
