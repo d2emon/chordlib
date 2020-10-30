@@ -1,6 +1,7 @@
 const initialState = {
   pages: null,
   page: null,
+  html: null,
   error: null,
 };
 
@@ -29,6 +30,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         page: action.page,
+        error: null,
+      };
+    case 'REQUEST_TEXT':
+      return {
+        ...state,
+        html: null,
+        error: null,
+      };
+    case 'RECEIVE_TEXT':
+      return {
+        ...state,
+        html: action.html,
         error: null,
       };
     case 'RECEIVE_ERROR':

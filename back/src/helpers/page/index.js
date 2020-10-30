@@ -5,7 +5,7 @@ const wiki = process.env['FOLDERS.WIKI'];
 
 const pageData = (link, text) => ({
   title: pageTitles[link] || link,
-  link: `/${link}`,
+  link: `/${link}.md`,
   text,
 });
 
@@ -22,9 +22,10 @@ export default {
       ? reject(err)
       : resolve(outputFiles(files))
     ))),
-  find: filename => new Promise((resolve, reject) => fs
+  find: filename => Promise.resolve(pageData(filename)),
+  text: filename => new Promise((resolve, reject) => fs
     .readFile(`${wiki}/${filename}.md`, 'utf8', (err, text) => (err
       ? reject(err)
-      : resolve(pageData(filename, text))
+      : resolve(text)
     ))),
 };

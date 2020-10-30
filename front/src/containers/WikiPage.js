@@ -10,15 +10,23 @@ import TextCard from '../components/TextCard';
 import Loader from '../components/Loader';
 import ErrorMessage from '../components/ErrorMessage';
 import * as pageActions from '../actions/pageActions';
+import getLetter from "../helpers/letters";
 
 
 class WikiPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      slug: null,
+    };
+  }
+
   static get defaultProps() {
     return {
       slug: '',
       error: null,
-      page: null,
-      getPage: null,
+      html: null,
+      getText: null,
     };
   }
 
@@ -26,36 +34,37 @@ class WikiPage extends Component {
     return {
       slug: PropTypes.string,
       error: PropTypes.string,
-      page: PropTypes.shape({
-        text: PropTypes.string,
-      }),
-      getPage: PropTypes.func,
+      html: PropTypes.string,
+      getText: PropTypes.func,
     };
   }
 
-  componentWillMount() {
-    const { slug, getPage } = this.props;
-    getPage(slug);
-  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {
+      slug,
+      getText,
+    } = nextProps;
 
-  componentDidUpdate(prevProps) {
-    const { slug, getPage } = this.props;
-    if (prevProps.slug !== slug) getPage(slug);
+    if (prevState.slug !== slug) {
+      getText(slug);
+    }
+    return { slug };
   }
 
   render() {
-    const { page, error } = this.props;
+    const {
+      error,
+      html,
+    } = this.props;
     if (error) return <ErrorMessage error={error} />;
-    if (!page) return <Loader />;
-    // const text = page ? markdown.render(page.text).replace('{:subculture:}', 'SUBCULTURE') : null;
-    const text = page.html;
+    if (!html) return <Loader />;
     return (
       <Container>
         <Row>
           <Col>
             <TextCard
               className="m-1"
-              text={text}
+              text={html}
             />
           </Col>
         </Row>
@@ -65,11 +74,11 @@ class WikiPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getPage: slug => dispatch(pageActions.getPage(slug)),
+  getText: slug => dispatch(pageActions.getPageText(slug)),
 });
 
 const mapStateToProps = state => ({
-  page: state.pages.page,
+  html: state.pages.html,
   error: state.pages.error,
 });
 

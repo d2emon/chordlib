@@ -42,7 +42,7 @@ class PagesDropdown extends Component {
       <UncontrolledDropdown nav inNavbar>
         <DropdownToggle nav caret>Разное</DropdownToggle>
         <DropdownMenu right>
-          <DropdownItem tag={Link} to="/other">Вики-страницы</DropdownItem>
+          <DropdownItem tag={Link} to="/list-pages">Вики-страницы</DropdownItem>
           {
             pages
             && (

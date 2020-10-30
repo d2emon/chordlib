@@ -13,13 +13,21 @@ import * as pageActions from '../actions/pageActions';
 
 
 class ArtistPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      artist: null,
+      slug: null,
+    };
+  }
+
   static get defaultProps() {
     return {
       artist: '',
       slug: '',
       error: null,
-      page: null,
-      getArtistPage: null,
+      html: null,
+      getArtistPageText: null,
     };
   }
 
@@ -28,34 +36,41 @@ class ArtistPage extends Component {
       artist: PropTypes.string,
       slug: PropTypes.string,
       error: PropTypes.string,
-      page: PropTypes.shape({
-        text: PropTypes.string,
-      }),
-      getArtistPage: PropTypes.func,
+      html: PropTypes.string,
+      getArtistPageText: PropTypes.func,
     };
   }
 
-  componentWillMount() {
-    const { artist, slug, getArtistPage } = this.props;
-    getArtistPage(artist, slug);
-  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {
+      artist,
+      slug,
+      getArtistPageText,
+    } = nextProps;
 
-  componentDidUpdate(prevProps) {
-    const { slug, getArtistPage } = this.props;
-    if (prevProps.slug !== slug) getArtistPage(slug);
+    if ((prevState.artist !== artist) || (prevState.slug !== slug)) {
+      getArtistPageText(artist, slug);
+    }
+    return {
+      artist,
+      slug,
+    };
   }
 
   render() {
-    const { page, error } = this.props;
+    const {
+      error,
+      html,
+    } = this.props;
     if (error) return <ErrorMessage error={error} />;
-    if (!page) return <Loader />;
+    if (!html) return <Loader />;
     return (
       <Container>
         <Row>
           <Col>
             <TextCard
               className="m-1"
-              text={page.html}
+              text={html}
             />
           </Col>
         </Row>
@@ -65,11 +80,11 @@ class ArtistPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  getArtistPage: (artist, slug) => dispatch(pageActions.getArtistPage(artist, slug)),
+  getArtistPageText: (artist, slug) => dispatch(pageActions.getArtistPageText(artist, slug)),
 });
 
 const mapStateToProps = state => ({
-  page: state.pages.page,
+  html: state.pages.html,
   error: state.pages.error,
 });
 

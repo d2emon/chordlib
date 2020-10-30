@@ -5,8 +5,8 @@ import WikiPageRoute from './WikiPageRoute';
 
 const Other = () => (
   <Switch>
-    <Route exact path="/other" component={PagesListRoute} />
-    <Route path="/:page" component={WikiPageRoute} />
+    <Route exact path="/list-pages" component={PagesListRoute} />
+    <Route path="/:page.md" component={WikiPageRoute} />
   </Switch>
 );
 

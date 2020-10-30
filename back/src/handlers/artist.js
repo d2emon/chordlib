@@ -4,6 +4,7 @@ import {
   successResponse,
   errorResponse,
 } from '../helpers/response';
+import Page from "../helpers/page";
 
 const specials = {
   all: {
@@ -145,11 +146,15 @@ export const getArtistPage = async (req, res) => {
   try {
     const slug = req.params.slug || null;
     const pageId = req.query.page || null;
+    const format = req.query.format || 'md';
 
     const page = await Artist.file(slug, pageId);
-    return res.json(successResponse({
-      page,
-    }));
+    if (format === 'json') {
+      return res.json(successResponse({
+        page,
+      }));
+    }
+    return res.send(page && page.text);
   } catch (e) {
     return res.status(500).json(errorResponse(e));
   }

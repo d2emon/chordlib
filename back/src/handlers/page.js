@@ -11,11 +11,18 @@ export const listPages = (req, res) => Page
   .then(pages => res.json(successResponse({ pages })))
   .catch(error => res.status(getStatus(error)).json(errorResponse(error)));
 
-export const getPage = (req, res) => {
+export const getPageData = (req, res) => {
   const filename = req.params.filename || req.query.filename;
   return Page
     .find(filename)
     .then(page => res.json(successResponse({ page })))
-    .then(response => res.json(response))
+    .catch(error => res.status(getStatus(error)).json(errorResponse(error)));
+};
+
+export const getPage = (req, res) => {
+  const filename = req.params.filename || req.query.filename;
+  return Page
+    .text(filename)
+    .then(text => res.send(text))
     .catch(error => res.status(getStatus(error)).json(errorResponse(error)));
 };

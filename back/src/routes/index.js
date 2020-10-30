@@ -4,6 +4,7 @@ import {
 } from '../handlers/artist';
 import {
   getPage,
+  getPageData,
   listPages,
 } from '../handlers/page';
 import {
@@ -16,6 +17,7 @@ router.get('/', (req, res) => res.json(successResponse({ data: 'JSON' })));
 router.get('/artists/:language/:letter', listArtists);
 router.get('/artists/:special', listArtists);
 router.get('/pages', listPages);
-router.get('/page/:filename', getPage);
+router.get('/page/:filename.md', getPage);
+router.get('/page/:filename.json', getPageData);
 
 module.exports = router;
